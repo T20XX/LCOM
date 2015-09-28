@@ -20,7 +20,8 @@ void vt_fill(char ch, char attr) {
 	int i;
 	char *ptr;
 	ptr = video_mem;
-	for(i = 0; i< scr_width*scr_lines; i++, ptr++) {
+	for(i = 0; i< scr_width*scr_lines; i++, ptr++)
+	{
 		*ptr = ch;
 		ptr++;
 		*ptr =attr;
@@ -30,13 +31,14 @@ void vt_fill(char ch, char attr) {
 
 void vt_blank() {
 	int i;
-		char *ptr;
-		ptr = video_mem;
-		for(i = 0; i< scr_width*scr_lines; i++, ptr++) {
-			*ptr=0x00;
-			ptr++;
-			*ptr=0x00;
-		}
+	char *ptr;
+	ptr = video_mem;
+	for(i = 0; i< scr_width*scr_lines; i++, ptr++)
+	{
+		*ptr=0x00;
+		ptr++;
+		*ptr=0x00;
+	}
 
 }
 
@@ -53,32 +55,69 @@ int vt_print_string(char *str, char attr, int r, int c) {
 	ptr = video_mem + (c + r * scr_width)*2;
 	while (*str != 0)
 	{
-	*ptr = *str;
-	ptr++;
-	*ptr = attr;
-	ptr++;
-	str++;
+		*ptr = *str;
+		ptr++;
+		*ptr = attr;
+		ptr++;
+		str++;
 	}
 }
 
 int vt_print_int(int num, char attr, int r, int c) {
 	char *ptr;
-		ptr = video_mem + (c + r * scr_width)*2;
-		while (num > 0)
-		{
-		*ptr = num%10+0x30;
+	ptr = video_mem + (c + r * scr_width)*2;
+	while (num > 0)
+	{
+		*ptr = num%10 + 0x30;
 		ptr++;
 		*ptr = attr;
 		ptr++;
 		num = num/10;
-		}
+	}
 }
 
 
 int vt_draw_frame(int width, int height, char attr, int r, int c) {
+	int i;
+	char *ptr;
+	ptr = video_mem + (c + r * scr_width)*2;
+	//Barra superior
+	*ptr = UL_CORNER;
+	ptr++;
+	*ptr = attr;
+	ptr++;
+	for(i = 0; i< width-2; i++, ptr++)
+		{
+			*ptr = HOR_BAR;
+			ptr++;
+			*ptr = attr;
+		}
+	*ptr = UR_CORNER;
+	ptr++;
+	*ptr = attr;
+	ptr++;
+	//Barras laterais
+	ptr += (scr_width - width + c)*2;
+	*ptr=VERT_BAR;
+	ptr++;
+	*ptr = attr;
+	ptr++;
 
-  /* To complete ... */
-
+	//Barra inferior
+	*ptr = UL_CORNER;
+	ptr++;
+	*ptr = attr;
+	ptr++;
+	for(i = 0; i< width-2; i++, ptr++)
+		{
+			*ptr = HOR_BAR;
+			ptr++;
+			*ptr = attr;
+		}
+	*ptr = UR_CORNER;
+	ptr++;
+	*ptr = attr;
+	ptr++;
 }
 
 /*
