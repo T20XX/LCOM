@@ -29,8 +29,14 @@ void vt_fill(char ch, char attr) {
 }
 
 void vt_blank() {
-
-  /* To complete ... */
+	int i;
+		char *ptr;
+		ptr = video_mem;
+		for(i = 0; i< scr_width*scr_lines; i++, ptr++) {
+			*ptr=0x00;
+			ptr++;
+			*ptr=0x00;
+		}
 
 }
 
