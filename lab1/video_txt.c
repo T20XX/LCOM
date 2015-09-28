@@ -62,7 +62,16 @@ int vt_print_string(char *str, char attr, int r, int c) {
 }
 
 int vt_print_int(int num, char attr, int r, int c) {
-
+	char *ptr;
+		ptr = video_mem + (c + r * scr_width)*2;
+		while (num > 0)
+		{
+		*ptr = num%10+0x30;
+		ptr++;
+		*ptr = attr;
+		ptr++;
+		num = num/10;
+		}
 }
 
 
