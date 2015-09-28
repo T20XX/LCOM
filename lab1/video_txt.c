@@ -41,20 +41,27 @@ void vt_blank() {
 }
 
 int vt_print_char(char ch, char attr, int r, int c) {
-  
-  /* To complete ... */
-
+	char *ptr;
+	ptr = video_mem + (c + r * scr_width)*2;
+	*ptr = ch;
+	ptr++;
+	*ptr =attr;
 }
 
 int vt_print_string(char *str, char attr, int r, int c) {
-
-  /* To complete ... */
-
+	char *ptr;
+	ptr = video_mem + (c + r * scr_width)*2;
+	while (*str != 0)
+	{
+	*ptr = *str;
+	ptr++;
+	*ptr = attr;
+	ptr++;
+	str++;
+	}
 }
 
 int vt_print_int(int num, char attr, int r, int c) {
-
-  /* To complete ... */
 
 }
 
