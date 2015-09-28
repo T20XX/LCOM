@@ -81,7 +81,7 @@ int vt_draw_frame(int width, int height, char attr, int r, int c) {
 	int i;
 	char *ptr;
 	ptr = video_mem + (c + r * scr_width)*2;
-	//Barra superior
+//Limite superior
 	*ptr = UL_CORNER;
 	ptr++;
 	*ptr = attr;
@@ -93,18 +93,27 @@ int vt_draw_frame(int width, int height, char attr, int r, int c) {
 			*ptr = attr;
 		}
 	*ptr = UR_CORNER;
-	ptr++;
-	*ptr = attr;
-	ptr++;
-	//Barras laterais
-	ptr += (scr_width - width + c)*2;
-	*ptr=VERT_BAR;
 	ptr++;
 	*ptr = attr;
 	ptr++;
 
-	//Barra inferior
-	*ptr = UL_CORNER;
+	//Limites laterais
+	for(i = 0; i< height-2; i++, ptr++)
+	{
+	ptr += (scr_width - width)*2;
+	*ptr=VERT_BAR;
+	ptr++;
+	*ptr = attr;
+	ptr++;
+	ptr += (width -2)*2;
+	*ptr=VERT_BAR;
+	ptr++;
+	*ptr = attr;
+	}
+
+	//Limite inferior
+	ptr += (scr_width - width)*2;
+	*ptr = LL_CORNER;
 	ptr++;
 	*ptr = attr;
 	ptr++;
@@ -114,7 +123,7 @@ int vt_draw_frame(int width, int height, char attr, int r, int c) {
 			ptr++;
 			*ptr = attr;
 		}
-	*ptr = UR_CORNER;
+	*ptr = LR_CORNER;
 	ptr++;
 	*ptr = attr;
 	ptr++;
