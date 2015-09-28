@@ -16,8 +16,15 @@ static unsigned scr_width;	/* Width of screen in columns */
 static unsigned scr_lines;	/* Height of screen in lines */
 
 void vt_fill(char ch, char attr) {
-  
-  /* To complete */
+
+	int i;
+	char *ptr;
+	ptr = video_mem;
+	for(i = 0; i< scr_width*scr_lines; i++, ptr++) {
+		*ptr = ch;
+		ptr++;
+		*ptr =attr;
+	}
   
 }
 
