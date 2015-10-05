@@ -41,10 +41,12 @@ static int proc_args(int argc, char *argv[]) {
 
 	/* check the function to test: if the first characters match, accept it */
 	if (strncmp(argv[1], "config", strlen("config")) == 0) {
-		if( argc != 2 ) {
+		if( argc != 3 ) {
 			printf("timer: wrong no of arguments for test of timer_test_config() \n");
 			return 1;
 		}
+		if(timer = parse_ulong(argv[2], 16)) == ULONG_MAX )
+				  return 1;
 		printf("timer:: timer_test_config()\n"); /* Actually, it was already invoked */
 		timer_test_config(timer);
 		return 0;
