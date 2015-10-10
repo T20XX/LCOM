@@ -28,12 +28,12 @@ int timer_get_conf(unsigned long timer, unsigned char *st) {
 	unsigned long aux;
 	sys_inb(timer,&aux);
 	*st = aux;
-	return *st;
+	return 0;
 }
 
 int timer_display_conf(unsigned char conf) {
 	printf("0x%x \n",conf);
-	return 1;
+	return 0;
 }
 
 int timer_test_square(unsigned long freq) {
@@ -47,10 +47,8 @@ int timer_test_int(unsigned long time) {
 }
 
 int timer_test_config(unsigned long timer) {
-	unsigned char *tmp;
 	unsigned char conf;
-	conf = timer_get_conf(timer,tmp);
-	timer_display_conf(conf);
-	
-	return 1;
+	timer_get_conf(timer,&conf);
+	return timer_display_conf(conf);
+
 }
