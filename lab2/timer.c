@@ -32,7 +32,24 @@ int timer_get_conf(unsigned long timer, unsigned char *st) {
 }
 
 int timer_display_conf(unsigned char conf) {
+	unsigned char tempbyte;
 	printf("0x%x \n",conf);
+	tempbyte = conf & TIMER_RB_SEL(-1);
+	printf("0x%x \n",tempbyte);
+	tempbyte = conf & TIMER_RB_SEL(0);
+	printf("0x%x \n",tempbyte);
+	tempbyte = conf & TIMER_RB_SEL(1);
+	printf("0x%x \n",tempbyte);
+	tempbyte = conf & TIMER_RB_SEL(2);
+	printf("0x%x \n",tempbyte);
+	tempbyte = conf & TIMER_RB_SEL(3);
+	printf("0x%x \n",tempbyte);
+	tempbyte = conf & TIMER_RB_SEL(4);
+	printf("0x%x \n",tempbyte);
+	tempbyte = conf & TIMER_RB_SEL(5);
+	printf("0x%x \n",tempbyte);
+	tempbyte = conf & TIMER_RB_SEL(6);
+	printf("0x%x \n",tempbyte);
 	return 0;
 }
 
