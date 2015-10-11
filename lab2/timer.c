@@ -26,31 +26,32 @@ int timer_get_conf(unsigned long timer, unsigned char *st) {
 	tempbyte = TIMER_RB_CMD | TIMER_RB_COUNT_ | TIMER_RB_SEL(timer);
 	sys_outb(TIMER_CTRL, tempbyte);
 	unsigned long aux;
-	sys_inb(timer,&aux);
+	sys_inb(TIMER_0+timer,&aux);
 	*st = aux;
 	return 0;
 }
 
 int timer_display_conf(unsigned char conf) {
 	unsigned char tempbyte;
-	printf("0x%x \n",conf);
-	tempbyte = conf & TIMER_RB_SEL(-1);
-	printf("0x%x \n",tempbyte);
-	tempbyte = conf & TIMER_RB_SEL(0);
-	printf("0x%x \n",tempbyte);
-	tempbyte = conf & TIMER_RB_SEL(1);
-	printf("0x%x \n",tempbyte);
-	tempbyte = conf & TIMER_RB_SEL(2);
-	printf("0x%x \n",tempbyte);
-	tempbyte = conf & TIMER_RB_SEL(3);
-	printf("0x%x \n",tempbyte);
-	tempbyte = conf & TIMER_RB_SEL(4);
-	printf("0x%x \n",tempbyte);
-	tempbyte = conf & TIMER_RB_SEL(5);
-	printf("0x%x \n",tempbyte);
-	tempbyte = conf & TIMER_RB_SEL(6);
-	printf("0x%x \n",tempbyte);
-	return 0;
+	unsigned char onebit;
+	tempbyte = conf;
+	int i;
+    const char *a[8];
+    a[0] = "BCD : ";
+    a[1] = "Programmed Mode : ";
+    a[2] = "Programmed Mode : ";
+    a[3] = "Programmed Mode : ";
+    a[4] = "Type Of Access : ";
+    a[5] = "Type Of Access : ";
+    a[6] = "Null Count : ";
+    a[7] = "Output : ";
+
+	    for(i = 7; 0 <= i; i --){
+	    	onebit = (tempbyte >> i) & 0x01;
+	    	printf ("%s", a[i]);
+	    	printf("%d\n", onebit);
+	    }
+	        return 0;
 }
 
 int timer_test_square(unsigned long freq) {
