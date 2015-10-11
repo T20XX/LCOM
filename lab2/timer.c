@@ -3,18 +3,25 @@
 #include "i8254.h"
 
 int timer_set_square(unsigned long timer, unsigned long freq) {
-	unsigned char conf;
-	unsigned char tmp;
-	timer_get_conf(0,&conf);
-	conf &= (BIT(0) |  BIT(1) | BIT(2) | BIT(3));
-	tmp = conf;
-	tmp |= (BIT(5) | BIT (4));
-	/*if (timer != 0)
+	unsigned char conf, tmp, MSB, LSB;
+	unsigned long div;
+	timer_get_conf(timer,&conf);
+	tmp = conf & BIT(0);
+	tmp |= (TIMER_LSB_MSB | TIMER_SQR_WAVE);
+	if (timer != 0)
 	{
-		tmp |= (BIT(5+timer));
-	}*/
+		if (timer = 1)
+			tmp |= TIMER_SEL1;
+		else if (timer = 2)
+			tmp |= TIMER_SEL2;
+		else return 1;
+	}
+	div = TIMER_FREQ/freq;
+	LSB = div & 0xFF;
+	MSB = div >> 8;
 	sys_outb(TIMER_CTRL, tmp);
-	sys_outb(TIMER_0, TIMER_FREQ/freq);
+	sys_outb(TIMER_0+timer, LSB);
+	sys_outb(TIMER_0+timer, MSB);
 	return 0;
 }
 
@@ -66,7 +73,10 @@ int timer_display_conf(unsigned char conf) {
 }
 
 int timer_test_square(unsigned long freq) {
-	return timer_set_square(0, freq);
+	if (timer_set_square(0, freq))
+		return 0;
+	else
+		return 1;
 }
 
 int timer_test_int(unsigned long time) {
