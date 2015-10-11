@@ -51,10 +51,12 @@ static int proc_args(int argc, char *argv[]) {
 		timer_test_config(timer);
 		return 0;
 	} else if (strncmp(argv[1], "square", strlen("square")) == 0) {
-		if( argc != 2 ) {
+		if( argc != 3 ) {
 			printf("timer: wrong no of arguments for test of timer_test_square() \n");
 			return 1;
 		}
+		if((freq = parse_ulong(argv[2], 16)) == ULONG_MAX )
+						  return 1;
 		printf("timer:: timer_test_square()\n"); /* Actually, it was already invoked */
 		timer_test_square(freq);
 		return 0;
