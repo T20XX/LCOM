@@ -22,7 +22,7 @@ int timer_set_square(unsigned long timer, unsigned long freq) {
 		else return 1;
 	}
 	div = TIMER_FREQ/freq;
-	LSB = div & 0xFF;
+	LSB = div;
 	MSB = div >> 8;
 	sys_outb(TIMER_CTRL, tmp);
 	sys_outb(TIMER_0+timer, LSB);
@@ -31,7 +31,7 @@ int timer_set_square(unsigned long timer, unsigned long freq) {
 }
 
 int timer_subscribe_int() {
-	timer0_id;
+	timer0_id= 0;
 	hook_id = timer0_id;
 	sys_irqsetpolicy(TIMER0_IRQ, IRQ_REENABLE, &hook_id);
 	sys_irqenable(&hook_id);
@@ -40,6 +40,7 @@ int timer_subscribe_int() {
 
 int timer_unsubscribe_int() {
 	sys_irqrmpolicy(&hook_id);
+	sys_irqdisable(&hook_id);
 	return 0;
 }
 
@@ -89,35 +90,37 @@ int timer_test_square(unsigned long freq) {
 
 int timer_test_int(unsigned long time) {
 	timer_subscribe_int();
-	timer_unsubscribe_int();
 
+	int  irq_set = BIT(timer0_id);
 	int ipc_status;
 	message msg;
 	int r;
 
-	counter = 0;
+	counter = 0; //Inicialização do contador
 
-while( counter < time ) { /* You may want to use a different condition */
-	/* Get a request message. */
-	if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
-		printf("driver_receive failed with: %d", r);
-		continue;
-	}
-	if (is_ipc_notify(ipc_status)) { /* received notification */
-		switch (_ENDPOINT_P(msg.m_source)) {
-		case HARDWARE: /* hardware interrupt notification */
-			if (msg.NOTIFY_ARG & irq_set) { /* subscribed interrupt */
-				timer_int_handler();  /* process it */
-				printf ("teste");
-			}
-			break;
-		default:
-			break; /* no other notifications expected: do nothing */
+	while( counter < (time * 60)) { /* You may want to use a different condition */
+		/* Get a request message. */
+		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+			printf("driver_receive failed with: %d", r);
+			continue;
 		}
-	} else { /* received a standard message, not a notification */
-		/* no standard messages expected: do nothing */
+		if (is_ipc_notify(ipc_status)) { /* received notification */
+			switch (_ENDPOINT_P(msg.m_source)) {
+			case HARDWARE: /* hardware interrupt notification */
+				if (msg.NOTIFY_ARG & irq_set) { /* subscribed interrupt */
+					timer_int_handler();  /* process it */
+					if(counter % 60 == 0) //Imprimir apenas quando 60 ticks
+						printf ("Timer interrupt \n");
+				}
+				break;
+			default:
+				break; /* no other notifications expected: do nothing */
+			}
+		} else { /* received a standard message, not a notification */
+			/* no standard messages expected: do nothing */
+		}
 	}
-}
+	timer_unsubscribe_int();
 	return 0;
 }
 
