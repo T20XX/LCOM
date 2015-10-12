@@ -8,7 +8,7 @@ int hook_id;
 int timer0_id;
 
 int timer_set_square(unsigned long timer, unsigned long freq) {
-	unsigned char conf, tmp, MSB, LSB;
+	unsigned char conf, tmp = 0x00, MSB, LSB;
 	unsigned long div;
 	timer_get_conf(timer,&conf);
 	tmp = conf & BIT(0);
@@ -24,23 +24,30 @@ int timer_set_square(unsigned long timer, unsigned long freq) {
 	div = TIMER_FREQ/freq;
 	LSB = div;
 	MSB = div >> 8;
-	sys_outb(TIMER_CTRL, tmp);
-	sys_outb(TIMER_0+timer, LSB);
-	sys_outb(TIMER_0+timer, MSB);
+	if (sys_outb(TIMER_CTRL, tmp) != OK)
+		return 1;
+	if (sys_outb(TIMER_0+timer, LSB) != OK)
+		return 1;
+	if (sys_outb(TIMER_0+timer, MSB) != OK)
+		return 1;
 	return 0;
 }
 
 int timer_subscribe_int() {
 	timer0_id= 0;
 	hook_id = timer0_id;
-	sys_irqsetpolicy(TIMER0_IRQ, IRQ_REENABLE, &hook_id);
-	sys_irqenable(&hook_id);
+	if (sys_irqsetpolicy(TIMER0_IRQ, IRQ_REENABLE, &hook_id) != OK)
+		return 1;
+	if (sys_irqenable(&hook_id) != OK)
+		return 1;
 	return 0;
 }
 
 int timer_unsubscribe_int() {
-	sys_irqrmpolicy(&hook_id);
-	sys_irqdisable(&hook_id);
+	if (sys_irqrmpolicy(&hook_id) != OK)
+		return 1;
+	if (sys_irqdisable(&hook_id) != OK)
+		return 1;
 	return 0;
 }
 
@@ -51,9 +58,11 @@ void timer_int_handler() {
 int timer_get_conf(unsigned long timer, unsigned char *st) {
 	unsigned char tempbyte;
 	tempbyte = TIMER_RB_CMD | TIMER_RB_COUNT_ | TIMER_RB_SEL(timer);
-	sys_outb(TIMER_CTRL, tempbyte);
+	if (sys_outb(TIMER_CTRL, tempbyte) != OK)
+		return 1;
 	unsigned long aux;
-	sys_inb(TIMER_0+timer,&aux);
+	if (sys_inb(TIMER_0+timer,&aux) != OK)
+		return 1;
 	*st = aux;
 	return 0;
 }
