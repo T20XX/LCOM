@@ -54,7 +54,7 @@ int kbd_test_leds(unsigned short n, unsigned short *leds) {
 
    for (i=0; i<n; i++)
    {
-	   com |= BIT(leds[i]);
+	   com = BIT(0) | BIT(1) | BIT(2);
 	   sys_outb(OUT_BUF, com);
    }
 
