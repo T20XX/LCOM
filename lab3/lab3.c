@@ -28,14 +28,14 @@ int main(int argc, char **argv) {
 static void print_usage(char *argv[]) {
   printf("Usage: one of the following:\n"
 		  "\t service run %s -args \"scan <ass>\" \n"
-		  "\t service run %s -args \"leds <n> <leds>\" \n"
+		  "\t service run %s -args \"leds <leds>\" \n"
 		  "\t service run %s -args \"timed <time>\" \n",
 	 argv[0], argv[0], argv[0]);
 }
 
 static int proc_args(int argc, char *argv[]) {
 
-	unsigned short ass, n, *leds, time;
+	unsigned short ass, time;
 
 	/* check the function to test: if the first characters match, accept it */
 	if (strncmp(argv[1], "scan", strlen("scan")) == 0) {
@@ -49,14 +49,25 @@ static int proc_args(int argc, char *argv[]) {
 		kbd_test_scan(ass);
 		return 0;
 	} else if (strncmp(argv[1], "leds", strlen("leds")) == 0) {
-		if( argc != 4 ) {
+		if( argc < 3 ) {
 			printf("test3: wrong no of arguments for test of kbd_test_leds() \n");
 			return 1;
 		}
-		if((n = parse_ulong(argv[2], 10)) == ULONG_MAX )
-			return 1;
-		if((*leds = parse_ulong(argv[2], 10)) == ULONG_MAX )
-			return 1;
+
+		unsigned int n = (argc -2);
+		unsigned short temp;
+		unsigned short *leds;
+		leds = (unsigned short *) malloc(n);
+
+		for (int i=0; i < n; i++)
+		{
+			if((temp = parse_ulong(argv[3+i], 10)) == ULONG_MAX )
+			{
+				return 1;
+			break;
+			}
+			leds[i] = temp;
+		}
 		printf("test3:: kbd_test_leds()\n"); /* Actually, it was already invoked */
 		kbd_test_leds(n,leds);
 		return 0;
