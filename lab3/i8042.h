@@ -7,7 +7,7 @@
  * Constants for i8042 KEYBOARD CONTROLLER
  */
 
-
+#define KBD_IRQ	        1    /**< @brief Keyboard 0 IRQ line */
 
 
 /**@}*/
