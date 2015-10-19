@@ -1,6 +1,8 @@
 #ifndef __TEST3_H
 #define __TEST3_H
 
+static unsigned int code;
+
 /** @defgroup test3 test3
  * @{
  *
