@@ -45,7 +45,20 @@ int kbd_test_scan(unsigned short ass) {
 		return 0;
 }
 int kbd_test_leds(unsigned short n, unsigned short *leds) {
-    /* To be completed */
+   unsigned long tmp;
+   unsigned long com;
+   int i = 0;
+
+   sys_outb(OUT_BUF, CHANGELEDS);
+   sys_inb(OUT_BUF, &tmp);
+
+   for (i=0; i<n; i++)
+   {
+	   com |= BIT(leds[i]);
+	   sys_outb(OUT_BUF, com);
+   }
+
+
 }
 int kbd_test_timed_scan(unsigned short n) {
     /* To be completed */

@@ -58,13 +58,14 @@ static int proc_args(int argc, char *argv[]) {
 		unsigned short temp;
 		unsigned short *leds;
 		leds = (unsigned short *) malloc(n);
+		int i;
 
-		for (int i=0; i < n; i++)
+		for (i=0; i < n; i++)
 		{
-			if((temp = parse_ulong(argv[3+i], 10)) == ULONG_MAX )
+			if((temp = parse_ulong(argv[2+i], 10)) == ULONG_MAX )
 			{
 				return 1;
-			break;
+				break;
 			}
 			leds[i] = temp;
 		}
