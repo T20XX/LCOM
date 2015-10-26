@@ -33,10 +33,8 @@ int kbd_test_scan(unsigned short ass) {
 					if (msg.NOTIFY_ARG & irq_set) {
 						if (ass == 1)
 						{
-							 sef_startup();
-							    sys_enable_iop(SELF);
 							code = kbd_int_handler_asm();
-						printf("0x%02x \n",code);
+							printf("0x%02x \n",code);
 						}
 						else
 						{

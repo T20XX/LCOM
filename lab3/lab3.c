@@ -10,9 +10,10 @@ static void print_usage(char *argv[]);
 
 int main(int argc, char **argv) {
 
-  /* Initialize service */
-  
-  sef_startup();
+	/* Initialize service */
+
+	sef_startup();
+	sys_enable_iop(SELF);
 
 
   if ( argc == 1 ) {

@@ -53,7 +53,6 @@ kbd.o:	i8254.h
 kbd.o:	kbd.c
 
 kbd_asm.o:	i8042.h
-kbd_asm.o:	i8254.h
 kbd_asm.o:	kbd_asm.S
 
 lab3.o:	/usr/include/errno.h

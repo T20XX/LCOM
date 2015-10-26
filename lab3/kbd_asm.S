@@ -1,13 +1,14 @@
-#include "i8254.h"
 #include "i8042.h"
 
-.data
-
+.global _kbd_int_handler_asm
 
 .text
-.global _kbd_int_handler_asm
 _kbd_int_handler_asm:
 	xor		%eax,%eax
-	inb		$OUT_BUF,%al
+loop:
+	inb		$STAT_REG, %al
+	and		$OBF, %eax
+	jz		loop
+	inb		$OUT_BUF, %al
 	ret
 
