@@ -16,8 +16,6 @@ void kbd_int_handler() {
 }
 
 int kbd_test_scan(unsigned short ass) {
-	kbd_subscribe_int();
-
 		int irq_set = kbd_subscribe_int();
 		int ipc_status;
 		message msg;
@@ -32,8 +30,18 @@ int kbd_test_scan(unsigned short ass) {
 			if (is_ipc_notify(ipc_status)) { /* received notification */
 				switch (_ENDPOINT_P(msg.m_source)) {
 				case HARDWARE: /* hardware interrupt notification */
-					if (msg.NOTIFY_ARG & irq_set) { /* subscribed interrupt */
+					if (msg.NOTIFY_ARG & irq_set) {
+						if (ass == 1)
+						{
+							 sef_startup();
+							    sys_enable_iop(SELF);
+							code = kbd_int_handler_asm();
+						printf("0x%02x \n",code);
+						}
+						else
+						{
 						kbd_int_handler();  /* process it */
+						}
 					}
 					break;
 				default:
@@ -93,8 +101,6 @@ int kbd_test_leds(unsigned short n, unsigned short *leds) {
 }
 
 int kbd_test_timed_scan(unsigned short n) {
-	 timer_subscribe_int();
-
 	   	int  timer_irq_set = timer_subscribe_int();
 	   	int  kbd_irq_set = kbd_subscribe_int();
 	   	int ipc_status;
