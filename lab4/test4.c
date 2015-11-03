@@ -5,6 +5,7 @@
 
 #include "i8042.h"
 #include "mouse.h"
+#include "timer.h"
 
 static long int packet[3]; //Packet with 3 byte from mouse
 static int counter = 0;
