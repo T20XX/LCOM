@@ -40,3 +40,37 @@ int mouse_output(){
 		tickdelay(micros_to_ticks(DELAY_US));
 	}
 }
+
+void print_packet(){
+
+	//byte1:
+	printf("  \nB1=0x%02x  ", data_packet[0]);
+	//byte2:
+
+	printf("  B2=0x%02x  ", data_packet[1]);
+
+	//byte 3
+	printf("  B3=0x%02x  ",data_packet[2]);
+
+	//LB
+	prinft("  LB=%i  ", );
+
+	//MB
+	prinft("  MB=%i  ", );
+
+	//RB
+	prinft("  RB=%i  ", );
+
+	//XOV
+	prinft("  XOV=%i  ", );
+
+	//YOV
+	printf("  XOY=%i  ", );
+
+	//X
+	printf("  X=%i",);
+
+	//Y
+	printf("  Y=%i", );
+
+}
