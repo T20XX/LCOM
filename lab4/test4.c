@@ -1,3 +1,9 @@
+#include <minix/syslib.h>
+#include <minix/drivers.h>
+
+#include "i8042.h"
+#include "kbd.h"
+
 int test_packet(unsigned short cnt){
     /* To be completed ... */
 }	
