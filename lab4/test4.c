@@ -80,7 +80,7 @@ int test_async(unsigned short idle_time) {
    		if (is_ipc_notify(ipc_status)) { /* received notification */
    			switch (_ENDPOINT_P(msg.m_source)) {
    			case HARDWARE: /* hardware interrupt notification */
-   				if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
+   				if (msg.NOTIFY_ARG & mouse_irq_set) { /* subscribed interrupt */
    					counter = 0;
    					mouse_int_handler();
 	   				break;
