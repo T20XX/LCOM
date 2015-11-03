@@ -38,7 +38,7 @@ int mouse_output(){
 	}
 }
 
-int mouse_configure(){
+int write_to_mouse(){
 	unsigned long stat;
 
 	//Write Byte to Mouse
@@ -57,8 +57,10 @@ int mouse_configure(){
 		}
 		tickdelay(micros_to_ticks(DELAY_US));
 	}
+}
 
-
+int enable_packets(){
+	unsigned long stat;
 	//Enable Sending Data Packets
 	while( 1 ) {
 
@@ -77,7 +79,7 @@ int mouse_configure(){
 	}
 }
 
-void print_packet(){
+void print_packet(long int packet[3]){
 	long int temp;
 
 	//byte1:
@@ -87,30 +89,38 @@ void print_packet(){
 	printf("  B2=0x%02x  ", packet[1]);
 
 	//byte 3
+
+	//LB
 	printf("  B3=0x%02x  ", packet[2]);
 	temp = packet[0] & LB;
-	//LB
-	prinft("  LB=%i  ", temp);
-	temp = packet[0] & MB;
-	temp >> 2;
+	printf("  LB=%d  ", temp);
+
 	//MB
-	prinft("  MB=%i  ", temp);
-	temp = packet[0] & RB;
-	temp >> 1;
+	temp = packet[0] & MB;
+	temp >>= 2;
+	printf("  MB=%d  ", temp);
+
 	//RB
-	prinft("  RB=%i  ", temp);
-	temp = packet[0] & XOV;
-	temp >> 6;
+	temp = packet[0] & RB;
+	temp >>= 1;
+	printf("  RB=%d  ", temp);
+
 	//XOV
-	prinft("  XOV=%i  ", temp);
-	temp = packet[0] & YOV;
-	temp >> 7;
+	temp = packet[0] & XOV;
+	temp >>= 6;
+	printf("  XOV=%d  ", temp);
+
 	//YOV
-	printf("  YOV=%i  ", temp);
+	temp = packet[0] & YOV;
+	temp >>= 7;
+	printf("  YOV=%d  ", temp);
 
 	//X
-	printf("  X=%i",packet[2]);
+	temp = packet[1] - 255 *((packet[0] & XSIGN) >> 4);
+	printf("  X=%d ",temp);
 
 	//Y
-	printf("  Y=%i", packet[3]);
+
+	temp = packet[2] - 255 * ((packet[0] & YSIGN) >> 5);
+	printf("  Y=%d", temp);
 }

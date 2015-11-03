@@ -27,10 +27,12 @@
 #define IN_BUF	 			0x64
 #define BYTETOMOUSE 		0xD4
 #define ENABLE_PACKETS 		0xF4
-#define ISFIRSTPACKET		BIT(3)
 #define LB					BIT(0)
 #define RB					BIT(1)
 #define MB					BIT(2)
+#define ISFIRSTPACKET		BIT(3)
+#define XSIGN				BIT(4)
+#define YSIGN				BIT(5)
 #define XOV					BIT(6)
 #define YOV					BIT(7)
 
