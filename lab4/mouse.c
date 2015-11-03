@@ -83,44 +83,44 @@ void print_packet(long int packet[3]){
 	long int temp;
 
 	//byte1:
-	printf("  \nB1=0x%02x  ", packet[0]);
+	printf(" B1=0x%02x ", packet[0]);
 	//byte2:
 
-	printf("  B2=0x%02x  ", packet[1]);
+	printf(" B2=0x%02x ", packet[1]);
 
 	//byte 3
 
 	//LB
-	printf("  B3=0x%02x  ", packet[2]);
+	printf(" B3=0x%02x ", packet[2]);
 	temp = packet[0] & LB;
-	printf("  LB=%d  ", temp);
+	printf(" LB=%d ", temp);
 
 	//MB
 	temp = packet[0] & MB;
 	temp >>= 2;
-	printf("  MB=%d  ", temp);
+	printf(" MB=%d ", temp);
 
 	//RB
 	temp = packet[0] & RB;
 	temp >>= 1;
-	printf("  RB=%d  ", temp);
+	printf(" RB=%d ", temp);
 
 	//XOV
 	temp = packet[0] & XOV;
 	temp >>= 6;
-	printf("  XOV=%d  ", temp);
+	printf(" XOV=%d ", temp);
 
 	//YOV
 	temp = packet[0] & YOV;
 	temp >>= 7;
-	printf("  YOV=%d  ", temp);
+	printf(" YOV=%d ", temp);
 
 	//X
-	temp = packet[1] - 255 *((packet[0] & XSIGN) >> 4);
-	printf("  X=%d ",temp);
+	temp = packet[1] - 256 *((packet[0] & XSIGN) >> 4);
+	printf(" X=%d ",temp);
 
 	//Y
 
-	temp = packet[2] - 255 * ((packet[0] & YSIGN) >> 5);
-	printf("  Y=%d", temp);
+	temp = packet[2] - 256 * ((packet[0] & YSIGN) >> 5);
+	printf(" Y=%d\n", temp);
 }
