@@ -32,8 +32,44 @@ int mouse_output(){
 		/* loop while 8042 output buffer is empty */
 		if( stat & OBF ) {
 			sys_inb(OUT_BUF, &data); /* assuming it returns OK */
-			if ( (stat &(PAR_ERR | TO_ERR)) == 0 )
-				return data;
+			return data;
+		}
+		tickdelay(micros_to_ticks(DELAY_US));
+	}
+}
+
+int mouse_configure(){
+	unsigned long stat;
+
+	//Write Byte to Mouse
+	while( 1 ) {
+
+		sys_inb(STAT_REG, &stat);
+		if(( stat & IBF ) == 0) {
+			if ( sys_outb(IN_BUF, BYTETOMOUSE) != OK )
+				return 1;
+
+			sys_inb(OUT_BUF, &stat);
+			if(stat == ACK)
+				return 0;
+			else
+				return -1;
+		}
+		tickdelay(micros_to_ticks(DELAY_US));
+	}
+
+
+	//Enable Sending Data Packets
+	while( 1 ) {
+
+		sys_inb(STAT_REG, &stat);
+		if(( stat & IBF ) == 0) {
+			if ( sys_outb(OUT_BUF, ENABLE_PACKETS ) != OK )
+				return 1;
+
+			sys_inb(OUT_BUF, &stat);
+			if(stat == ACK)
+				return 0;
 			else
 				return -1;
 		}
@@ -42,35 +78,39 @@ int mouse_output(){
 }
 
 void print_packet(){
+	long int temp;
 
 	//byte1:
-	printf("  \nB1=0x%02x  ", data_packet[0]);
+	printf("  \nB1=0x%02x  ", packet[0]);
 	//byte2:
 
-	printf("  B2=0x%02x  ", data_packet[1]);
+	printf("  B2=0x%02x  ", packet[1]);
 
 	//byte 3
-	printf("  B3=0x%02x  ",data_packet[2]);
-
+	printf("  B3=0x%02x  ", packet[2]);
+	temp = packet[0] & LB;
 	//LB
-	prinft("  LB=%i  ", );
-
+	prinft("  LB=%i  ", temp);
+	temp = packet[0] & MB;
+	temp >> 2;
 	//MB
-	prinft("  MB=%i  ", );
-
+	prinft("  MB=%i  ", temp);
+	temp = packet[0] & RB;
+	temp >> 1;
 	//RB
-	prinft("  RB=%i  ", );
-
+	prinft("  RB=%i  ", temp);
+	temp = packet[0] & XOV;
+	temp >> 6;
 	//XOV
-	prinft("  XOV=%i  ", );
-
+	prinft("  XOV=%i  ", temp);
+	temp = packet[0] & YOV;
+	temp >> 7;
 	//YOV
-	printf("  XOY=%i  ", );
+	printf("  YOV=%i  ", temp);
 
 	//X
-	printf("  X=%i",);
+	printf("  X=%i",packet[2]);
 
 	//Y
-	printf("  Y=%i", );
-
+	printf("  Y=%i", packet[3]);
 }
