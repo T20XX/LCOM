@@ -19,7 +19,7 @@
 #define BREAKCODE 0x81
 #define CODETYPE BIT(7)
 #define CHANGELEDS 0xED
-
+#define MOUSE_IRQ 12
 
 /**@}*/
 
