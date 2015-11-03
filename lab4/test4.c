@@ -1,16 +1,19 @@
+#include <minix/sysutil.h>
 #include <minix/syslib.h>
 #include <minix/drivers.h>
+#include <stdio.h>
 
 #include "i8042.h"
 #include "mouse.h"
 
 static long int packet[3]; //Packet with 3 byte from mouse
 static int counter = 0;
+static unsigned int packet_counter = 0;
 
-int mouse_int_handler(unsigned int packet_counter){
+int mouse_int_handler(){
 	packet[packet_counter]=mouse_output();
 	if (packet_counter == 0)
-		if ((data_packet[counter_mouse] & ISFIRSTPACKET) == 0)
+		if ((packet[packet_counter] & ISFIRSTPACKET) == 0)
 			return;
 
 	packet_counter ++;
@@ -18,8 +21,8 @@ int mouse_int_handler(unsigned int packet_counter){
 
 	if(packet_counter == 3)
 	{
-		packet_mouse = 0;
-		print_packet();
+		packet_counter = 0;
+		print_packet(packet);
 	}
 	return 0;
 }
@@ -29,8 +32,8 @@ int test_packet(unsigned short cnt){
 	int ipc_status;
 	message msg;
 	int r,i;
-	unsigned int packet_counter = 0;
-
+	write_to_mouse();
+	enable_packets();
 	while(counter < (cnt*3)) { /* You may want to use a different condition */
 		/* Get a request message. */
 		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
@@ -41,7 +44,7 @@ int test_packet(unsigned short cnt){
 			switch (_ENDPOINT_P(msg.m_source)) {
 			case HARDWARE: /* hardware interrupt notification */
 				if (msg.NOTIFY_ARG & irq_set) {
-					mouse_int_handler(packet_counter);  /* process it */
+					mouse_int_handler();  /* process it */
 					}
 				break;
 			default:
@@ -51,6 +54,7 @@ int test_packet(unsigned short cnt){
 			/* no standard messages expected: do nothing */
 		}
 	}
+
 	mouse_unsubscribe_int();
 	return 0;
 }	

@@ -13,7 +13,6 @@ int main(int argc, char **argv) {
 	/* Initialize service */
 
 	sef_startup();
-	sys_enable_iop(SELF);
 
 
 	if ( argc == 1 ) {
