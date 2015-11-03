@@ -8,19 +8,19 @@
 static int mouse_hook_id=2;
 
 int mouse_subscribe_int() {
-	int kbd_id = BIT(kbd_hook_id);
+	int mouse_id = BIT(mouse_hook_id);
 
-	if (sys_irqsetpolicy(KBD_IRQ, IRQ_REENABLE|IRQ_EXCLUSIVE, &kbd_hook_id) != OK)
+	if (sys_irqsetpolicy(MOUSE_IRQ, IRQ_REENABLE|IRQ_EXCLUSIVE, &mouse_hook_id) != OK)
 		return 1;
-	if (sys_irqenable(&kbd_hook_id) != OK)
+	if (sys_irqenable(&mouse_hook_id) != OK)
 		return 1;
-	return kbd_id;
+	return mouse_id;
 }
 
 int mouse_unsubscribe_int() {
-	if (sys_irqrmpolicy(&kbd_hook_id) != OK)
+	if (sys_irqrmpolicy(&mouse_hook_id) != OK)
 		return 1;
-	if (sys_irqdisable(&kbd_hook_id) != OK)
+	if (sys_irqdisable(&mouse_hook_id) != OK)
 		return 1;
 	return 0;
 }
