@@ -32,7 +32,7 @@ int test_packet(unsigned short cnt){
 	int irq_set = mouse_subscribe_int();
 	int ipc_status;
 	message msg;
-	int r,i;
+	int r;
 	write_to_mouse();
 	enable_packets();
 	while(counter < (cnt*3)) { /* You may want to use a different condition */
@@ -61,7 +61,44 @@ int test_packet(unsigned short cnt){
 }	
 
 int test_async(unsigned short idle_time) {
-	/* To be completed ... */
+   	int  timer_irq_set = timer_subscribe_int();
+   	int  mouse_irq_set = mouse_subscribe_int();
+   	int ipc_status;
+   	message msg;
+   	int r;
+
+   	int counter = 0; //Inicialização do contador
+   	write_to_mouse();
+   	enable_packets();
+
+   	while( counter < (idle_time * 60)) { /* You may want to use a different condition */
+   		/* Get a request message. */
+   		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+   			printf("driver_receive failed with: %d", r);
+   			continue;
+   		}
+   		if (is_ipc_notify(ipc_status)) { /* received notification */
+   			switch (_ENDPOINT_P(msg.m_source)) {
+   			case HARDWARE: /* hardware interrupt notification */
+   				if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
+   					counter = 0;
+   					mouse_int_handler();
+	   				break;
+   				}
+   				if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
+   					counter++;
+
+   				}
+   			default:
+   				break; /* no other notifications expected: do nothing */
+   			}
+   		} else { /* received a standard message, not a notification */
+   			/* no standard messages expected: do nothing */
+   		}
+   	}
+   	timer_unsubscribe_int();
+   	mouse_unsubscribe_int();
+   	return 0;
 }
 
 int test_config(void) {
