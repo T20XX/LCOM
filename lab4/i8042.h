@@ -36,6 +36,13 @@
 #define XOV					BIT(6)
 #define YOV					BIT(7)
 #define STATUS_REQUEST		0xE9
+#define REMOTE				BIT(6)
+#define ENABLE				BIT(5)
+#define SCALING				BIT(4)
+#define LEFT				BIT(2)
+#define MIDDLE				BIT(1)
+#define RIGHT				BIT(0)
+#define RESOLUTION 			BIT(0) && BIT(1)
 
 #define ACK 0xFA
 #define NACK 0xFE
