@@ -170,7 +170,7 @@ void print_config(long int config[3]){
 	//ENABLE
 	temp = config[0] & ENABLE;
 	temp >>= 5;
-	printf(" Enale=%d\n", temp);
+	printf(" Enable=%d\n", temp);
 
 	//REMOTE
 	temp = config[0] & REMOTE;
