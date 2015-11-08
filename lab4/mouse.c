@@ -145,7 +145,7 @@ int status_request(){
 	}
 }
 
-void print_config(long int packet[3]){
+void print_config(long int config[3]){
 	long int temp;
 
 	//byte1:
