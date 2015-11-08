@@ -42,7 +42,7 @@
 #define LEFT				BIT(2)
 #define MIDDLE				BIT(1)
 #define RIGHT				BIT(0)
-#define RESOLUTION 			BIT(0) && BIT(1)
+#define RESOLUTION 			BIT(0) | BIT(1)
 
 #define ACK 0xFA
 #define NACK 0xFE
