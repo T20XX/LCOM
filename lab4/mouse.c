@@ -148,13 +148,40 @@ int status_request(){
 void print_config(long int config[3]){
 	long int temp;
 
-	//byte1:
-	printf(" B1=0x%02x ", config[0]);
-	//byte2:
+	//RIGHT
+	temp = config[0] & RIGHT;
+	printf(" Right=%d\n", temp);
 
-	printf(" B2=0x%02x ", config[1]);
+	//MIDDLE
+	temp = config[0] & MIDDLE;
+	temp >>= 2;
+	printf(" Middle=%d\n", temp);
 
-	//byte 3
-	printf(" B3=0x%02x ", config[2]);
+	//LEFT
+	temp = config[0] & LEFT;
+	temp >>= 1;
+	printf(" Left=%d\n", temp);
 
+	//SCALING
+	temp = config[0] & SCALING;
+	temp >>= 4;
+	printf(" Scaling=%d\n", temp);
+
+	//ENABLE
+	temp = config[0] & ENABLE;
+	temp >>= 5;
+	printf(" Enale=%d\n", temp);
+
+	//REMOTE
+	temp = config[0] & REMOTE;
+	temp >>= 6;
+	printf(" Remote=%d\n", temp);
+
+	//RESOLUTION
+	temp = config[1] & RESOLUTION;
+	printf(" Resolution=%d\n", temp);
+
+	//SAMPLE RATE
+	temp = config[2];
+	printf(" Sample Rate=%d\n", temp);
 }
