@@ -35,6 +35,7 @@
 #define YSIGN				BIT(5)
 #define XOV					BIT(6)
 #define YOV					BIT(7)
+#define STATUS_REQUEST		0xE9
 
 #define ACK 0xFA
 #define NACK 0xFE

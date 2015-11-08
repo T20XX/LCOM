@@ -124,3 +124,37 @@ void print_packet(long int packet[3]){
 	temp = packet[2] - 256 * ((packet[0] & YSIGN) >> 5);
 	printf(" Y=%d\n", temp);
 }
+
+int status_request(){
+	unsigned long stat;
+	//Enable Sending status
+	while( 1 ) {
+
+		sys_inb(STAT_REG, &stat);
+		if(( stat & IBF ) == 0) {
+			if ( sys_outb(OUT_BUF, STATUS_REQUEST ) != OK )
+				return 1;
+
+			sys_inb(OUT_BUF, &stat);
+			if(stat == ACK)
+				return 0;
+			else
+				return -1;
+		}
+		tickdelay(micros_to_ticks(DELAY_US));
+	}
+}
+
+void print_config(long int packet[3]){
+	long int temp;
+
+	//byte1:
+	printf(" B1=0x%02x ", config[0]);
+	//byte2:
+
+	printf(" B2=0x%02x ", config[1]);
+
+	//byte 3
+	printf(" B3=0x%02x ", config[2]);
+
+}

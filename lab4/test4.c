@@ -10,6 +10,8 @@
 static long int packet[3]; //Packet with 3 byte from mouse
 static int counter = 0;
 static unsigned int packet_counter = 0;
+static long int config[3];
+static unsigned int config_counter = 0;
 
 int mouse_int_handler(){
 	packet[packet_counter]=mouse_output();
@@ -101,8 +103,48 @@ int test_async(unsigned short idle_time) {
    	return 0;
 }
 
+int mouse_int_config_handler(){
+	config[config_counter]=mouse_output();
+
+	config_counter ++;
+
+	if(config_counter == 3)
+	{
+		print_config(config);
+	}
+	return 0;
+}
+
 int test_config(void) {
-	/* To be completed ... */
+	int irq_set = mouse_subscribe_int();
+		int ipc_status;
+		message msg;
+		int r;
+		write_to_mouse();
+		status_request();
+		while(config_counter < 3) { /* You may want to use a different condition */
+			/* Get a request message. */
+			if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+				printf("driver_receive failed with: %d", r);
+				continue;
+			}
+			if (is_ipc_notify(ipc_status)) { /* received notification */
+				switch (_ENDPOINT_P(msg.m_source)) {
+				case HARDWARE: /* hardware interrupt notification */
+					if (msg.NOTIFY_ARG & irq_set) {
+						mouse_int_config_handler();  /* process it */
+						}
+					break;
+				default:
+					break; /* no other notifications expected: do nothing */
+				}
+			} else { /* received a standard message, not a notification */
+				/* no standard messages expected: do nothing */
+			}
+		}
+
+		mouse_unsubscribe_int();
+		return 0;
 }	
 
 int test_gesture(short length, unsigned short tolerance) {
