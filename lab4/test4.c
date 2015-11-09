@@ -152,9 +152,21 @@ int test_config(void) {
 	return 0;
 }	
 
-int mouse_int_gest_handler(){
+void gesture_aux(){
 	long int temp;
 
+	temp = packet[0] & RB;
+	temp >>= 1;
+	rb = temp;
+
+	temp = packet[1] - 256 *((packet[0] & XSIGN) >> 4);
+	temp_tolerance +=  temp;
+
+	temp = packet[2] - 256 * ((packet[0] & YSIGN) >> 5);
+	temp_length += temp;
+}
+
+int mouse_int_gest_handler(){
 	packet[packet_counter]=mouse_output();
 	if (packet_counter == 0)
 		if ((packet[packet_counter] & ISFIRSTPACKET) == 0)
@@ -165,16 +177,8 @@ int mouse_int_gest_handler(){
 	if(packet_counter == 3)
 	{
 		packet_counter = 0;
-		print_packet(packet);
-		temp = packet[0] & RB;
-		temp >>= 1;
-		rb = temp;
-
-		temp = packet[1] - 256 *((packet[0] & XSIGN) >> 4);
-		temp_tolerance +=  temp;
-
-		temp = packet[2] - 256 * ((packet[0] & YSIGN) >> 5);
-		temp_length += temp;
+		//print_packet(packet);
+		gesture_aux();
 	}
 	return 0;
 }
