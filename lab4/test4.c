@@ -14,22 +14,26 @@ static unsigned int packet_counter = 0;
 static long int config[3];
 static unsigned int config_counter = 0;
 
-static int temp_length = 0;
-static int temp_tolerance = 0;
+static short temp_length = 0;
+static short temp_tolerance = 0;
 static int rb = 0;
 
 int mouse_int_handler(){
 	packet[packet_counter]=mouse_output();
 	if (packet_counter == 0)
+		//Verifica se é o primeiro packet através da verificação do bit 3 (grande probabilidade)
 		if ((packet[packet_counter] & ISFIRSTPACKET) == 0)
 			return;
 
+	//incrementa as variáveis referentes ao contador de packets e ao geral
 	packet_counter ++;
 	counter++;
 
 	if(packet_counter == 3)
 	{
+		//Reset da variável contador dos packets
 		packet_counter = 0;
+		//Impressão da informação dos packets
 		print_packet(packet);
 	}
 	return 0;
@@ -42,8 +46,7 @@ int test_packet(unsigned short cnt){
 	int r;
 	write_to_mouse();
 	enable_packets();
-	while(counter < (cnt*3)) { /* You may want to use a different condition */
-		/* Get a request message. */
+	while(counter < (cnt*3)) {
 		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
 			printf("driver_receive failed with: %d", r);
 			continue;
@@ -73,13 +76,12 @@ int test_async(unsigned short idle_time) {
 	int ipc_status;
 	message msg;
 	int r;
-
+	timer_test_square(60); //força o timer a trabalhar a 60HZ
 	int counter = 0; //Inicialização do contador
-	write_to_mouse();
-	enable_packets();
+	write_to_mouse(); //escrever byte no mouse
+	enable_packets(); //permitir a receção de packets
 
-	while( counter < (idle_time * 60)) { /* You may want to use a different condition */
-		/* Get a request message. */
+	while( counter < (idle_time * 60)) {
 		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
 			printf("driver_receive failed with: %d", r);
 			continue;
@@ -88,13 +90,14 @@ int test_async(unsigned short idle_time) {
 			switch (_ENDPOINT_P(msg.m_source)) {
 			case HARDWARE: /* hardware interrupt notification */
 				if (msg.NOTIFY_ARG & mouse_irq_set) { /* subscribed interrupt */
-					counter = 0;
-					mouse_int_handler();
+					counter = 0; //Reset da variável counter caso receba interrupt do mouse
+					mouse_int_handler(); /* process it */
 					break;
 				}
 				if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
 					counter++;
-
+					if (counter >= (idle_time * 60))
+						printf("O tempo de espera terminou.");
 				}
 			default:
 				break; /* no other notifications expected: do nothing */
@@ -103,18 +106,22 @@ int test_async(unsigned short idle_time) {
 			/* no standard messages expected: do nothing */
 		}
 	}
+
 	timer_unsubscribe_int();
 	mouse_unsubscribe_int();
 	return 0;
 }
 
 int mouse_int_config_handler(){
+	//similar à função mouse_int_handler() só que para os bytes de config
+
 	config[config_counter]=mouse_output();
 
 	config_counter ++;
 
 	if(config_counter == 3)
 	{
+		//função que imprime num formato amigável para o utilizador a configuração do rato
 		print_config(config);
 	}
 	return 0;
@@ -125,10 +132,9 @@ int test_config(void) {
 	int ipc_status;
 	message msg;
 	int r;
-	write_to_mouse();
-	status_request();
-	while(config_counter < 3) { /* You may want to use a different condition */
-		/* Get a request message. */
+	write_to_mouse(); //escrever byte no mouse
+	status_request(); //permite a receção do status do mouse (bytes de config)
+	while(config_counter < 3) {
 		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
 			printf("driver_receive failed with: %d", r);
 			continue;
@@ -166,8 +172,7 @@ void gesture_aux(){
 	temp_length += temp;
 }
 void draw_line(unsigned int tolerance){
-
-
+//funcao auxiliar que desenha a variação da tolerancia
 	if (temp_tolerance < -(tolerance) || temp_tolerance>tolerance){
 		printf("|");
 		int i;
@@ -178,8 +183,9 @@ void draw_line(unsigned int tolerance){
 				printf("|");
 			else printf(" ");
 		}
-		printf("|\n");
+		printf("| %d\n", temp_length);
 	}
+
 }
 int mouse_int_gest_handler(){
 	packet[packet_counter]=mouse_output();
@@ -205,8 +211,7 @@ int test_gesture(short length, unsigned short tolerance) {
 	int r;
 	write_to_mouse();
 	enable_packets();
-	while(temp_length > -length && temp_length < length) { /* You may want to use a different condition */
-		/* Get a request message. */
+	while(temp_length > -length && temp_length < length) {
 		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
 			printf("driver_receive failed with: %d", r);
 			continue;
@@ -219,12 +224,14 @@ int test_gesture(short length, unsigned short tolerance) {
 					if (packet_counter == 0){
 						if (rb == 0)
 						{
+							//se o botão direito não estiver a ser premido a tolerancia e length temporárias são resetadas
 							temp_tolerance= 0;
 							temp_length = 0;
 							printf("Prima o botao direito do rato.\n");
 						}
-						else if (temp_tolerance < -(tolerance) || temp_tolerance>tolerance)
+						else if (temp_tolerance + tolerance < 0 || temp_tolerance - tolerance > 0)
 						{
+							//se a tolerancia temporancia ultrpassar a tolerancia passada pelo argumento, a tolerancia e length temporárias são resetadas
 							temp_tolerance= 0;
 							temp_length = 0;
 							printf("A sua linha foi resetada pois excedeu a tolerancia horizontal.\n");
@@ -240,8 +247,7 @@ int test_gesture(short length, unsigned short tolerance) {
 			/* no standard messages expected: do nothing */
 		}
 	}
-	printf("Conseguiu desenhar a linha vertical na perfeicao");
-
+	printf("Conseguiu desenhar a linha vertical na perfeicao.");
 	mouse_unsubscribe_int();
 	return 0;
 }
