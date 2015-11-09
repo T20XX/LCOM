@@ -165,7 +165,22 @@ void gesture_aux(){
 	temp = packet[2] - 256 * ((packet[0] & YSIGN) >> 5);
 	temp_length += temp;
 }
+void draw_line(unsigned int tolerance){
 
+
+	if (temp_tolerance < -(tolerance) || temp_tolerance>tolerance){
+		printf("|");
+		int i;
+		for(i = 0;i <tolerance*2; i++){
+			if(i==tolerance)
+				printf("|");
+			else if(temp_tolerance != 0 && i == tolerance+temp_tolerance)
+				printf("|");
+			else printf(" ");
+		}
+		printf("|\n");
+	}
+}
 int mouse_int_gest_handler(){
 	packet[packet_counter]=mouse_output();
 	if (packet_counter == 0)
@@ -214,6 +229,7 @@ int test_gesture(short length, unsigned short tolerance) {
 							temp_length = 0;
 							printf("A sua linha foi resetada pois excedeu a tolerancia horizontal.\n");
 						}
+						draw_line(tolerance);
 					}
 				}
 				break;
