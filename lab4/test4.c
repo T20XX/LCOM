@@ -18,6 +18,9 @@ static short temp_length = 0;
 static short temp_tolerance = 0;
 static int rb = 0;
 
+typedef enum {INIT, DRAW, COMP} state_t;
+typedef enum {RDOWN, RUP, MOVE, VERT_LINE, HOR_TOLERANCE} ev_type_t;
+
 int mouse_int_handler(){
 	packet[packet_counter]=mouse_output();
 	if (packet_counter == 0)
@@ -68,7 +71,7 @@ int test_packet(unsigned short cnt){
 
 	mouse_unsubscribe_int();
 	return 0;
-}	
+}
 
 int test_async(unsigned short idle_time) {
 	int  timer_irq_set = timer_subscribe_int();
@@ -156,7 +159,32 @@ int test_config(void) {
 
 	mouse_unsubscribe_int();
 	return 0;
-}	
+}
+
+
+void check_hor_line(ev_type_t *evt) {
+	static state_t st = INIT; // initial state; keep state
+	switch (st) {
+	case INIT:
+		temp_tolerance= 0;
+		temp_length = 0;
+		if( evt == RDOWN )
+			st = DRAW;
+		break;
+	case DRAW:
+		if( evt == MOVE ) {
+			if( evt == VERT_LINE )
+				st = COMP;
+			else if ( evt == HOR_TOLERANCE )
+				st = INIT;
+		} else if( evt == RUP )
+			st = INIT;
+		break;
+	default:
+		break;
+	}
+}
+
 
 void gesture_aux(){
 	long int temp;
@@ -172,7 +200,7 @@ void gesture_aux(){
 	temp_length += temp;
 }
 void draw_line(unsigned int tolerance){
-//funcao auxiliar que desenha a variação da tolerancia
+	//funcao auxiliar que desenha a variação da tolerancia
 	if (temp_tolerance < -(tolerance) || temp_tolerance>tolerance){
 		printf("|");
 		int i;
@@ -205,6 +233,7 @@ int mouse_int_gest_handler(){
 }
 
 int test_gesture(short length, unsigned short tolerance) {
+	ev_type_t evt=INIT;
 	int irq_set = mouse_subscribe_int();
 	int ipc_status;
 	message msg;
@@ -225,16 +254,16 @@ int test_gesture(short length, unsigned short tolerance) {
 						if (rb == 0)
 						{
 							//se o botão direito não estiver a ser premido a tolerancia e length temporárias são resetadas
-							temp_tolerance= 0;
-							temp_length = 0;
 							printf("Prima o botao direito do rato.\n");
+							evt=RUP;
+							check_hor_line(&evt);
 						}
 						else if (temp_tolerance + tolerance < 0 || temp_tolerance - tolerance > 0)
 						{
-							//se a tolerancia temporancia ultrpassar a tolerancia passada pelo argumento, a tolerancia e length temporárias são resetadas
-							temp_tolerance= 0;
-							temp_length = 0;
+							//se a tolerancia temporancia ultrapassar a tolerancia passada pelo argumento, a tolerancia e length temporárias são resetadas
 							printf("A sua linha foi resetada pois excedeu a tolerancia horizontal.\n");
+							evt=HOR_TOLERANCE;
+							check_hor_line(&evt);
 						}
 						draw_line(tolerance);
 					}
