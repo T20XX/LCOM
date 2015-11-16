@@ -33,12 +33,12 @@ static void print_usage(char *argv[]) {
 			"\t service run %s -args \"xpm <xi> <yi> <xpm>\" \n",
 			"\t service run %s -args \"move <xi> <yi> <xpm> <hor> <delta> <time>\" \n",
 			"\t service run %s -args \"controller\" \n",
-			argv[0], argv[0], argv[0], argv[0]);
+			argv[0], argv[0], argv[0], argv[0], argv[0], argv[0]);
 }
 
 static int proc_args(int argc, char *argv[]) {
 
-	unsigned short mode, delay, x, y, size, xi, yi, xf, yf, hor, time;
+	unsigned short mode, delay, x, y, size, xi, yi, xf, yf, hor, time, xpm;
 	short delta;
 	unsigned long color;
 
@@ -90,7 +90,7 @@ static int proc_args(int argc, char *argv[]) {
 		test_line(xi, yi, xf, yf, color);
 		return 0;
 	} else 	if (strncmp(argv[1], "xpm", strlen("xpm")) == 0) {
-		if( argc < 5 ) {
+		if( argc != 5 ) {
 			printf("test5: wrong no of arguments for test of test_xpm() \n");
 			return 1;
 		}
@@ -98,18 +98,8 @@ static int proc_args(int argc, char *argv[]) {
 			return 1;
 		if((yi = parse_ulong(argv[3], 10)) == ULONG_MAX )
 			return 1;
-		unsigned int n = (argc -2);
-		unsigned char temp;
-		unsigned char *xpm;
-		xpm = (unsigned char *) malloc(n);
-		int i;
-		for (i=0; i < n; i++) {
-			if((temp = parse_ulong(argv[2+i], 10)) == ULONG_MAX ) {
-				return 1;
-				break;
-			}
-			xpm[i] = temp;
-		}
+		if((xpm = parse_ulong(argv[4], 10)) == ULONG_MAX )
+					return 1;
 		printf("test5:: test_xpm()\n"); /* Actually, it was already invoked */
 		test_xpm(xi,yi,xpm);
 		return 0;
