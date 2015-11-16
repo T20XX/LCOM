@@ -9,6 +9,16 @@
  * Functions related to the VBE standard
  */
 
+#define BIT(n) (0x01<<(n))
+
+#define SET_VBE_MODE		0x4F02;
+#define VIDEO_CARD			0x10;
+
+#define LINEAR_FRAMEBUFFER_BIT BIT(14);
+
+#define GRAPHICS_MODE_1024_768_256 0x105;
+
+
 /** @name VBE Mode Info Block */
 /**@{
  *
