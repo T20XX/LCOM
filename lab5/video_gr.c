@@ -5,6 +5,7 @@
 #include <sys/types.h>
 
 #include "vbe.h"
+#include "lmlib.h"
 
 /* Constants for VBE 0x105 mode */
 
@@ -28,32 +29,29 @@ static unsigned h_res;		/* Horizontal screen resolution in pixels */
 static unsigned v_res;		/* Vertical screen resolution in pixels */
 static unsigned bits_per_pixel; /* Number of VRAM bits per pixel */
 
-void change_variables(vbe_mode_info_t info){
-	 int r;
-	  struct mem_range mr;
+void change_variables(vbe_mode_info_t *info){
+	int r;
+	struct mem_range mr;
 
 
-	  h_res = info.XResolution;
-	  	v_res = info.YResolution;
-	  	bits_per_pixel = info.BitsPerPixel;
+	h_res = info->XResolution;
+	v_res = info->YResolution;
+	bits_per_pixel = info->BitsPerPixel;
 
-	  /* Allow memory mapping */
+	/* Allow memory mapping */
 
-	  mr.mr_base = info.PhysBasePtr;
-	  mr.mr_limit = mr.mr_base + h_res*v_res;
+	mr.mr_base = info->PhysBasePtr;
+	mr.mr_limit = mr.mr_base + h_res*v_res* bits_per_pixel/8;
 
-	  if( OK != (r = sys_privctl(SELF, SYS_PRIV_ADD_MEM, &mr)))
-		  panic("video_txt: sys_privctl (ADD_MEM) failed: %d\n", r);
+	if( OK != (r = sys_privctl(SELF, SYS_PRIV_ADD_MEM, &mr)))
+		panic("video_txt: sys_privctl (ADD_MEM) failed: %d\n", r);
 
-	  /* Map memory */
+	/* Map memory */
 
-	  video_mem = vm_map_phys(SELF, (void *)mr.mr_base, h_res*v_res);
+	video_mem = vm_map_phys(SELF, (void *)mr.mr_base, h_res*v_res* bits_per_pixel/8);
 
-	  if(video_mem == MAP_FAILED)
-		  panic("video_txt couldn't map video memory");
-
-
-	  return video_mem;
+	if(video_mem == MAP_FAILED)
+		panic("video_txt couldn't map video memory");
 }
 
 void *vg_init(unsigned short mode){
@@ -67,10 +65,22 @@ void *vg_init(unsigned short mode){
 	}
 	else
 	{
-		vbe_mode_info_t vbe_info;
-		vbe_get_mode_info(mode, &vbe_info);
+
+		mmap_t map;
+
+		lm_init();
+		lm_alloc(sizeof(vbe_mode_info_t), &map);
+
+		vbe_get_mode_info(mode, (vbe_mode_info_t *)map.phys);
+
+		vbe_mode_info_t *vbe_info = map.virtual;
+
 
 		change_variables(vbe_info);
+
+		lm_free(&map);
+
+		return video_mem;
 	}
 }
 

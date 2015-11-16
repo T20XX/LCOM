@@ -4,10 +4,11 @@
 #include "vbe.h"
 #include "test5.h"
 #include "timer.h"
+#include "video_gr.h"
 
 void *test_init(unsigned short mode, unsigned short delay) {
 
-	char *vram_adress=vg_init(mode);
+	char *video_adress=vg_init(mode);
 
 	//variavel que guardara a informação toda relativa ao modo vbe
 	vbe_mode_info_t vbe_info;
@@ -30,9 +31,6 @@ void *test_init(unsigned short mode, unsigned short delay) {
 			case HARDWARE: /* hardware interrupt notification */
 				if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
 					counter++;
-					if (counter >= (delay * 60))
-						/*imprimir VRAM ADRESS */
-						printf("Acabou o tempo");
 				}
 			default:
 				break; /* no other notifications expected: do nothing */
@@ -46,6 +44,7 @@ void *test_init(unsigned short mode, unsigned short delay) {
 
 	vg_exit();
 
+	printf("PHYSICAL ADRESS: 0x%02x \n", video_adress);
 	return 0;
 
 }
