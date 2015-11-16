@@ -28,6 +28,34 @@ static unsigned h_res;		/* Horizontal screen resolution in pixels */
 static unsigned v_res;		/* Vertical screen resolution in pixels */
 static unsigned bits_per_pixel; /* Number of VRAM bits per pixel */
 
+void change_variables(vbe_mode_info_t info){
+	 int r;
+	  struct mem_range mr;
+
+
+	  h_res = info.XResolution;
+	  	v_res = info.YResolution;
+	  	bits_per_pixel = info.BitsPerPixel;
+
+	  /* Allow memory mapping */
+
+	  mr.mr_base = info.PhysBasePtr;
+	  mr.mr_limit = mr.mr_base + h_res*v_res;
+
+	  if( OK != (r = sys_privctl(SELF, SYS_PRIV_ADD_MEM, &mr)))
+		  panic("video_txt: sys_privctl (ADD_MEM) failed: %d\n", r);
+
+	  /* Map memory */
+
+	  video_mem = vm_map_phys(SELF, (void *)mr.mr_base, h_res*v_res);
+
+	  if(video_mem == MAP_FAILED)
+		  panic("video_txt couldn't map video memory");
+
+
+	  return video_mem;
+}
+
 void *vg_init(unsigned short mode){
 	struct reg86u r;
 	r.u.w.ax = SET_VBE_MODE; // VBE call, function 02 -- set VBE mode
@@ -36,6 +64,13 @@ void *vg_init(unsigned short mode){
 	if( sys_int86(&r) != OK ) {
 		printf("set_vbe_mode: sys_int86() failed \n");
 		//return 1;
+	}
+	else
+	{
+		vbe_mode_info_t vbe_info;
+		vbe_get_mode_info(mode, &vbe_info);
+
+		change_variables(vbe_info);
 	}
 }
 

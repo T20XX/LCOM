@@ -6,6 +6,13 @@
 #include "timer.h"
 
 void *test_init(unsigned short mode, unsigned short delay) {
+
+	char *vram_adress=vg_init(mode);
+
+	//variavel que guardara a informação toda relativa ao modo vbe
+	vbe_mode_info_t vbe_info;
+	vbe_get_mode_info(mode, &vbe_info);
+
 	int  timer_irq_set = timer_subscribe_int();
 	int ipc_status;
 	message msg;
@@ -36,6 +43,9 @@ void *test_init(unsigned short mode, unsigned short delay) {
 	}
 
 	timer_unsubscribe_int();
+
+	vg_exit();
+
 	return 0;
 
 }
