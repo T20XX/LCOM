@@ -23,16 +23,8 @@ int vbe_get_mode_info(unsigned short mode, vbe_mode_info_t *vmi_p) {
 	r.u.b.intno = VIDEO_CARD;
 
 
-	if( sys_int86(&r) != OK ) { /* call BIOS */
-		//lm_free(&map);
-		return 1;
-	}
-	else
-	{
-		//*vmi_p = map.virtual;
-
-		return 0;
-	}
+	if( sys_int86(&r) != OK ) {return 1;}
+	else {return 0;}
 
 
 }
