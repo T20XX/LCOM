@@ -1,6 +1,8 @@
 #ifndef __VIDEO_GR_H
 #define __VIDEO_GR_H
 
+char * getPhysicalAdress();
+
 /** @defgroup video_gr video_gr
  * @{
  *
