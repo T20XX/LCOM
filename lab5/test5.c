@@ -8,7 +8,7 @@
 
 void *test_init(unsigned short mode, unsigned short delay) {
 
-	char *video_adress=vg_init(mode);
+	char *vram_adress=vg_init(mode);
 
 	//variavel que guardara a informação toda relativa ao modo vbe
 	vbe_mode_info_t vbe_info;
@@ -44,15 +44,24 @@ void *test_init(unsigned short mode, unsigned short delay) {
 
 	vg_exit();
 
-	printf("PHYSICAL ADRESS: 0x%02x \n", video_adress);
+	printf("VRAM ADRESS: 0x%02x \n", vram_adress);
+	printf("PHYSICAL ADRESS: 0x%02x \n", getPhysicalAdress());
 	return 0;
 
 }
 
 
 int test_square(unsigned short x, unsigned short y, unsigned short size, unsigned long color) {
+vg_init(0x105);
 
-	/* To be completed */
+unsigned int i,j;
+for(i = y; i< y+size;i++){
+	for(j = x; j < x+size;j++){
+		vg_pixel(j,i,color);
+	}
+}
+
+//vg_exit();
 
 }
 

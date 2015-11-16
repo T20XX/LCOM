@@ -24,10 +24,13 @@
 /* Private global variables */
 
 static char *video_mem;		/* Process address to which VRAM is mapped */
+static char *physical_adress;
 
 static unsigned h_res;		/* Horizontal screen resolution in pixels */
 static unsigned v_res;		/* Vertical screen resolution in pixels */
 static unsigned bits_per_pixel; /* Number of VRAM bits per pixel */
+
+char * getPhysicalAdress(){return physical_adress;};
 
 void change_variables(vbe_mode_info_t *info){
 	int r;
@@ -37,6 +40,8 @@ void change_variables(vbe_mode_info_t *info){
 	h_res = info->XResolution;
 	v_res = info->YResolution;
 	bits_per_pixel = info->BitsPerPixel;
+
+	physical_adress = (char *)info->PhysBasePtr;
 
 	/* Allow memory mapping */
 
@@ -97,4 +102,11 @@ int vg_exit() {
 		return 1;
 	} else
 		return 0;
+}
+
+int vg_pixel(unsigned short x, unsigned short y, unsigned long color){
+	char * ptr;
+	ptr= (video_mem + x + y*h_res);//*bits_per_pixel/8;
+	*ptr = color;
+
 }
