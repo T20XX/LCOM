@@ -108,5 +108,4 @@ int vg_pixel(unsigned short x, unsigned short y, unsigned long color){
 	char * ptr;
 	ptr= (video_mem + x + y*h_res);//*bits_per_pixel/8;
 	*ptr = color;
-
 }

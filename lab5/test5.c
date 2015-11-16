@@ -66,9 +66,18 @@ for(i = y; i< y+size;i++){
 }
 
 int test_line(unsigned short xi, unsigned short yi, 
-		unsigned short xf, unsigned short yf, unsigned long color) {
+	unsigned short xf, unsigned short yf, unsigned long color) {
 
-	/* To be completed */
+	short decl = (yf-yi)/(xf-xi);
+	short b = yi-xi*decl;
+	short tempy;
+	unsigned int i;
+	vg_init(0x105);
+
+	for(i = xi; i < xf; i++){
+		tempy = i*decl + b;
+		vg_pixel(i, (int)tempy, color);
+	}
 
 }
 
