@@ -100,7 +100,7 @@ static int proc_args(int argc, char *argv[]) {
 			return 1;
 		unsigned int n = (argc -2);
 		unsigned char temp;
-		unsigned short *xpm;
+		unsigned char *xpm;
 		xpm = (unsigned char *) malloc(n);
 		int i;
 		for (i=0; i < n; i++) {
@@ -120,7 +120,7 @@ static int proc_args(int argc, char *argv[]) {
 		}
 		unsigned int n = (argc -2);
 		unsigned char temp;
-		unsigned short *xpm;
+		unsigned char *xpm;
 		xpm = (unsigned char *) malloc(n);
 		int i;
 		for (i=0; i < n; i++) {
