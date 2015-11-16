@@ -1,4 +1,4 @@
-# Makefile for the lab4 driver (based on that of hello).
+# Makefile for the lab5 driver (based on that of hello).
 
 COMPILER_TYPE= gnu
 
@@ -10,7 +10,7 @@ SRCS=	lab5.c test5.c vbe.c video_gr.c timer.c
 CCFLAGS= -Wall
 
 DPADD+=	${LIBDRIVER} ${LIBSYS}
-LDADD+= -ldriver -lsys
+LDADD+= -llm -ldriver -lsys
 
 LDFLAGS+= -L .
 
