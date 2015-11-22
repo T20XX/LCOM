@@ -103,18 +103,83 @@ int test_square(unsigned short x, unsigned short y, unsigned short size, unsigne
 int test_line(unsigned short xi, unsigned short yi, 
 		unsigned short xf, unsigned short yf, unsigned long color) {
 
-	short decl = (yf-yi)/(xf-xi);
+	/*short deltax, deltay;
+	short decl;
 	printf ("%g \n", decl);
 	short b = yi-xi*decl;
-	short tempy;
+	short tempy, tempx;
 	unsigned int i;
-	//vg_init(0x105);
+	deltax = xf - xi;
+	deltay = yf - yi;
+	vg_init(0x105);
 
-	for(i = xi; i < xf; i++){
-		tempy = i*decl + b;
-		printf ("%g \n", tempy);
-		//vg_pixel(i, (int)tempy, color);
+
+	if(deltax >= deltay){
+		for(i = xi; i < xf; i++){
+			tempy = i*decl + b;
+			printf ("%g \n", tempy);
+			vg_pixel(i, (int)tempy, color);
+		}
 	}
+	else{
+		for(i  = yi; i < yf; i++){
+			tempx = (i-b)/decl;
+			printf("%g \n", tempx);
+			vg_pixel(i, (int)tempx, color);
+		}
+	}*/
+	//metodo de bresenham
+	int slope;
+	int dx, dy, incE, incNE, d, x, y;
+	int x1, x2, y1, y2;
+	x1 = xi;
+	x2 = xf;
+	y1 = yi;
+	y2 = yf;
+	if(xi < 0 || xi > 1024)
+		return;
+	if(xf < 0 || xf > 1024)
+		return;
+	if(yf < 0 || yf > 768)
+		return;
+	if(yi < 0 || yi > 768)
+		return;
+	if(color > 	256)
+		return;
+	// Onde inverte a linha xi > xf
+	if (xi > xf){
+		x1 = xf;
+		x2 = xi;
+		y1 = yf;
+		y2 = yi;
+	}
+	dx = x2 - x1;
+	dy = y2 - y1;
+
+	if (dy < 0){
+		slope = -1;
+		dy = -dy;
+	}
+	else{
+		slope = 1;
+	}
+	vg_init(0x105);
+	// Constante de Bresenham
+	incE = 2 * dy;
+	incNE = 2 * dy - 2 * dx;
+	d = 2 * dy - dx;
+	y = y1;
+	for (x = x1; x <= x2; x++){
+		vg_pixel(x, y, color);
+		if (d <= 0){
+			d += incE;
+		}
+		else{
+			d += incNE;
+			y += slope;
+		}
+	}
+
 	//wait_for_esc();
 
 	//vg_exit();
