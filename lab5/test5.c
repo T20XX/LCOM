@@ -10,6 +10,7 @@
 #include "pixmap.h"
 #include "i8254.h"
 #include "i8042.h"
+#include "sprite.h"
 
 void *test_init(unsigned short mode, unsigned short delay) {
 
@@ -55,33 +56,34 @@ void *test_init(unsigned short mode, unsigned short delay) {
 
 }
 
-void wait_for_esc(){int irq_set = kbd_subscribe_int();
-int ipc_status;
-message msg;
-int r;
-unsigned int code;
+void wait_for_esc(){
+	int irq_set = kbd_subscribe_int();
+	int ipc_status;
+	message msg;
+	int r;
+	unsigned int code;
 
-while( code != BREAKCODE ) { /* You may want to use a different condition */
-	/* Get a request message. */
-	if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
-		printf("driver_receive failed with: %d", r);
-		continue;
-	}
-	if (is_ipc_notify(ipc_status)) { /* received notification */
-		switch (_ENDPOINT_P(msg.m_source)) {
-		case HARDWARE: /* hardware interrupt notification */
-			if (msg.NOTIFY_ARG & irq_set) {
-				code = kbd_output();
-			}
-			break;
-		default:
-			break; /* no other notifications expected: do nothing */
+	while( code != BREAKCODE ) { /* You may want to use a different condition */
+		/* Get a request message. */
+		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+			printf("driver_receive failed with: %d", r);
+			continue;
 		}
-	} else { /* received a standard message, not a notification */
-		/* no standard messages expected: do nothing */
+		if (is_ipc_notify(ipc_status)) { /* received notification */
+			switch (_ENDPOINT_P(msg.m_source)) {
+			case HARDWARE: /* hardware interrupt notification */
+				if (msg.NOTIFY_ARG & irq_set) {
+					code = kbd_output();
+				}
+				break;
+			default:
+				break; /* no other notifications expected: do nothing */
+			}
+		} else { /* received a standard message, not a notification */
+			/* no standard messages expected: do nothing */
+		}
 	}
-}
-kbd_unsubscribe_int();
+	kbd_unsubscribe_int();
 }
 
 int test_square(unsigned short x, unsigned short y, unsigned short size, unsigned long color) {
@@ -205,10 +207,84 @@ int test_xpm(unsigned short xi, unsigned short yi, char *xpm[]) {
 	return 0;
 }	
 
+
+void moveSprite(Sprite * s){
+	unsigned int i,j;
+
+	for(i = s->y; i< s->y + s->height;i++){
+		for(j = s->x; j < s->x + s->width;j++){
+			vg_pixel(j,i,0);
+		}
+	}
+	s->x += s->xspeed;
+	s->y += s->yspeed;
+
+	char *pixmap = s->map;
+	for(i = s->y; i< s->y + s->height;i++){
+		for(j = s->x; j < s->x + s->width;j++){
+			vg_pixel(j,i,*pixmap);
+			pixmap++;
+		}
+	}
+}
+
 int test_move(unsigned short xi, unsigned short yi, char *xpm[], 
 		unsigned short hor, short delta, unsigned short time) {
 
-	/* To be completed */
+	vg_init(0x105);
+
+	xpm = penguin;
+
+	Sprite sprite;
+	sprite.map = read_xpm(xpm, &sprite.width,&sprite.height);
+	sprite.x = xi;
+	sprite.y = yi;
+	if (hor){
+		sprite.xspeed = delta;
+		sprite.yspeed = 0;
+	}
+	else{
+		sprite.xspeed = 0;
+		sprite.yspeed = delta;
+	}
+
+	int timer_irq_set = timer_subscribe_int();
+	int kbd_irq_set = kbd_subscribe_int();
+	int ipc_status;
+	message msg;
+	int r;
+	unsigned int code,counter = 0;
+	timer_test_square(60);
+
+	while( code != BREAKCODE  ) { /* You may want to use a different condition */
+		/* Get a request message. */
+		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+			printf("driver_receive failed with: %d", r);
+			continue;
+		}
+		if (is_ipc_notify(ipc_status)) { /* received notification */
+			switch (_ENDPOINT_P(msg.m_source)) {
+			case HARDWARE: /* hardware interrupt notification */
+				if (msg.NOTIFY_ARG & kbd_irq_set) {
+					code = kbd_output();
+				}
+				if (msg.NOTIFY_ARG & timer_irq_set && counter < time* 60) {
+					counter++;
+					moveSprite(&sprite);
+
+				}
+				break;
+			default:
+				break; /* no other notifications expected: do nothing */
+			}
+		} else { /* received a standard message, not a notification */
+			/* no standard messages expected: do nothing */
+		}
+	}
+	timer_unsubscribe_int();
+	kbd_unsubscribe_int();
+
+	vg_exit();
 
 }					
 
