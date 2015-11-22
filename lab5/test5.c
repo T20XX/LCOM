@@ -128,7 +128,7 @@ int test_line(unsigned short xi, unsigned short yi,
 			vg_pixel(i, (int)tempx, color);
 		}
 	}*/
-	//metodo de bresenham
+	//Metodo de bresenham
 	int slope;
 	int dx, dy, incE, incNE, d, x, y;
 	int x1, x2, y1, y2;
@@ -136,17 +136,14 @@ int test_line(unsigned short xi, unsigned short yi,
 	x2 = xf;
 	y1 = yi;
 	y2 = yf;
-	if(xi < 0 || xi > 1024)
-		return;
-	if(xf < 0 || xf > 1024)
-		return;
-	if(yf < 0 || yf > 768)
-		return;
-	if(yi < 0 || yi > 768)
-		return;
-	if(color > 	256)
-		return;
-	// Onde inverte a linha xi > xf
+	if(xi < 0 || xi > 1024 ||
+			xf < 0 || xf > 1024 ||
+			yi < 0 || yi > 768 ||
+			yf < 0 || yf > 768 ||
+			color > 256)
+		return -1;
+
+	// Inverte a linha caso o xfinal seja superior ao xinicial
 	if (xi > xf){
 		x1 = xf;
 		x2 = xi;
@@ -180,9 +177,9 @@ int test_line(unsigned short xi, unsigned short yi,
 		}
 	}
 
-	//wait_for_esc();
+	wait_for_esc();
 
-	//vg_exit();
+	vg_exit();
 	return 0;
 }
 
