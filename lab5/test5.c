@@ -136,10 +136,10 @@ int test_line(unsigned short xi, unsigned short yi,
 	x2 = xf;
 	y1 = yi;
 	y2 = yf;
-	if(xi < 0 || xi > 1024 ||
-			xf < 0 || xf > 1024 ||
-			yi < 0 || yi > 768 ||
-			yf < 0 || yf > 768 ||
+	if(xi < 0 || xi > 1023 ||
+			xf < 0 || xf > 1023 ||
+			yi < 0 || yi > 767 ||
+			yf < 0 || yf > 767 ||
 			color > 256)
 		return -1;
 
