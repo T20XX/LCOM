@@ -2,7 +2,7 @@
 
 
 #include "test5.h"
-
+#include "pixmap.h"
 static int proc_args(int argc, char *argv[]);
 static unsigned long parse_ulong(char *str, int base);
 static long parse_long(char *str, int base);
@@ -38,7 +38,8 @@ static void print_usage(char *argv[]) {
 
 static int proc_args(int argc, char *argv[]) {
 
-	unsigned short mode, delay, x, y, size, xi, yi, xf, yf, hor, time, xpm;
+	char *xpm;
+	unsigned short mode, delay, x, y, size, xi, yi, xf, yf, hor, time, number;
 	short delta;
 	unsigned long color;
 
@@ -98,31 +99,31 @@ static int proc_args(int argc, char *argv[]) {
 			return 1;
 		if((yi = parse_ulong(argv[3], 10)) == ULONG_MAX )
 			return 1;
-		if((xpm = parse_ulong(argv[4], 10)) == ULONG_MAX )
-					return 1;
+		if((number = parse_ulong(argv[4], 10)) == ULONG_MAX )
+			return 1;
+		if(number == 1)
+			xpm = pic1;
+		if(number == 2)
+			xpm = pic2;
+		if(number == 3)
+			xpm = cross;
+		if(number == 4)
+			xpm = pic3;
+		if(number == 5)
+			xpm = penguin;
 		printf("test5:: test_xpm()\n"); /* Actually, it was already invoked */
 		test_xpm(xi,yi,xpm);
 		return 0;
 	}	else 	if (strncmp(argv[1], "move", strlen("move")) == 0) {
-		if( argc < 8 ) {
+		if( argc != 8 ) {
 			printf("test5: wrong no of arguments for test of test_move() \n");
 			return 1;
-		}
-		unsigned int n = (argc -2);
-		unsigned char temp;
-		unsigned char *xpm;
-		xpm = (unsigned char *) malloc(n);
-		int i;
-		for (i=0; i < n; i++) {
-			if((temp = parse_ulong(argv[2+i], 10)) == ULONG_MAX ) {
-				return 1;
-				break;
-			}
-			xpm[i] = temp;
 		}
 		if((xi = parse_ulong(argv[2], 10)) == ULONG_MAX )
 			return 1;
 		if((yi = parse_ulong(argv[3], 10)) == ULONG_MAX )
+			return 1;
+		if((number = parse_ulong(argv[4], 10)) == ULONG_MAX )
 			return 1;
 		if((hor = parse_ulong(argv[5], 10)) == ULONG_MAX )
 			return 1;
@@ -130,7 +131,16 @@ static int proc_args(int argc, char *argv[]) {
 			return 1;
 		if((time = parse_ulong(argv[7], 10)) == ULONG_MAX )
 			return 1;
-
+		if(number == 1)
+			xpm = pic1;
+		if(number == 2)
+			xpm = pic2;
+		if(number == 3)
+			xpm = cross;
+		if(number == 4)
+			xpm = pic3;
+		if(number == 5)
+			xpm = penguin;
 		printf("test5:: test_move()\n"); /* Actually, it was already invoked */
 		test_move(xi, yi, xpm, hor, delta, time);
 		return 0;
@@ -140,8 +150,8 @@ static int proc_args(int argc, char *argv[]) {
 			return 1;
 		}
 		printf("test5:: test_cotroller()\n"); /* Actually, it was already invoked */
-				test_controller();
-				return 0;
+		test_controller();
+		return 0;
 	}
 }
 

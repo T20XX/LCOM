@@ -189,7 +189,6 @@ int test_xpm(unsigned short xi, unsigned short yi, char *xpm[]) {
 
 	vg_init(0x105);
 
-	xpm = penguin;
 	unsigned int xpmw , xpmh; //pixmap dimensions
 
 	char * pixmap = read_xpm(xpm, &xpmw, &xpmh);
@@ -233,7 +232,6 @@ int test_move(unsigned short xi, unsigned short yi, char *xpm[],
 
 	vg_init(0x105);
 
-	xpm = penguin;
 
 	Sprite sprite;
 	sprite.map = read_xpm(xpm, &sprite.width,&sprite.height);
