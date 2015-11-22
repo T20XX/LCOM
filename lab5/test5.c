@@ -184,17 +184,25 @@ int test_line(unsigned short xi, unsigned short yi,
 }
 
 int test_xpm(unsigned short xi, unsigned short yi, char *xpm[]) {
-	/*xpm = pic1;
 
-	char * pixmap=read_xpm(xpm, 32, 13);
+	vg_init(0x105);
+
+	xpm = penguin;
+	unsigned int xpmw , xpmh; //pixmap dimensions
+
+	char * pixmap = read_xpm(xpm, &xpmw, &xpmh);
 
 	unsigned int i,j;
-	for(i = 0; i< 13;i++){
-		for(j = 0; j < 32;j++){
+	for(i = yi; i< yi + xpmh;i++){
+		for(j = xi; j < xi + xpmw;j++){
 			vg_pixel(j,i,*pixmap);
 			pixmap++;
 		}
-	}*/
+	}
+
+	wait_for_esc();
+	vg_exit();
+	return 0;
 }	
 
 int test_move(unsigned short xi, unsigned short yi, char *xpm[], 
