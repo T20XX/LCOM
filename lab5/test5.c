@@ -11,6 +11,7 @@
 #include "i8254.h"
 #include "i8042.h"
 #include "sprite.h"
+#include "lmlib.h"
 
 void *test_init(unsigned short mode, unsigned short delay) {
 
@@ -287,8 +288,21 @@ int test_move(unsigned short xi, unsigned short yi, char *xpm[],
 }					
 
 int test_controller() {
+	mmap_t map;
 
-	/* To be completed */
+	lm_init();
+	lm_alloc(sizeof(vbe_controller_info_t), &map);
 
+	vbe_get_controller_info((vbe_controller_info_t *)map.phys);
+
+	vbe_controller_info_t *controller_info = map.virtual;
+
+	printf("Capabilities: 0x%X\n", controller_info->Capabilities);
+
+	printf("VRAM Total Memory: %d kb\n", controller_info->TotalMemory);
+
+	lm_free(&map);
+
+	return 0;
 }					
 

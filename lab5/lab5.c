@@ -149,7 +149,7 @@ static int proc_args(int argc, char *argv[]) {
 			printf("test5: wrong no of arguments for test of test_controller() \n");
 			return 1;
 		}
-		printf("test5:: test_cotroller()\n"); /* Actually, it was already invoked */
+		printf("test5:: test_controller()\n"); /* Actually, it was already invoked */
 		test_controller();
 		return 0;
 	}
