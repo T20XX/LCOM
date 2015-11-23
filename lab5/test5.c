@@ -318,7 +318,7 @@ int test_controller() {
 
 	uint16_t * ptr =  (uint16_t  *)(base + PB2SEGMENT(controller_info->VideoModePtr));
 	do{
-		if ((*ptr) != 0)
+		if ((*ptr) >= 0x100 && (*ptr) <= 0x14C)
 		{
 			printf("0x%X, ",(*ptr));
 		}
