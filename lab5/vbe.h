@@ -11,6 +11,10 @@
 
 #define BIT(n) (0x01<<(n))
 
+#define PB2BASE(x) (((x) >> 4) & 0x0F000)
+#define PB2SEGMENT(x) (((x) >> 12))
+#define PB2OFF(x) ((x) & 0x0FFFF)
+
 #define SET_VBE_MODE		0x4F02;
 #define GET_VBE_INFO		0x4F01;
 #define GET_CONTROLLER_INFO	0x4F00;

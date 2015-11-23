@@ -258,7 +258,7 @@ int test_move(unsigned short xi, unsigned short yi, char *xpm[],
 				if (msg.NOTIFY_ARG & timer_irq_set && counter < time* 60) {
 					counter++;
 					if((sprite.x + sprite.width + sprite.xspeed) <= 1023 &&  (sprite.y + sprite.height + sprite.yspeed) <= 767)
-					moveSprite(&sprite);
+						moveSprite(&sprite);
 
 				}
 				break;
@@ -279,7 +279,8 @@ int test_move(unsigned short xi, unsigned short yi, char *xpm[],
 int test_controller() {
 	mmap_t map;
 
-	lm_init();
+	char * base;
+	base = lm_init();
 	lm_alloc(sizeof(vbe_controller_info_t), &map);
 
 	vbe_get_controller_info((vbe_controller_info_t *)map.phys);
@@ -309,11 +310,21 @@ int test_controller() {
 
 	printf("List of modes:\n");
 
-	char * ptr = (char *)controller_info->VideoModePtr;
+
+	/*printf("Video Modes PTR: 0x%X\n",controller_info->VideoModePtr);
+	printf("Video Modes SEGMENT: 0x%X\n",PB2SEGMENT(controller_info->VideoModePtr));
+	printf("Video Modes OFFSET: 0x%X\n",PB2OFF(controller_info->VideoModePtr));
+	printf("Base: 0x%X\n",base);*/
+
+	uint16_t * ptr =  (uint16_t  *)(base + PB2SEGMENT(controller_info->VideoModePtr));
 	do{
-		printf("0x%X\n",(*ptr));
+		if ((*ptr) != 0)
+		{
+			printf("0x%X, ",(*ptr));
+		}
 		ptr++;
 	}while((*ptr)!=0xFFFF);
+	printf ("\n");
 
 	printf("VRAM Total Memory: %d kb (%d MB)\n", controller_info->TotalMemory * 64,  (controller_info->TotalMemory * 64) / 1024);
 
