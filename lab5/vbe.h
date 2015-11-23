@@ -20,6 +20,11 @@
 
 #define GRAPHICS_MODE_1024_768_256 0x105;
 
+//BIT MASK TO CHECK CAPABILITIES
+#define DAC					BIT(0)
+#define VGA					BIT(1)
+#define RAMDAC				BIT(2)
+
 /** @name VBE Mode Info Block */
 /**@{
  *
@@ -86,10 +91,10 @@ typedef struct {
 } __attribute__((packed)) vbe_mode_info_t;
 
 typedef struct {
-	uint32_t VbeSignature;	/*'VESA' VBE signature */
+	uint8_t VbeSignature;	/*'VESA' VBE signature */
 	uint16_t VbeVersion;	/*'0200h' VBE Version */
 	phys_bytes OemStringPtr;	/* pointer to OEM String */
-	uint32_t Capabilities[4];	/* capabilities of graphics controller */
+	uint8_t Capabilities[4];	/* capabilities of graphics controller */
 	phys_bytes VideoModePtr;	/* pointer to VideoModeList */
 	uint16_t TotalMemory;	/* number of 64kb memory blocks */
 
