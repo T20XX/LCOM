@@ -119,21 +119,39 @@ int test_line(unsigned short xi, unsigned short yi,
 			color > 256)
 		return -1;
 
-	deltax = xf - xi;
-	deltay = yf - yi;
-	decl = deltay/(float)deltax;
-	b = yi-xi*decl;
+	unsigned short x1 = xi;
+	unsigned short x2 = xf;
+	unsigned short y1 = yi;
+	unsigned short y2 = yf;
+
+	deltax = x2 - x1;
+	deltay = y2 - y1;
+
+	if(deltax < 0){
+		x1 = xf;
+		x2 = xi;
+		deltax = x2 - x1;
+	}
+
+	if(deltay < 0){
+		y1 = yf;
+		y2 = yi;
+		deltay = y2 - y1;
+	}
+
+	decl = (float)(deltay/deltax);
+	b = y1-x1*decl;
 	vg_init(0x105);
 
 
 	if(deltax >= deltay){
-		for(i = xi; i <= xf; i++){
+		for(i = x1; i <= x2; i++){
 			tempy = i*decl + b;
 			vg_pixel(i, (int)tempy, color);
 		}
 	}
 	else{
-		for(i  = yi; i <= yf; i++){
+		for(i  = y1; i <= y2; i++){
 			tempx = (i-b);
 			tempx /= decl;
 			vg_pixel((int)tempx, i, color);
@@ -148,11 +166,17 @@ int test_line(unsigned short xi, unsigned short yi,
 
 int test_xpm(unsigned short xi, unsigned short yi, char *xpm[]) {
 
-	vg_init(0x105);
+
 
 	unsigned int xpmw , xpmh; //pixmap dimensions
 
 	char * pixmap = read_xpm(xpm, &xpmw, &xpmh);
+
+	if(xi < 0 || xi+xpmw > 1023 ||
+			yi < 0 || yi+xpmh > 767)
+		return -1;
+
+	vg_init(0x105);
 
 	unsigned int i,j;
 	for(i = yi; i< yi + xpmh;i++){
@@ -191,7 +215,6 @@ void moveSprite(Sprite * s){
 int test_move(unsigned short xi, unsigned short yi, char *xpm[], 
 		unsigned short hor, short delta, unsigned short time) {
 
-	vg_init(0x105);
 
 
 	Sprite sprite;
@@ -207,12 +230,17 @@ int test_move(unsigned short xi, unsigned short yi, char *xpm[],
 		sprite.yspeed = delta;
 	}
 
+	if(xi < 0 || sprite.x + sprite.width  > 1023 ||
+			yi < 0 || sprite.y + sprite.height > 767)
+		return -1;
+	vg_init(0x105);
 	int timer_irq_set = timer_subscribe_int();
 	int kbd_irq_set = kbd_subscribe_int();
 	int ipc_status;
 	message msg;
 	int r;
 	unsigned int code,counter = 0;
+
 	timer_test_square(60);
 
 	while( code != BREAKCODE  ) { /* You may want to use a different condition */
@@ -229,6 +257,7 @@ int test_move(unsigned short xi, unsigned short yi, char *xpm[],
 				}
 				if (msg.NOTIFY_ARG & timer_irq_set && counter < time* 60) {
 					counter++;
+					if((sprite.x + sprite.width + sprite.xspeed) <= 1023 &&  (sprite.y + sprite.height + sprite.yspeed) <= 767)
 					moveSprite(&sprite);
 
 				}
