@@ -106,39 +106,12 @@ int test_square(unsigned short x, unsigned short y, unsigned short size, unsigne
 int test_line(unsigned short xi, unsigned short yi, 
 		unsigned short xf, unsigned short yf, unsigned long color) {
 
-	/*short deltax, deltay;
-	short decl;
-	printf ("%g \n", decl);
-	short b = yi-xi*decl;
-	short tempy, tempx;
+	float deltax, deltay;
+	float decl;
+	float b;
+	float tempy, tempx;
 	unsigned int i;
-	deltax = xf - xi;
-	deltay = yf - yi;
-	vg_init(0x105);
 
-
-	if(deltax >= deltay){
-		for(i = xi; i < xf; i++){
-			tempy = i*decl + b;
-			printf ("%g \n", tempy);
-			vg_pixel(i, (int)tempy, color);
-		}
-	}
-	else{
-		for(i  = yi; i < yf; i++){
-			tempx = (i-b)/decl;
-			printf("%g \n", tempx);
-			vg_pixel(i, (int)tempx, color);
-		}
-	}*/
-	//Metodo de bresenham
-	int slope;
-	int dx, dy, incE, incNE, d, x, y;
-	int x1, x2, y1, y2;
-	x1 = xi;
-	x2 = xf;
-	y1 = yi;
-	y2 = yf;
 	if(xi < 0 || xi > 1023 ||
 			xf < 0 || xf > 1023 ||
 			yi < 0 || yi > 767 ||
@@ -146,37 +119,24 @@ int test_line(unsigned short xi, unsigned short yi,
 			color > 256)
 		return -1;
 
-	// Inverte a linha caso o xfinal seja superior ao xinicial
-	if (xi > xf){
-		x1 = xf;
-		x2 = xi;
-		y1 = yf;
-		y2 = yi;
-	}
-	dx = x2 - x1;
-	dy = y2 - y1;
+	deltax = xf - xi;
+	deltay = yf - yi;
+	decl = deltay/(float)deltax;
+	b = yi-xi*decl;
+	vg_init(0x105);
 
-	if (dy < 0){
-		slope = -1;
-		dy = -dy;
+
+	if(deltax >= deltay){
+		for(i = xi; i <= xf; i++){
+			tempy = i*decl + b;
+			vg_pixel(i, (int)tempy, color);
+		}
 	}
 	else{
-		slope = 1;
-	}
-	vg_init(0x105);
-	// Constante de Bresenham
-	incE = 2 * dy;
-	incNE = 2 * dy - 2 * dx;
-	d = 2 * dy - dx;
-	y = y1;
-	for (x = x1; x <= x2; x++){
-		vg_pixel(x, y, color);
-		if (d <= 0){
-			d += incE;
-		}
-		else{
-			d += incNE;
-			y += slope;
+		for(i  = yi; i <= yf; i++){
+			tempx = (i-b);
+			tempx /= decl;
+			vg_pixel((int)tempx, i, color);
 		}
 	}
 
@@ -297,9 +257,36 @@ int test_controller() {
 
 	vbe_controller_info_t *controller_info = map.virtual;
 
-	printf("Capabilities: 0x%X\n", controller_info->Capabilities);
+	if (*controller_info->Capabilities & DAC){
+		printf("DAC width is switchable to 8 bits per primary color.\n");
+	}
+	else{
+		printf("DAC is fixed width, with 6 bits per primary color.\n");
+	}
 
-	printf("VRAM Total Memory: %d kb\n", controller_info->TotalMemory);
+	if ((*controller_info->Capabilities & VGA) >> 1){
+		printf("Controller is not VGA compatible.\n");
+	}
+	else{
+		printf("Controller is VGA compatible.\n");
+	}
+
+	if ((*controller_info->Capabilities & RAMDAC) >> 2){
+		printf("When programming large blocks of information to the RAMDAC, use the blank bit in Function 09h.\n");
+	}
+	else{
+		printf("Normal RAMDAC operation.\n");
+	}
+
+	printf("List of modes:\n");
+
+	char * ptr = (char *)controller_info->VideoModePtr;
+	do{
+		printf("0x%X\n",(*ptr));
+		ptr++;
+	}while((*ptr)!=0xFFFF);
+
+	printf("VRAM Total Memory: %d kb (%d MB)\n", controller_info->TotalMemory * 64,  (controller_info->TotalMemory * 64) / 1024);
 
 	lm_free(&map);
 
