@@ -486,7 +486,7 @@ static char four[] = {
 		"oxxxxxxxxxxxxxxxxxxxxxxxxxxxxo",
 		"oxxxxxxxxxxxxxxxxxxxxxxxxxxxxo",
 		"oxxxxxxxxxxxxxxxxxxxxxxxxxxxxo",
-		"oxxxxxxxxxxxxxxxxxxxxxxxxxxxxo",
+		"oooooooooooooooooooooooooooooo",
 		"oxxxxxxxxxxxxxxxxxxxxxxxxxxxxo",
 		"oxxxxxxxxxxxxxxxxxxxxxxxxxxxxo",
 		"oxxxxxxxxxxxxxxxxxxxxxxxxxxxxo",
