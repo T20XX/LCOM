@@ -1,20 +1,16 @@
 #include "piece.h"
-#include "sprite.h"
-#incude ""
 
-
-typedef struct{
-	sprite sprite;
-} piece;
-
-piece *new_piece(int yspeed int xi, int yi){
+Piece *new_piece(unsigned int xi, unsigned int yi, int yspeed){
 	int random = rand() % 6;
+	Piece * piece = (Piece*) malloc(sizeof(Piece));
+	int tempwidth;
+	int tempheight;
 	if(random == 0){
-		sprite.map = read_xpm(stairs, &sprite.width,&sprite.height);
-		sprite.x = xi;
-		sprite.y = yi;
-		sprite.xspeed = 0;
-		sprite.yspeed = yspeed;
+		piece->sprite.map = read_xpm(stairs, &tempwidth, &tempheight); // WARNING
+		piece->sprite.x = xi;
+		piece->sprite.y = yi;
+		piece->sprite.xspeed = 0;
+		piece->sprite.yspeed = yspeed;
 	}
 	else if(random == 1){
 
@@ -34,5 +30,10 @@ piece *new_piece(int yspeed int xi, int yi){
 	else if(random == 6){
 
 	}
+
+	piece->sprite.width = tempwidth;
+	piece->sprite.height = tempheight;
+
+	return piece;
 };
 
