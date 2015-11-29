@@ -5,12 +5,12 @@ Piece *new_piece(unsigned int xi, unsigned int yi, int yspeed){
 	Piece * piece = (Piece*) malloc(sizeof(Piece));
 	int tempwidth;
 	int tempheight;
+	piece->sprite.x = xi;
+	piece->sprite.y = yi;
+	piece->sprite.xspeed = 0;
+	piece->sprite.yspeed = yspeed;
 	if(random == 0){
 		piece->sprite.map = read_xpm(stairs, &tempwidth, &tempheight); // WARNING
-		piece->sprite.x = xi;
-		piece->sprite.y = yi;
-		piece->sprite.xspeed = 0;
-		piece->sprite.yspeed = yspeed;
 	}
 	else if(random == 1){
 
