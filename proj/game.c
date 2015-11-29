@@ -15,12 +15,12 @@ Game * new_game(unsigned int mode){
 
 	if (mode == 0){				//SINGLEPLAYER MODE
 		game->actual_piece = new_piece(oneplayer_init.x, oneplayer_init.y, yspeed_init);
-		game->next_piece = new_piece(oneplayer_init.x, oneplayer_init.y, yspeed_init);
+		game->next_piece = new_piece(oneplayer_init.x+200, oneplayer_init.y, yspeed_init);
 	}
 	else if (mode == 1 || mode == 2){						//2 PLAYERS MODES
 
 		game->actual_piece = new_piece(twoplayer_init.x, twoplayer_init.y, yspeed_init);
-		game->next_piece = new_piece(twoplayer_init.x, twoplayer_init.y, yspeed_init);
+		game->next_piece = new_piece(twoplayer_init.x+200, twoplayer_init.y, yspeed_init);
 	}
 
 	return game;

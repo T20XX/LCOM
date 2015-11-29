@@ -6,6 +6,8 @@
 #include "timer.h"
 #include "kbd.h"
 #include "mouse.h"
+#include "video_gr.h"
+#include "piece.h"
 
 //typedef enum {MAIN_MENU, GAME_MODE1, GAME_MODE2,GAME_MODE3,GAME_MODE4,HIGH_SCORES,EXIT} state;
 //typedef enum {CLICK_BUTTON1, CLICK_BUTTON2, CLICK_BUTTON3, CLICK_BUTTON4, CLICK_BUTTON5, CLICK_BUTTON6} event;
@@ -16,7 +18,8 @@ int mainhandler(){
 	Game *game;
 	game = new_game(0);
 
-	vg_sprite(game->actual_piece);
+	vg_sprite(&game->actual_piece->sprite);
+	vg_sprite(&game->next_piece->sprite);
 
 	int  timer_irq_set = timer_subscribe_int();
 	int ipc_status;
@@ -46,7 +49,7 @@ int mainhandler(){
 
 	timer_unsubscribe_int();
 
-	vg_exit ();
+	vg_exit();
 
 	return 0;
 }

@@ -1,4 +1,8 @@
 #include <minix/drivers.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
 
 #include "handler.h"
 //#include "test5.h"
@@ -13,6 +17,8 @@ int main(int argc, char **argv) {
 	/* Initialize service */
 
 	sef_startup();
+
+	srand(time(NULL));
 
 
 //	if ( argc == 1 ) {

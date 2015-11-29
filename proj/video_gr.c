@@ -112,11 +112,13 @@ int vg_pixel(unsigned short x, unsigned short y, unsigned long color){
 }
 
 int vg_sprite(Sprite * sprite){
+	char * map = sprite->map;
+
 	unsigned int i,j;
 		for(i = sprite->y; i< sprite->y + sprite->height;i++){
 			for(j = sprite->x; j < sprite->x + sprite->width;j++){
-				vg_pixel(j,i,*(sprite->map));
-				sprite->map++;
+				vg_pixel(j,i,*map);
+				map++;
 			}
 		}
 		return 0;
