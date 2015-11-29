@@ -1,6 +1,6 @@
 #include <minix/drivers.h>
 
-#include "handler.c"
+#include "handler.h"
 //#include "test5.h"
 //#include "pixmap.h"
 //static int proc_args(int argc, char *argv[]);
