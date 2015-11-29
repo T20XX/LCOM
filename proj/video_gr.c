@@ -6,6 +6,7 @@
 
 #include "vbe.h"
 #include "lmlib.h"
+#include "sprite.h"
 
 /* Constants for VBE 0x105 mode */
 
@@ -108,4 +109,15 @@ int vg_pixel(unsigned short x, unsigned short y, unsigned long color){
 	char * ptr;
 	ptr= (video_mem + x + y*h_res);//*bits_per_pixel/8;
 	*ptr = color;
+}
+
+int vg_sprite(Sprite * sprite){
+	unsigned int i,j;
+		for(i = sprite->y; i< sprite->y + sprite->height;i++){
+			for(j = sprite->x; j < sprite->x + sprite->width;j++){
+				vg_pixel(j,i,*(sprite->map));
+				sprite->map++;
+			}
+		}
+		return 0;
 }
