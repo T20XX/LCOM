@@ -10,7 +10,7 @@ Piece *new_piece(unsigned int xi, unsigned int yi, int yspeed){
 	piece->sprite.xspeed = 0;
 	piece->sprite.yspeed = yspeed;
 	if(random == 0){
-		piece->sprite.map = read_xpm(stairs, &tempwidth, &tempheight); // WARNING
+		piece->sprite.map = read_xpm(stairs, &tempwidth, &tempheight);
 	}
 	else if(random == 1){
 
