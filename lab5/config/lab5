@@ -1,4 +1,4 @@
-service proj
+service lab5
 {
         system
                 UMAP
