@@ -31,4 +31,9 @@ int vg_exit(void);
 
  /** @} end of video_gr */
  
+int vg_pixel(unsigned short x, unsigned short y, unsigned long color);
+
+
+int vg_sprite(Sprite * sprite);
+
 #endif /* __VIDEO_GR_H */
