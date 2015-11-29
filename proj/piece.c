@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include "piece.h"
 
 Piece *new_piece(unsigned int xi, unsigned int yi, int yspeed){
