@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <minix/syslib.h>
 #include <minix/drivers.h>
+#include "i8042.h"
+#include "i8254.h"
 #include "handler.h"
 #include "game.h"
 #include "timer.h"
@@ -8,24 +10,68 @@
 #include "mouse.h"
 #include "video_gr.h"
 #include "piece.h"
+#include "sprite.h"
 
 //typedef enum {MAIN_MENU, GAME_MODE1, GAME_MODE2,GAME_MODE3,GAME_MODE4,HIGH_SCORES,EXIT} state;
-//typedef enum {CLICK_BUTTON1, CLICK_BUTTON2, CLICK_BUTTON3, CLICK_BUTTON4, CLICK_BUTTON5, CLICK_BUTTON6} event;
+
+//typedef enum {CLICK_BUTTON1, CLICK_BUTTON2, CLICK_BUTTON3, CLICK_BUTTON4, CLICK_BUTTON5, CLICK_BUTTON6} main_menu_event;
+
+//typedef enum {} game_event;
+
+typedef struct {
+	unsigned int x, y;
+} Position;
+
+Position mouse_position = { .x = 512, .y = 384};
+
+static long int packet[3];
+static unsigned int packet_counter = 0 ;
 
 int mainhandler(){
 	vg_init (0x105);				//Initialization of graphics mode in 1024x768 resolution
 
-	Game *game;
-	game = new_game(0);
+	menu_handler();
 
-	vg_sprite(&game->actual_piece->sprite);
-	vg_sprite(&game->next_piece->sprite);
+	vg_exit();
 
-	int  timer_irq_set = timer_subscribe_int();
+	return 0;
+}
+
+int mouse_packet_handler(){
+	packet[packet_counter] = mouse_output();
+	if (packet_counter == 0)
+		//Verifica se é o primeiro packet através da verificação do bit 3 (grande probabilidade)
+		if ((packet[packet_counter] & ISFIRSTPACKET) == 0)
+			return;
+
+	//incrementa as variáveis referentes ao contador de packets e ao geral
+	packet_counter ++;
+
+	if(packet_counter == 3)
+	{
+		//Reset da variável contador dos packets
+		packet_counter = 0;
+		//Impressão da informação dos packets
+		mouse_position.x += packet[1] - 256 *((packet[0] & XSIGN) >> 4);
+		mouse_position.y -= packet[2] - 256 * ((packet[0] & YSIGN) >> 5);
+	}
+	return 0;
+}
+
+int menu_handler(){
+	//só para testes
+	Sprite mouse_sprite;
+	mouse_sprite.map = read_xpm(cross, &mouse_sprite.width, &mouse_sprite.height);
+	mouse_sprite.x = mouse_position.x;
+	mouse_sprite.y = mouse_position.y;
+
+
+	int  mouse_irq_set = mouse_subscribe_int();
 	int ipc_status;
 	message msg;
 	int r;
-	timer_test_square(60); //força o timer a trabalhar a 60HZ
+	write_to_mouse();
+	enable_packets();
 	int counter = 0; //Inicialização do contador
 
 	while( counter < (5 * 60)) {
@@ -36,8 +82,8 @@ int mainhandler(){
 		if (is_ipc_notify(ipc_status)) { /* received notification */
 			switch (_ENDPOINT_P(msg.m_source)) {
 			case HARDWARE: /* hardware interrupt notification */
-				if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
-					counter++;
+				if (msg.NOTIFY_ARG & mouse_irq_set) { /* subscribed interrupt */
+					mouse_packet_handler();
 				}
 			default:
 				break; /* no other notifications expected: do nothing */
@@ -45,11 +91,18 @@ int mainhandler(){
 		} else { /* received a standard message, not a notification */
 			/* no standard messages expected: do nothing */
 		}
+		mouse_sprite.x = mouse_position.x;
+		mouse_sprite.y = mouse_position.y;
+		vg_sprite(&mouse_sprite);
 	}
 
 	timer_unsubscribe_int();
+}
 
-	vg_exit();
+int game_handler(){
+	Game *game;
+	game = new_game(0);
 
-	return 0;
+	vg_sprite(&game->actual_piece->sprite);
+	vg_sprite(&game->next_piece->sprite);
 }

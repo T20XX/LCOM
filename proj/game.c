@@ -26,5 +26,9 @@ Game * new_game(unsigned int mode){
 	return game;
 }
 
+void update_game(){
+
+}
+
 
 
