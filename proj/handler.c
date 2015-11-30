@@ -61,6 +61,7 @@ int mouse_packet_handler(){
 	return 0;
 }
 
+
 int menu_handler(){
 	//só para testes
 	Sprite mouse_sprite;
@@ -102,7 +103,8 @@ int menu_handler(){
 	timer_unsubscribe_int();
 }
 
-void kbd_int_handler() {
+
+int kbd_int_handler() {
 	code = kbd_output();
 	if (code == 0xE0)
 	{
@@ -120,7 +122,8 @@ void kbd_int_handler() {
 		printf("Breakcode : 0x%02x \n",code);*/
 }
 
-kdb_game_event kdb_event_handler(){
+
+kbd_game_event kbd_event_handler(){
 	if(code == UPKEY_MC)
 	{
 		return UPKEY_DOWN;
