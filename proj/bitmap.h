@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __BITMAP_H
+#define __BITMAP_H
 
 /** @defgroup Bitmap Bitmap
  * @{
@@ -62,3 +63,5 @@ void drawBitmap(Bitmap* bitmap, int x, int y, Alignment alignment);
 void deleteBitmap(Bitmap* bmp);
 
 /**@}*/
+
+#endif /* __BITMAP_H */

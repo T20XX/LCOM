@@ -1,7 +1,13 @@
 #ifndef __VIDEO_GR_H
 #define __VIDEO_GR_H
 
+
+#include "sprite.h"
+
 char * getPhysicalAdress();
+unsigned getH_res();
+unsigned getV_res();
+char * getBuffer();
 
 /** @defgroup video_gr video_gr
  * @{
@@ -34,6 +40,6 @@ int vg_exit(void);
 int vg_pixel(unsigned short x, unsigned short y, unsigned long color);
 
 
-int vg_sprite(Sprite * sprite);
+int vg_sprite(Sprite* sprite);
 
 #endif /* __VIDEO_GR_H */
