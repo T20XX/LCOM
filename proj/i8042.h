@@ -20,6 +20,16 @@
 #define BREAKCODE 			0x81
 #define CODETYPE 			BIT(7)
 #define CHANGELEDS 			0xED
+#define UPKEY_MC			0xE048
+#define UPKEY_BC			0XE0C8
+#define DOWNKEY_MC			0XE050
+#define DOWNKEY_BC			0XE0D0
+#define LEFTKEY_MC			0XE04B
+#define LEFTKEY_BC			0XE0CB
+#define RIGHTKEY_MC			0XE04D
+#define RIGHTKEY_BC			0XE0CD
+#define SPACEBAR_MC			0X39
+#define SPACEBAR_BC			0XB9
 
 //MOUSE VARIABLES
 #define MOUSE_IRQ 			12

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <minix/syslib.h>
 #include <minix/drivers.h>
+#include <stdbool.h>
 #include "i8042.h"
 #include "i8254.h"
 #include "handler.h"
@@ -16,7 +17,6 @@
 
 //typedef enum {CLICK_BUTTON1, CLICK_BUTTON2, CLICK_BUTTON3, CLICK_BUTTON4, CLICK_BUTTON5, CLICK_BUTTON6} main_menu_event;
 
-//typedef enum {} game_event;
 
 typedef struct {
 	unsigned int x, y;
@@ -26,6 +26,9 @@ Position mouse_position = { .x = 512, .y = 384};
 
 static long int packet[3];
 static unsigned int packet_counter = 0 ;
+
+unsigned long code;
+bool is_two_byte = false;
 
 int mainhandler(){
 	vg_init (0x105);				//Initialization of graphics mode in 1024x768 resolution
@@ -97,6 +100,48 @@ int menu_handler(){
 	}
 
 	timer_unsubscribe_int();
+}
+
+void kbd_int_handler() {
+	code = kbd_output();
+	if (code == 0xE0)
+	{
+		is_two_byte= true;
+		return 0;
+	}
+	else if (is_two_byte)
+	{
+		code |= (0xE0 << 8);
+		is_two_byte = false;
+	}
+	/*if ((code & CODETYPE) == 0x00)
+		printf("Makecode : 0x%02x \n",code);
+	else
+		printf("Breakcode : 0x%02x \n",code);*/
+}
+
+kdb_game_event kdb_event_handler(){
+	if(code == UPKEY_MC)
+	{
+		return UPKEY_DOWN;
+	}
+	else if(code == DOWNKEY_MC)
+	{
+		return DOWNKEY_DOWN;
+	}
+	else if(code == RIGHTKEY_MC)
+	{
+		return RIGHTKEY_DOWN;
+	}
+	else if(code == LEFTKEY_MC)
+	{
+		return LEFTKEY_DOWN;
+	}
+	else if(code == SPACEBAR_MC)
+	{
+		return SPACEBAR_DOWN;
+	}
+	else return NOKEY;
 }
 
 int game_handler(){
