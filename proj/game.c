@@ -32,7 +32,7 @@ Game * new_game(unsigned int mode){
 }
 
 void update_gamestate(Game * game){
-	last_state = state;
+	game->last_state = game->state;
 	 if (game->kbd_event == NOKEY){
 		 game->state = FALL;
 	 }else if (game->kbd_event == LEFTKEY_DOWN){

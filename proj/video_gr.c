@@ -116,21 +116,23 @@ int vg_exit() {
 
 int vg_pixel(unsigned short x, unsigned short y, unsigned long color){
 	char * ptr;
-	ptr= (video_mem + x + y*h_res);//*bits_per_pixel/8;
+	ptr= (buffer + x + y*h_res);//*bits_per_pixel/8;
 	*ptr = color;
 }
 
-int vg_sprite(Sprite * sprite){
+int vg_sprite(Sprite * sprite, char transparent_color){
 	char * map = sprite->map;
 
 	unsigned int i,j;
-		for(i = sprite->y; i< sprite->y + sprite->height;i++){
-			for(j = sprite->x; j < sprite->x + sprite->width;j++){
+	for(i = sprite->y; i< sprite->y + sprite->height;i++){
+		for(j = sprite->x; j < sprite->x + sprite->width;j++){
+			if ((*map) != transparent_color){
 				vg_pixel(j,i,*map);
-				map++;
 			}
+			map++;
 		}
-		return 0;
+	}
+	return 0;
 }
 
 void vg_buffer()

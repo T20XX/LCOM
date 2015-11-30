@@ -40,7 +40,7 @@ int vg_exit(void);
 int vg_pixel(unsigned short x, unsigned short y, unsigned long color);
 
 
-int vg_sprite(Sprite* sprite);
+int vg_sprite(Sprite* sprite, char transparent_color);
 
 void vg_buffer();
 

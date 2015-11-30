@@ -12,6 +12,7 @@
 #include "video_gr.h"
 #include "piece.h"
 #include "sprite.h"
+#include "bitmap.h"
 
 //typedef enum {MAIN_MENU, GAME_MODE1, GAME_MODE2,GAME_MODE3,GAME_MODE4,HIGH_SCORES,EXIT} state;
 
@@ -69,38 +70,51 @@ int menu_handler(){
 	mouse_sprite.x = mouse_position.x;
 	mouse_sprite.y = mouse_position.y;
 
+	Bitmap *img = (Bitmap*) malloc(sizeof(Bitmap));;
 
-	int  mouse_irq_set = mouse_subscribe_int();
-	int ipc_status;
-	message msg;
-	int r;
-	write_to_mouse();
-	enable_packets();
-	int counter = 0; //Inicialização do contador
+	img = loadBitmap("/home/lcom/proj/img/test.bmp");
 
-	while( counter < (5 * 60)) {
-		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
-			printf("driver_receive failed with: %d", r);
-			continue;
-		}
-		if (is_ipc_notify(ipc_status)) { /* received notification */
-			switch (_ENDPOINT_P(msg.m_source)) {
-			case HARDWARE: /* hardware interrupt notification */
-				if (msg.NOTIFY_ARG & mouse_irq_set) { /* subscribed interrupt */
-					mouse_packet_handler();
-				}
-			default:
-				break; /* no other notifications expected: do nothing */
+	if (img != NULL){
+
+		int mouse_irq_set = mouse_subscribe_int();
+		int timer_irq_set = timer_subscribe_int();
+		int ipc_status;
+		message msg;
+		int r;
+		write_to_mouse();
+		enable_packets();
+		int counter = 0; //Inicialização do contador
+
+		while( counter < (10 * 60)) {
+			if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+				printf("driver_receive failed with: %d", r);
+				continue;
 			}
-		} else { /* received a standard message, not a notification */
-			/* no standard messages expected: do nothing */
+			if (is_ipc_notify(ipc_status)) { /* received notification */
+				switch (_ENDPOINT_P(msg.m_source)) {
+				case HARDWARE: /* hardware interrupt notification */
+					if (msg.NOTIFY_ARG & mouse_irq_set) { /* subscribed interrupt */
+						mouse_packet_handler();
+					}
+					if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
+						counter++;
+					}
+				default:
+					break; /* no other notifications expected: do nothing */
+				}
+			} else { /* received a standard message, not a notification */
+				/* no standard messages expected: do nothing */
+			}
+			drawBitmap(img, 10, 10 , ALIGN_LEFT);
+			mouse_sprite.x = mouse_position.x;
+			mouse_sprite.y = mouse_position.y;
+			vg_sprite(&mouse_sprite,0);
+			vg_buffer();
 		}
-		mouse_sprite.x = mouse_position.x;
-		mouse_sprite.y = mouse_position.y;
-		vg_sprite(&mouse_sprite);
-	}
 
-	timer_unsubscribe_int();
+		mouse_unsubscribe_int();
+		timer_unsubscribe_int();
+	}
 }
 
 
@@ -151,6 +165,6 @@ int game_handler(){
 	Game *game;
 	game = new_game(0);
 
-	vg_sprite(&game->actual_piece->sprite);
-	vg_sprite(&game->next_piece->sprite);
+	vg_sprite(&game->actual_piece->sprite,0);
+	vg_sprite(&game->next_piece->sprite,0);
 }
