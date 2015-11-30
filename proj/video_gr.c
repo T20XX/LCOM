@@ -26,12 +26,16 @@
 
 static char *video_mem;		/* Process address to which VRAM is mapped */
 static char *physical_adress;
+static char *buffer;
 
 static unsigned h_res;		/* Horizontal screen resolution in pixels */
 static unsigned v_res;		/* Vertical screen resolution in pixels */
 static unsigned bits_per_pixel; /* Number of VRAM bits per pixel */
 
 char * getPhysicalAdress(){return physical_adress;};
+unsigned getH_res(){return h_res;};
+unsigned getV_res(){return v_res;};
+char * getBuffer(){return buffer;};
 
 void change_variables(vbe_mode_info_t *info){
 	int r;
@@ -58,6 +62,8 @@ void change_variables(vbe_mode_info_t *info){
 
 	if(video_mem == MAP_FAILED)
 		panic("video_txt couldn't map video memory");
+	else
+		buffer = malloc(h_res * v_res * bits_per_pixel / 8);
 }
 
 void *vg_init(unsigned short mode){
@@ -70,6 +76,7 @@ void *vg_init(unsigned short mode){
 		//return 1;
 	}
 	else
+
 	{
 
 		mmap_t map;

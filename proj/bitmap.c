@@ -1,9 +1,7 @@
 #include "bitmap.h"
 
 #include "stdio.h"
-#include "Graphics.h"
-#include "Utilities.h"
-
+#include "video_gr.h"
 Bitmap* loadBitmap(const char* filename) {
     // allocating necessary size
     Bitmap* bmp = (Bitmap*) malloc(sizeof(Bitmap));
@@ -88,8 +86,8 @@ void drawBitmap(Bitmap* bmp, int x, int y, Alignment alignment) {
     else if (alignment == ALIGN_RIGHT)
         x -= width;
 
-    if (x + width < 0 || x > getHorResolution() || y + height < 0
-            || y > getVerResolution())
+    if (x + width < 0 || x > getH_res() || y + height < 0
+            || y > getV_res())
         return;
 
     int xCorrection = 0;
@@ -98,10 +96,10 @@ void drawBitmap(Bitmap* bmp, int x, int y, Alignment alignment) {
         drawWidth -= xCorrection;
         x = 0;
 
-        if (drawWidth > getHorResolution())
-            drawWidth = getHorResolution();
-    } else if (x + drawWidth >= getHorResolution()) {
-        drawWidth = getHorResolution() - x;
+        if (drawWidth > getH_res())
+            drawWidth = getH_res();
+    } else if (x + drawWidth >= getH_res()) {
+        drawWidth = getH_res() - x;
     }
 
     char* bufferStartPos;
@@ -111,11 +109,11 @@ void drawBitmap(Bitmap* bmp, int x, int y, Alignment alignment) {
     for (i = 0; i < height; i++) {
         int pos = y + height - 1 - i;
 
-        if (pos < 0 || pos >= getVerResolution())
+        if (pos < 0 || pos >= getV_res())
             continue;
 
-        bufferStartPos = getGraphicsBuffer();
-        bufferStartPos += x * 2 + pos * getHorResolution() * 2;
+        bufferStartPos = getBuffer();
+      bufferStartPos += x * 2 + pos * getH_res() * 2;
 
         imgStartPos = bmp->bitmapData + xCorrection * 2 + i * width * 2;
 
