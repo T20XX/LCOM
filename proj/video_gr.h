@@ -42,4 +42,6 @@ int vg_pixel(unsigned short x, unsigned short y, unsigned long color);
 
 int vg_sprite(Sprite* sprite);
 
+void vg_buffer();
+
 #endif /* __VIDEO_GR_H */

@@ -7,6 +7,7 @@
 #include "vbe.h"
 #include "lmlib.h"
 #include "sprite.h"
+#include <stdio.h>
 
 /* Constants for VBE 0x105 mode */
 
@@ -98,6 +99,7 @@ void *vg_init(unsigned short mode){
 }
 
 int vg_exit() {
+	free(buffer);
 	struct reg86u reg86;
 
 	reg86.u.b.intno = 0x10; /* BIOS video services */
@@ -129,4 +131,9 @@ int vg_sprite(Sprite * sprite){
 			}
 		}
 		return 0;
+}
+
+void vg_buffer()
+{
+	memcpy(video_mem, buffer, h_res * v_res * bits_per_pixel / 8);
 }
