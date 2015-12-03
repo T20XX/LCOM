@@ -21,13 +21,13 @@
 #define VRAM_PHYS_ADDR	0xF0000000
 #define H_RES             1024
 #define V_RES		  768
-#define BITS_PER_PIXEL	  8
+#define BITS_PER_PIXEL	  16
 
 /* Private global variables */
 
-static char *video_mem;		/* Process address to which VRAM is mapped */
+static uint16_t *video_mem;		/* Process address to which VRAM is mapped */
 static char *physical_adress;
-static char *buffer;
+static uint16_t *buffer = NULL;
 
 static unsigned h_res;		/* Horizontal screen resolution in pixels */
 static unsigned v_res;		/* Vertical screen resolution in pixels */
@@ -36,7 +36,7 @@ static unsigned bits_per_pixel; /* Number of VRAM bits per pixel */
 char * getPhysicalAdress(){return physical_adress;};
 unsigned getH_res(){return h_res;};
 unsigned getV_res(){return v_res;};
-char * getBuffer(){return buffer;};
+uint16_t * getBuffer(){return buffer;};
 
 void change_variables(vbe_mode_info_t *info){
 	int r;
@@ -52,14 +52,14 @@ void change_variables(vbe_mode_info_t *info){
 	/* Allow memory mapping */
 
 	mr.mr_base = info->PhysBasePtr;
-	mr.mr_limit = mr.mr_base + h_res*v_res* bits_per_pixel/8;
+	mr.mr_limit = mr.mr_base + h_res*v_res* bits_per_pixel;
 
 	if( OK != (r = sys_privctl(SELF, SYS_PRIV_ADD_MEM, &mr)))
 		panic("video_txt: sys_privctl (ADD_MEM) failed: %d\n", r);
 
 	/* Map memory */
 
-	video_mem = vm_map_phys(SELF, (void *)mr.mr_base, h_res*v_res* bits_per_pixel/8);
+	video_mem = vm_map_phys(SELF, (void *)mr.mr_base, h_res*v_res* bits_per_pixel);
 
 	if(video_mem == MAP_FAILED)
 		panic("video_txt couldn't map video memory");
@@ -114,14 +114,15 @@ int vg_exit() {
 		return 0;
 }
 
-int vg_pixel(unsigned short x, unsigned short y, unsigned long color){
-	char * ptr;
+int vg_pixel(unsigned short x, unsigned short y, uint16_t color){
+	/*uint16_t * ptr;
 	ptr= (buffer + x + y*h_res);//*bits_per_pixel/8;
-	*ptr = color;
+	*ptr = (uint16_t)color;*/
+	*(buffer + (x + y*h_res)) = 0x47E0;
 }
 
-int vg_sprite(Sprite * sprite, char transparent_color){
-	char * map = sprite->map;
+int vg_sprite(Sprite * sprite, uint16_t transparent_color){
+	uint16_t * map = sprite->map;
 
 	unsigned int i,j;
 	for(i = sprite->y; i< sprite->y + sprite->height;i++){
@@ -137,5 +138,5 @@ int vg_sprite(Sprite * sprite, char transparent_color){
 
 void vg_buffer()
 {
-	memcpy(video_mem, buffer, h_res * v_res * bits_per_pixel / 8);
+	memcpy(video_mem, buffer, h_res * v_res * bits_per_pixel/ 8);
 }

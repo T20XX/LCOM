@@ -32,9 +32,15 @@ unsigned long code;
 bool is_two_byte = false;
 
 int mainhandler(){
-	vg_init (0x105);				//Initialization of graphics mode in 1024x768 resolution
+	vg_init (0x117);				//Initialization of graphics mode in 1024x768 resolution
 
 	menu_handler();
+	/*Bitmap *img;
+
+	img = loadBitmap("/home/proj/img/asd.bmp");
+	drawBitmap(img, 0, 0 , ALIGN_LEFT);
+
+	vg_buffer();*/
 
 	vg_exit();
 
@@ -98,6 +104,13 @@ int menu_handler(){
 					}
 					if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
 						counter++;
+
+						drawBitmap(img, 10, 10 , ALIGN_LEFT);
+						mouse_sprite.x = mouse_position.x;
+						mouse_sprite.y = mouse_position.y;
+						vg_sprite(&mouse_sprite,0);
+						//vg_pixel(mouse_position.x,mouse_position.y,20);
+						vg_buffer();
 					}
 				default:
 					break; /* no other notifications expected: do nothing */
@@ -105,15 +118,15 @@ int menu_handler(){
 			} else { /* received a standard message, not a notification */
 				/* no standard messages expected: do nothing */
 			}
-			drawBitmap(img, 10, 10 , ALIGN_LEFT);
-			mouse_sprite.x = mouse_position.x;
-			mouse_sprite.y = mouse_position.y;
-			vg_sprite(&mouse_sprite,0);
-			vg_buffer();
 		}
 
 		mouse_unsubscribe_int();
 		timer_unsubscribe_int();
+		vg_buffer();
+
+		drawBitmap(img, 0, 0 , ALIGN_LEFT);
+
+		vg_buffer();
 	}
 }
 

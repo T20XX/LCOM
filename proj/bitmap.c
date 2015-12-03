@@ -103,23 +103,23 @@ void drawBitmap(Bitmap* bmp, int x, int y, Alignment alignment) {
 		drawWidth = getH_res() - x;
 	}
 
-	//char* bufferStartPos;
-	//char* imgStartPos;
+	char* bufferStartPos;
+	char* imgStartPos;
 
-	unsigned char * map = bmp->bitmapData;
+	/*unsigned char * map = bmp->bitmapData;
 	//char * ptr;
 
 	unsigned int i,j;
-	for(i = y; i< y + height;i++){
+	for(i = y + height; i >= y;i++){
 		for(j = x; j < x + width;j++){
 			//if ((*map) != transparent_color){
 				vg_pixel(j,i,*map);
 			//}
-			map++;
+			map += 2;
 		}
-	}
+	}*/
 
-	/*int i;
+	int i;
     for (i = 0; i < height; i++) {
         int pos = y + height - 1 - i;
 
@@ -132,7 +132,7 @@ void drawBitmap(Bitmap* bmp, int x, int y, Alignment alignment) {
         imgStartPos = bmp->bitmapData + xCorrection * 2 + i * width * 2;
 
         memcpy(bufferStartPos, imgStartPos, drawWidth * 2);
-    }*/
+    }
 }
 
 void deleteBitmap(Bitmap* bmp) {

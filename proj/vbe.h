@@ -18,7 +18,7 @@
 
 #define LINEAR_FRAMEBUFFER_BIT BIT(14);
 
-#define GRAPHICS_MODE_1024_768_256 0x105;
+#define GRAPHICS_MODE_1024_768_256 0x117; //0x105
 
 /** @name VBE Mode Info Block */
 /**@{
