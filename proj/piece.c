@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "piece.h"
+#include "video_gr.h"
 
 Piece *new_piece(unsigned int xi, unsigned int yi, int yspeed){
 	int random = rand() % 6;
@@ -40,3 +41,6 @@ Piece *new_piece(unsigned int xi, unsigned int yi, int yspeed){
 	return piece;
 };
 
+void draw_piece(Piece * piece){
+	vg_sprite(&piece->sprite, 0);
+}

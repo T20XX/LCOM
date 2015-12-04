@@ -6,6 +6,8 @@
 #ifndef _SPRITE_H_
 #define _SPRITE_H_
 
+#include <stdint.h>
+
 /** @defgroup sprite Sprite
  * @{
  *
@@ -21,7 +23,7 @@ typedef struct {
   int x,y;             /**< current sprite position */
   int width, height;   /**< sprite dimensions */
   int xspeed, yspeed;  /**< current speeds in the x and y direction */
-  char *map;           /**< the sprite pixmap (use read_xpm()) */
+  uint16_t *map;           /**< the sprite pixmap (use read_xpm()) */
 } Sprite;
 
 /** Creates with random speeds (not zero) and position

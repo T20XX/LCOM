@@ -25,4 +25,6 @@ void update_gamestate(Game * game);
 
 void update_game(Game * game);
 
+void draw_game(Game * game);
+
 #endif /* __GAME_H */
