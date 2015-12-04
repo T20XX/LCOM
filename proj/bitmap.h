@@ -1,3 +1,8 @@
+//First two functions and typedef of bmp structure
+//Author: BeholderOf(Forum name)
+//URL: http://www.vbforums.com/showthread.php?261522-C-C-Loading-Bitmap-Files-(Manually)
+//Date: (Last post edit) Sep 18th, 2003
+
 #ifndef __BITMAP_H
 #define __BITMAP_H
 

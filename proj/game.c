@@ -1,4 +1,5 @@
 #include "game.h"
+#include "video_gr.h"
 #include "piece.h"
 #include "logic.h"
 
@@ -34,7 +35,7 @@ Game * new_game(unsigned int mode){
 void update_gamestate(Game * game){
 	game->last_state = game->state;
 	 if (game->kbd_event == NOKEY){
-		 game->state = FALL;
+		 //game->state = FALL;
 	 }else if (game->kbd_event == LEFTKEY_DOWN){
 		 game->state = MOVE_LEFT;
 	 }else if (game->kbd_event == UPKEY_DOWN){
@@ -50,25 +51,35 @@ void update_gamestate(Game * game){
 
 void update_game(Game * game){
 	if (game->state == FALL){
-
+		game->actual_piece->sprite.yspeed = FACE_LENGTH;
 
 	} else if (game->state == MOVE_LEFT){
-
+		game->actual_piece->sprite.xspeed -= FACE_LENGTH;
 
 	} else if (game->state == MOVE_RIGHT){
-
+		game->actual_piece->sprite.xspeed += FACE_LENGTH;
 
 	} else if (game->state == ROTATE){
 
 
 	} else if (game->state == FALL_QUICKER){
-
+		game->actual_piece->sprite.yspeed = FACE_LENGTH;
 
 	} else if (game->state == SWAP_PIECES){
 
 
 	} else if (game->state == REACH_END){
 
-	}
+	} else
+
+	game->actual_piece->sprite.x += game->actual_piece->sprite.xspeed;
+	game->actual_piece->sprite.y += game->actual_piece->sprite.yspeed;
+
+	game->actual_piece->sprite.xspeed = 0;
+	game->actual_piece->sprite.yspeed = 0;
 }
 
+void draw_game(Game * game){
+	vg_sprite(&game->actual_piece->sprite,0);
+	//vg_sprite(&game->next_piece->sprite,0);
+}

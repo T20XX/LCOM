@@ -34,13 +34,9 @@ bool is_two_byte = false;
 int mainhandler(){
 	vg_init (0x117);				//Initialization of graphics mode in 1024x768 resolution
 
-	menu_handler();
-	/*Bitmap *img;
+	//menu_handler();
 
-	img = loadBitmap("/home/proj/img/asd.bmp");
-	drawBitmap(img, 0, 0 , ALIGN_LEFT);
-
-	vg_buffer();*/
+	game_handler();
 
 	vg_exit();
 
@@ -105,7 +101,7 @@ int menu_handler(){
 					if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
 						counter++;
 
-						drawBitmap(img, 10, 10 , ALIGN_LEFT);
+						drawBitmap(img, 0, 0 , ALIGN_LEFT);
 						mouse_sprite.x = mouse_position.x;
 						mouse_sprite.y = mouse_position.y;
 						vg_sprite(&mouse_sprite,0);
@@ -122,12 +118,9 @@ int menu_handler(){
 
 		mouse_unsubscribe_int();
 		timer_unsubscribe_int();
-		vg_buffer();
-
-		drawBitmap(img, 0, 0 , ALIGN_LEFT);
-
-		vg_buffer();
 	}
+
+	return 0;
 }
 
 
@@ -177,7 +170,59 @@ kbd_game_event kbd_event_handler(){
 int game_handler(){
 	Game *game;
 	game = new_game(0);
+	//
+	//
+	//vg_sprite(&game->actual_piece->sprite,0);
+	//vg_sprite(&game->next_piece->sprite,0);
 
-	vg_sprite(&game->actual_piece->sprite,0);
-	vg_sprite(&game->next_piece->sprite,0);
+
+	draw_game(game);
+
+	vg_buffer();
+
+	//int mouse_irq_set = mouse_subscribe_int();
+	int timer_irq_set = timer_subscribe_int();
+	int kbd_irq_set = kbd_subscribe_int();
+	int ipc_status;
+	message msg;
+	int r;
+	//write_to_mouse();
+	//enable_packets();
+	int counter = 0; //Inicialização do contador
+
+	while( counter <= 600) {
+		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+			printf("driver_receive failed with: %d", r);
+			continue;
+		}
+		if (is_ipc_notify(ipc_status)) { /* received notification */
+			switch (_ENDPOINT_P(msg.m_source)) {
+			case HARDWARE: /* hardware interrupt notification */
+				//if (msg.NOTIFY_ARG & mouse_irq_set) { /* subscribed interrupt */
+				//	mouse_packet_handler();
+				//}
+				//if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
+					//						kbd_int_handler();
+					//						//game->last_kbd_event = game->kbd_event;
+					//						game->kbd_event = kbd_event_handler();
+				//}
+				if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
+					counter++;
+					//					update_gamestate(game);
+					//					update_game(game);
+					draw_game(game);
+					vg_buffer();
+				}
+			default:
+				break; /* no other notifications expected: do nothing */
+			}
+		} else { /* received a standard message, not a notification */
+			/* no standard messages expected: do nothing */
+		}
+	}
+
+	//mouse_unsubscribe_int();
+	timer_unsubscribe_int();
+	kbd_unsubscribe_int();
+	return 0;
 }

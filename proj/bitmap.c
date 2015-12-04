@@ -1,3 +1,8 @@
+//First two functions
+//Author: BeholderOf(Forum name)
+//URL: http://www.vbforums.com/showthread.php?261522-C-C-Loading-Bitmap-Files-(Manually)
+//Date: (Last post edit) Sep 18th, 2003
+
 #include <stdio.h>
 #include "bitmap.h"
 
