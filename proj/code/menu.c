@@ -2,7 +2,7 @@
 
 
 
-Menu* new_main_menu(){
+Menu * new_main_menu(){
 	Menu * main_menu = (Menu*) malloc(sizeof(Menu));
 	main_menu->background = loadBitmap("/home/lcom/proj/code/img/test.bmp");
 
@@ -15,9 +15,9 @@ Menu* new_main_menu(){
 		main_menu->buttons[i]->y = (382 - (main_menu->buttons[i].height)/2) + i * 75;
 	}
 	return main_menu;
-}
+}*/
 
-/*Menu * new_score_menu(){
+Menu * new_score_menu(){
 	Menu * score_menu = (Menu*) malloc(sizeof(Menu));
 	score_menu->background = loadBitmap("/home/lcom/proj/code/img/test.bmp");
 
@@ -30,7 +30,7 @@ Menu* new_main_menu(){
 	//tabelas de scores.
 
 	return score_menu;
-}*/
+}
 
 void draw_main_menu(Menu * menu){
 	menu = new_main_menu();
@@ -101,3 +101,4 @@ void update_main_menu_state(Menu * menu, unsigned int mouse_x, unsigned int mous
 	if(menu->event == BUTTON6_CLICK)
 		; //volta para o main_menu; (BACK)
 }*/
+
