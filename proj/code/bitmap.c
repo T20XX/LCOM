@@ -4,9 +4,10 @@
 //Date: (Last post edit) Sep 18th, 2003
 
 #include <stdio.h>
+#include <stdint.h>
 #include "bitmap.h"
-
 #include "video_gr.h"
+
 Bitmap* loadBitmap(const char* filename) {
 	// allocating necessary size
 	Bitmap* bmp = (Bitmap*) malloc(sizeof(Bitmap));
@@ -111,33 +112,65 @@ void drawBitmap(Bitmap* bmp, int x, int y, Alignment alignment) {
 	char* bufferStartPos;
 	char* imgStartPos;
 
-	/*unsigned char * map = bmp->bitmapData;
-	//char * ptr;
+	int i;
+	for (i = 0; i < height; i++) {
+		int pos = y + height - 1 - i;
 
-	unsigned int i,j;
-	for(i = y + height; i >= y;i++){
-		for(j = x; j < x + width;j++){
-			if ((*map) != 0){
-				vg_pixel(j,i,*map);
-			//}
-			map += 2;
-		}
+		if (pos < 0 || pos >= getV_res())
+			continue;
+
+		bufferStartPos = getBuffer();
+		bufferStartPos += x * 2 + pos * getH_res() * 2;
+
+		imgStartPos = bmp->bitmapData + xCorrection * 2 + i * width * 2;
+
+		memcpy(bufferStartPos, imgStartPos, drawWidth * 2);
+	}
+}
+
+uint16_t * map_Bitmap(const char* filename, int *width, int *height){
+	Bitmap * bmp = loadBitmap(filename);
+	if (bmp == NULL)
+		return;
+
+	*width = bmp->bitmapInfoHeader.width;
+	//int drawWidth = width;
+	*height = bmp->bitmapInfoHeader.height;
+
+
+	/*int xCorrection = 0;
+	if (x < 0) {
+		xCorrection = -x;
+		drawWidth -= xCorrection;
+		x = 0;
+
+		if (drawWidth > getH_res())
+			drawWidth = getH_res();
+	} else if (x + drawWidth >= getH_res()) {
+		drawWidth = getH_res() - x;
 	}*/
 
+	char* map;
+	map= malloc((*width)*(*height)*2);
+	char* ptr;
+	char* imgStartPos;
+
 	int i;
-    for (i = 0; i < height; i++) {
-        int pos = y + height - 1 - i;
+	for (i = 0; i < (*height); i++) {
+		//int pos = y + height - 1 - i;
 
-        if (pos < 0 || pos >= getV_res())
-            continue;
 
-        bufferStartPos = getBuffer();
-      bufferStartPos += x * 2 + pos * getH_res() * 2;
+		ptr = map;
+				ptr += i * (*width) * 2;
 
-        imgStartPos = bmp->bitmapData + xCorrection * 2 + i * width * 2;
+		imgStartPos = bmp->bitmapData + i * (*width) * 2;
 
-        memcpy(bufferStartPos, imgStartPos, drawWidth * 2);
-    }
+		memcpy(ptr, imgStartPos, (*width) * 2);
+	}
+
+	deleteBitmap(bmp);
+
+	return map;
 }
 
 void deleteBitmap(Bitmap* bmp) {

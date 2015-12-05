@@ -118,7 +118,7 @@ int vg_pixel(unsigned short x, unsigned short y, uint16_t color){
 	/*uint16_t * ptr;
 	ptr= (buffer + x + y*h_res);//*bits_per_pixel/8;
 	*ptr = (uint16_t)color;*/
-	*(buffer + (x + y*h_res)) = 0x47E0;
+	*(buffer + (x + y*h_res)) = color;
 }
 
 int vg_sprite(Sprite * sprite, uint16_t transparent_color){

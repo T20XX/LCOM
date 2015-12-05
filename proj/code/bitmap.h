@@ -65,6 +65,9 @@ void drawBitmap(Bitmap* bitmap, int x, int y, Alignment alignment);
  *
  * @param bitmap bitmap to be destroyed
  */
+
+uint16_t * map_Bitmap(const char* filename, int *width, int *height);
+
 void deleteBitmap(Bitmap* bmp);
 
 /**@}*/
