@@ -35,7 +35,7 @@ Game * new_game(unsigned int mode){
 void update_gamestate(Game * game){
 	game->last_state = game->state;
 	 if (game->kbd_event == NOKEY){
-		 //game->state = FALL;
+		 game->state = DO_NOTHING;
 	 }else if (game->kbd_event == LEFTKEY_DOWN){
 		 game->state = MOVE_LEFT;
 	 }else if (game->kbd_event == UPKEY_DOWN){
@@ -43,7 +43,7 @@ void update_gamestate(Game * game){
 	 }else if (game->kbd_event == RIGHTKEY_DOWN){
 		 game->state = MOVE_RIGHT;
 	 }else if (game->kbd_event == DOWNKEY_DOWN){
-		 game->state = FALL_QUICKER;
+		 game->state = FALL;
 	 }else if (game->kbd_event == SPACEBAR_DOWN){
 		 game->state = SWAP_PIECES;
 	 }
@@ -51,7 +51,7 @@ void update_gamestate(Game * game){
 
 void update_game(Game * game){
 	if (game->state == FALL){
-		game->actual_piece->sprite.yspeed = FACE_LENGTH;
+		game->actual_piece->sprite.yspeed += FACE_LENGTH;
 
 	} else if (game->state == MOVE_LEFT){
 		game->actual_piece->sprite.xspeed -= FACE_LENGTH;
@@ -62,15 +62,14 @@ void update_game(Game * game){
 	} else if (game->state == ROTATE){
 
 
-	} else if (game->state == FALL_QUICKER){
-		game->actual_piece->sprite.yspeed = FACE_LENGTH;
+	} else if (game->state == DO_NOTHING){
 
 	} else if (game->state == SWAP_PIECES){
 
 
 	} else if (game->state == REACH_END){
 
-	} else
+	}
 
 	game->actual_piece->sprite.x += game->actual_piece->sprite.xspeed;
 	game->actual_piece->sprite.y += game->actual_piece->sprite.yspeed;

@@ -117,7 +117,7 @@ void drawBitmap(Bitmap* bmp, int x, int y, Alignment alignment) {
 	unsigned int i,j;
 	for(i = y + height; i >= y;i++){
 		for(j = x; j < x + width;j++){
-			//if ((*map) != transparent_color){
+			if ((*map) != 0){
 				vg_pixel(j,i,*map);
 			//}
 			map += 2;

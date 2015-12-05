@@ -201,15 +201,16 @@ int game_handler(){
 				//if (msg.NOTIFY_ARG & mouse_irq_set) { /* subscribed interrupt */
 				//	mouse_packet_handler();
 				//}
-				//if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
-					//						kbd_int_handler();
-					//						//game->last_kbd_event = game->kbd_event;
-					//						game->kbd_event = kbd_event_handler();
-				//}
+				if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
+										kbd_int_handler();
+										game->last_kbd_event = game->kbd_event;
+										game->kbd_event = kbd_event_handler();
+										update_gamestate(game);
+										update_game(game);
+				}
 				if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
 					counter++;
-					//					update_gamestate(game);
-					//					update_game(game);
+
 					draw_game(game);
 					vg_buffer();
 				}
