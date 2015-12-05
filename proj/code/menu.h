@@ -20,10 +20,12 @@ typedef struct {
 	Button* buttons[6];
 } Menu;
 
-Menu* new_main_menu();
+Menu * new_main_menu();
 Menu * new_score_menu();
 void draw_main_menu(Menu * menu);
 void draw_score_menu(Menu * menu);
 void update_main_menu(Menu * menu);
 void update_score_menu(Menu * menu)
+void update_main_menu_state(Menu * menu, unsigned int mouse_x, unsigned int mouse_y);
 #endif /* __MENU_H */
+*/
