@@ -80,8 +80,10 @@ void update_gamestate(Game * game){
 	}else if (game->kbd_event == DOWNKEY_DOWN){
 		if (can_piece_fall(game->actual_piece,&game->board)== 0)
 			game->state = FALL;
-		else
+		else if (game->actual_piece->sprite.y >= game->board.y + 2* 30)		//??
 			game->state = REACH_END;
+		else
+			game->state = GAME_OVER;
 	}else if (game->kbd_event == SPACEBAR_DOWN){
 		game->state = SWAP_PIECES;
 	}
@@ -89,8 +91,11 @@ void update_gamestate(Game * game){
 	if (game->timer_event == FALL_TICK){
 		if (can_piece_fall(game->actual_piece,&game->board)== 0)
 			game->state = FALL;
-		else
+		else if (game->actual_piece->sprite.y >= game->board.y + 2* 30)		//??
 			game->state = REACH_END;
+		else
+			game->state = GAME_OVER;
+
 	}
 }
 
@@ -113,14 +118,14 @@ void update_game(Game * game){
 
 
 	} else if (game->state == REACH_END){
-
 		add_piece(game->actual_piece, &game->board);
+		remove_finished_lines(&game->board);
 		game->actual_piece = game->next_piece;
 		game->actual_piece->sprite.x = game->board.x + BOARD_RELATIVE_MIDDLE_X;
 		game->actual_piece->sprite.y = game->board.y;
 
 		game->next_piece = new_piece((game->board.x ),
-		(game->board.y));
+				(game->board.y));
 	}
 
 	game->actual_piece->sprite.x += game->actual_piece->sprite.xspeed;
@@ -152,5 +157,36 @@ void add_piece(Piece * piece, Board * board){
 			board_ptr++;
 		}
 		board_ptr += (board->width - piece->sprite.width);
+	}
+}
+
+void remove_finished_lines(Board * board){
+	uint16_t * board_ptr = board->map;
+
+	board_ptr += (board->width * 30 * 21) + 30;				//??
+
+	unsigned int i,j, counter;
+	for (i = 20; i > 0; i--){
+		for (j = 0; j< 10; j++){
+			if (*(board_ptr + j *30) == 0)
+				break;
+			else
+				counter++;
+		}
+		if(counter == 10){
+
+			memcpy(board_ptr-((i-1)*board->width * 30),board_ptr-(i*board->width*30), (i*board->width)*30*2);	//??
+
+			/*uint16_t * tmp_ptr = board_ptr - (board->width * 30);
+
+			for (j = 0; j< 30; j++){
+				memcpy(board_ptr+(j*board->width),tmp_ptr + (j*board->width), 10*30*2);	//??
+			}*/
+
+		} else if(counter == 0){
+			break;
+		}
+		board_ptr -= (board->width * 30);				//??
+		counter = 0;
 	}
 }
