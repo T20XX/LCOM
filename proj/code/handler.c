@@ -197,7 +197,7 @@ int game_handler(){
 	//enable_packets();
 	int counter = 0; //Inicialização do contador
 
-	while( counter <= 600) {
+	while( code != BREAKCODE) {
 		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
 			printf("driver_receive failed with: %d", r);
 			continue;

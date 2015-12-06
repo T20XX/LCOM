@@ -10,7 +10,7 @@ typedef struct{
 	Sprite sprite;
 } Piece;
 
-Piece *new_piece(unsigned int xi, unsigned int yi,int yspeed);
+Piece *new_piece(unsigned int x, unsigned int y);
 
 void draw_piece(Piece * piece);
 
