@@ -62,14 +62,14 @@ Bitmap* loadBitmap(const char* filename);
  */
 void drawBitmap(Bitmap* bitmap, int x, int y, Alignment alignment);
 
+
+uint16_t * map_Bitmap(const char* filename, int *width, int *height);
+
 /**
  * @brief Destroys the given bitmap, freeing all resources used by it.
  *
  * @param bitmap bitmap to be destroyed
  */
-
-uint16_t * map_Bitmap(const char* filename, int *width, int *height);
-
 void deleteBitmap(Bitmap* bmp);
 
 /**@}*/
