@@ -2,6 +2,7 @@
 #include "video_gr.h"
 #include "piece.h"
 #include "logic.h"
+#include "bitmap.h"
 
 typedef struct {
 	unsigned int x, y;
@@ -18,7 +19,7 @@ Game * new_game(unsigned int mode){
 
 
 	if (game->game_mode == 0){				//SINGLEPLAYER MODE
-		game->actual_piece = new_piece(oneplayer_init.x, oneplayer_init.y, yspeed_init);
+		game->actual_piece = new_piece(oneplayer_init.x+100, oneplayer_init.y, yspeed_init);
 		game->next_piece = new_piece(oneplayer_init.x+200, oneplayer_init.y, yspeed_init);
 	}
 	else if (game->game_mode == 1 || game->game_mode == 2){						//2 PLAYERS MODES
@@ -26,6 +27,10 @@ Game * new_game(unsigned int mode){
 		game->actual_piece = new_piece(twoplayer_init.x, twoplayer_init.y, yspeed_init);
 		game->next_piece = new_piece(twoplayer_init.x+200, twoplayer_init.y, yspeed_init);
 	}
+
+	game->board.map = map_Bitmap("/home/lcom/proj/code/img/board.bmp", &game->board.width, &game->board.height);
+	game->board.x = oneplayer_init.x;
+	game->board.y = oneplayer_init.y;
 
 	game->time_elapsed = 0;
 	game->fall_delay = 40;
@@ -37,19 +42,23 @@ Game * new_game(unsigned int mode){
 
 void update_gamestate(Game * game){
 	game->last_state = game->state;
-	 if (game->kbd_event == NOKEY){
-		 game->state = DO_NOTHING;
-	 }else if (game->kbd_event == LEFTKEY_DOWN){
-		 game->state = MOVE_LEFT;
-	 }else if (game->kbd_event == UPKEY_DOWN){
-		 game->state = ROTATE;
-	 }else if (game->kbd_event == RIGHTKEY_DOWN){
-		 game->state = MOVE_RIGHT;
-	 }else if (game->kbd_event == DOWNKEY_DOWN || game->timer_event == FALL_TICK){
-		 game->state = FALL;
-	 }else if (game->kbd_event == SPACEBAR_DOWN){
-		 game->state = SWAP_PIECES;
-	 }
+	if (game->kbd_event == NOKEY){
+		game->state = DO_NOTHING;
+	}else if (game->kbd_event == LEFTKEY_DOWN){
+		game->state = MOVE_LEFT;
+	}else if (game->kbd_event == UPKEY_DOWN){
+		game->state = ROTATE;
+	}else if (game->kbd_event == RIGHTKEY_DOWN){
+		game->state = MOVE_RIGHT;
+	}else if (game->kbd_event == DOWNKEY_DOWN){
+		game->state = FALL;
+	}else if (game->kbd_event == SPACEBAR_DOWN){
+		game->state = SWAP_PIECES;
+	}
+
+	if (game->timer_event == FALL_TICK){
+		game->state = FALL;
+	}
 }
 
 void update_game(Game * game){
@@ -82,6 +91,7 @@ void update_game(Game * game){
 }
 
 void draw_game(Game * game){
+	vg_map(game->board.map,game->board.x,game->board.y,game->board.width,game->board.height);
 	vg_sprite(&game->actual_piece->sprite,0);
 	//vg_sprite(&game->next_piece->sprite,0);
 }

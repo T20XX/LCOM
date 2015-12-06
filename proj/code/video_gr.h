@@ -42,6 +42,8 @@ int vg_pixel(unsigned short x, unsigned short y, unsigned long color);
 
 int vg_sprite(Sprite* sprite, char transparent_color);
 
+int vg_map(uint16_t * map, unsigned int x, unsigned int y, unsigned int width, unsigned int height);
+
 void vg_buffer();
 
 #endif /* __VIDEO_GR_H */
