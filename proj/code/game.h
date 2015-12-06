@@ -11,6 +11,11 @@ typedef enum kbd_game_event {LEFTKEY_DOWN, RIGHTKEY_DOWN, UPKEY_DOWN, DOWNKEY_DO
 typedef enum timer_game_event {FALL_TICK, NO_TICK} timer_game_event;
 
 //typedef enum {} mouse_game_event;
+typedef struct {
+  unsigned int x,y;
+  unsigned int width, height;
+  uint16_t * map;
+} Board;
 
 typedef struct {
 	unsigned int game_mode;
@@ -21,6 +26,7 @@ typedef struct {
 	kbd_game_event kbd_event, last_kbd_event;
 	unsigned int fall_delay;
 	timer_game_event timer_event;
+	Board board;
 } Game;
 
 Game * new_game(unsigned int mode);

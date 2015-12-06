@@ -8,6 +8,7 @@
 #include "lmlib.h"
 #include "sprite.h"
 #include <stdio.h>
+#include <stdint.h>
 
 /* Constants for VBE 0x105 mode */
 
@@ -117,7 +118,7 @@ int vg_exit() {
 int vg_pixel(unsigned short x, unsigned short y, uint16_t color){
 	/*uint16_t * ptr;
 	ptr= (buffer + x + y*h_res);//*bits_per_pixel/8;
-	*ptr = (uint16_t)color;*/
+	 *ptr = (uint16_t)color;*/
 	*(buffer + (x + y*h_res)) = color;
 }
 
@@ -134,6 +135,27 @@ int vg_sprite(Sprite * sprite, uint16_t transparent_color){
 		}
 	}
 	return 0;
+}
+
+int vg_map(uint16_t * map, unsigned int x, unsigned int y, unsigned int width, unsigned int height){
+	uint16_t * bufferStartPos;
+	uint16_t * imgStartPos;
+
+	int i;
+		for (i = 0; i < height; i++) {
+			int pos = y + height - 1 - i;
+
+			if (pos < 0 || pos >= v_res)
+				continue;
+
+			bufferStartPos = buffer;
+			bufferStartPos += x + pos * h_res;
+
+			imgStartPos = map + i * width;
+
+			memcpy(bufferStartPos, imgStartPos, width);
+		}
+return 0;
 }
 
 void vg_buffer()

@@ -161,7 +161,7 @@ uint16_t * map_Bitmap(const char* filename, int *width, int *height){
 
 
 		ptr = map;
-				ptr += i * (*width) * 2;
+		ptr += ((*height) - 1 - i) * (*width) * 2;
 
 		imgStartPos = bmp->bitmapData + i * (*width) * 2;
 
