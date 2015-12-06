@@ -16,6 +16,7 @@ Game * new_game(unsigned int mode){
 	Game * game = (Game*) malloc(sizeof(Game));
 	game->game_mode = mode;
 
+
 	if (game->game_mode == 0){				//SINGLEPLAYER MODE
 		game->actual_piece = new_piece(oneplayer_init.x, oneplayer_init.y, yspeed_init);
 		game->next_piece = new_piece(oneplayer_init.x+200, oneplayer_init.y, yspeed_init);
@@ -27,8 +28,10 @@ Game * new_game(unsigned int mode){
 	}
 
 	game->time_elapsed = 0;
+	game->fall_delay = 40;
+	game->timer_event = NO_TICK;
 	game->kbd_event = NOKEY;
-	game->state = FALL;
+	game->state = DO_NOTHING;
 	return game;
 }
 
@@ -42,7 +45,7 @@ void update_gamestate(Game * game){
 		 game->state = ROTATE;
 	 }else if (game->kbd_event == RIGHTKEY_DOWN){
 		 game->state = MOVE_RIGHT;
-	 }else if (game->kbd_event == DOWNKEY_DOWN){
+	 }else if (game->kbd_event == DOWNKEY_DOWN || game->timer_event == FALL_TICK){
 		 game->state = FALL;
 	 }else if (game->kbd_event == SPACEBAR_DOWN){
 		 game->state = SWAP_PIECES;

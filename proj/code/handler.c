@@ -167,6 +167,13 @@ kbd_game_event kbd_event_handler(){
 	else return NOKEY;
 }
 
+timer_game_event timer_event_handler(int counter){
+	if( counter%40 == 0)
+		return FALL_TICK;
+	else return NO_TICK;
+}
+
+
 int game_handler(){
 	Game *game;
 	game = new_game(0);
@@ -210,7 +217,11 @@ int game_handler(){
 				}
 				if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
 					counter++;
-
+					game->timer_event = timer_event_handler(counter);
+					if(game->timer_event != NO_TICK){
+						update_gamestate(game);
+						update_game(game);
+					}
 					draw_game(game);
 					vg_buffer();
 				}
