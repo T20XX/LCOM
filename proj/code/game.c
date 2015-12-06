@@ -1,39 +1,55 @@
 #include "game.h"
 #include "video_gr.h"
-#include "piece.h"
 #include "logic.h"
 #include "bitmap.h"
 
-typedef struct {
-	unsigned int x, y;
-} Position;
-
-Position oneplayer_init = {.x= 500, .y = 60};			//Initial position for 1 player game mode
-Position twoplayer_init = {.x= 100, .y = 60};			//Initial position for 2 player game mode
-
-int yspeed_init = 1;					//Initial falling speed (y axis)
+//typedef struct {
+//	unsigned int x, y;
+//} Position;
+//
+//Position oneplayer_init = {.x= 500, .y = 60};			//Initial position for 1 player game mode
+//Position twoplayer_init = {.x= 100, .y = 60};			//Initial position for 2 player game mode
 
 Game * new_game(unsigned int mode){
 	Game * game = (Game*) malloc(sizeof(Game));
 	game->game_mode = mode;
 
+	unsigned int x_board, y_board, x_actual,y_actual,x_next,y_next;
 
 	if (game->game_mode == 0){				//SINGLEPLAYER MODE
-		game->actual_piece = new_piece(oneplayer_init.x+100, oneplayer_init.y, yspeed_init);
-		game->next_piece = new_piece(oneplayer_init.x+200, oneplayer_init.y, yspeed_init);
+		x_board = ONE_PLAYER_BOARD_X;
+		y_board = ONE_PLAYER_BOARD_Y;
+
+		x_actual= x_board + BOARD_RELATIVE_MIDDLE_X;
+		y_actual= y_board;
+		x_next = x_board + ONE_PLAYER_RELATIVE_NEXT_PIECE_X;
+		y_next = y_board + ONE_PLAYER_RELATIVE_NEXT_PIECE_Y;
 	}
 	else if (game->game_mode == 1 || game->game_mode == 2){						//2 PLAYERS MODES
+		x_board = TWO_PLAYER_BOARD_X;
+		y_board = TWO_PLAYER_BOARD_Y;
 
-		game->actual_piece = new_piece(twoplayer_init.x, twoplayer_init.y, yspeed_init);
-		game->next_piece = new_piece(twoplayer_init.x+200, twoplayer_init.y, yspeed_init);
+		x_actual= x_board + BOARD_RELATIVE_MIDDLE_X;
+		y_actual= y_board;
+		x_next = x_board + TWO_PLAYER_RELATIVE_NEXT_PIECE_X;
+		y_next = y_board + TWO_PLAYER_RELATIVE_NEXT_PIECE_Y;
 	}
 
+	//Creating board
 	game->board.map = map_Bitmap("/home/lcom/proj/code/img/board.bmp", &game->board.width, &game->board.height);
-	game->board.x = oneplayer_init.x;
-	game->board.y = oneplayer_init.y;
+	game->board.x = x_board;
+	game->board.y = y_board;
 
+	//Creating first two pieces
+	game->actual_piece = new_piece(x_actual,y_actual);
+	game->next_piece = new_piece(x_next,y_next);
+
+	//Correction in x to place piece in middle after knowing its width
+	game->actual_piece->sprite.x -= (int)((game->actual_piece->sprite.width / 2) /30) * 30;  //error when using face_length
+
+	//Initializing others variables of game
 	game->time_elapsed = 0;
-	game->fall_delay = 40;
+	game->fall_delay = INIT_FALL_DELAY;
 	game->timer_event = NO_TICK;
 	game->kbd_event = NOKEY;
 	game->state = DO_NOTHING;

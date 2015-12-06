@@ -151,9 +151,9 @@ int vg_map(uint16_t * map, unsigned int x, unsigned int y, unsigned int width, u
 			bufferStartPos = buffer;
 			bufferStartPos += x + pos * h_res;
 
-			imgStartPos = map + i * width;
+			imgStartPos = map + (height - 1 - i)* width;
 
-			memcpy(bufferStartPos, imgStartPos, width);
+			memcpy(bufferStartPos, imgStartPos, width*2);
 		}
 return 0;
 }
