@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include "game.h"
 #include "video_gr.h"
 #include "logic.h"
@@ -60,20 +61,36 @@ void update_gamestate(Game * game){
 	game->last_state = game->state;
 	if (game->kbd_event == NOKEY){
 		game->state = DO_NOTHING;
+
 	}else if (game->kbd_event == LEFTKEY_DOWN){
-		game->state = MOVE_LEFT;
+		if (can_piece_move_x(game->actual_piece,&game->board,0)== 0)
+			game->state = MOVE_LEFT;
+		else
+			game->state = DO_NOTHING;
+
 	}else if (game->kbd_event == UPKEY_DOWN){
 		game->state = ROTATE;
+
 	}else if (game->kbd_event == RIGHTKEY_DOWN){
-		game->state = MOVE_RIGHT;
+		if (can_piece_move_x(game->actual_piece,&game->board,1)== 0)
+			game->state = MOVE_RIGHT;
+		else
+			game->state = DO_NOTHING;
+
 	}else if (game->kbd_event == DOWNKEY_DOWN){
-		game->state = FALL;
+		if (can_piece_fall(game->actual_piece,&game->board)== 0)
+			game->state = FALL;
+		else
+			game->state = REACH_END;
 	}else if (game->kbd_event == SPACEBAR_DOWN){
 		game->state = SWAP_PIECES;
 	}
 
 	if (game->timer_event == FALL_TICK){
-		game->state = FALL;
+		if (can_piece_fall(game->actual_piece,&game->board)== 0)
+			game->state = FALL;
+		else
+			game->state = REACH_END;
 	}
 }
 
@@ -97,6 +114,13 @@ void update_game(Game * game){
 
 	} else if (game->state == REACH_END){
 
+		add_piece(game->actual_piece, &game->board);
+		game->actual_piece = game->next_piece;
+		game->actual_piece->sprite.x = game->board.x + BOARD_RELATIVE_MIDDLE_X;
+		game->actual_piece->sprite.y = game->board.y;
+
+		game->next_piece = new_piece((game->board.x ),
+		(game->board.y));
 	}
 
 	game->actual_piece->sprite.x += game->actual_piece->sprite.xspeed;
@@ -109,5 +133,24 @@ void update_game(Game * game){
 void draw_game(Game * game){
 	vg_map(game->board.map,game->board.x,game->board.y,game->board.width,game->board.height);
 	vg_sprite(&game->actual_piece->sprite,0);
-	//vg_sprite(&game->next_piece->sprite,0);
+	vg_sprite(&game->next_piece->sprite,0);
+}
+
+void add_piece(Piece * piece, Board * board){
+	uint16_t * piece_ptr = piece->sprite.map;
+	uint16_t * board_ptr = board->map;
+
+	board_ptr += (piece->sprite.x - board->x) + (board->width * (piece->sprite.y - board->y));
+
+	unsigned int i,j;
+	for(i = 0; i< piece->sprite.height; i++){
+		for(j = 0; j < piece->sprite.width;j++){
+			if ((*piece_ptr) != 0){
+				*board_ptr = *piece_ptr;
+			}
+			piece_ptr++;
+			board_ptr++;
+		}
+		board_ptr += (board->width - piece->sprite.width);
+	}
 }

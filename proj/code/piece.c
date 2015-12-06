@@ -5,7 +5,7 @@
 #include "video_gr.h"
 
 Piece *new_piece(unsigned int x, unsigned int y){
-	int random = rand() % 6;
+	int random = rand() % 7;
 	Piece * piece = (Piece*) malloc(sizeof(Piece));
 	int tempwidth;
 	int tempheight;

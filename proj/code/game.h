@@ -53,4 +53,6 @@ void update_game(Game * game);
 
 void draw_game(Game * game);
 
+void add_piece(Piece * piece, Board * board);
+
 #endif /* __GAME_H */
