@@ -6,6 +6,8 @@
 #ifndef __BITMAP_H
 #define __BITMAP_H
 
+#include <stdint.h>
+
 /** @defgroup Bitmap Bitmap
  * @{
  * Functions for manipulating bitmaps
