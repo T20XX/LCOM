@@ -168,25 +168,25 @@ void remove_finished_lines(Board * board){
 	unsigned int i,j, counter;
 	for (i = 20; i > 0; i--){
 		for (j = 0; j< 10; j++){
-			if (*(board_ptr + j *30) == 0)
-				break;
-			else
+			if (*(board_ptr + j *30) != 0)
 				counter++;
 		}
 		if(counter == 10){
+			uint16_t * tmp_ptr = board_ptr - (board->width * 30);
 
-			memcpy(board_ptr-((i-1)*board->width * 30),board_ptr-(i*board->width*30), (i*board->width)*30*2);	//??
-
-			/*uint16_t * tmp_ptr = board_ptr - (board->width * 30);
-
-			for (j = 0; j< 30; j++){
-				memcpy(board_ptr+(j*board->width),tmp_ptr + (j*board->width), 10*30*2);	//??
-			}*/
+			unsigned int lines_above;
+			for(lines_above = 0; lines_above < i; lines_above++){
+				for (j = 0; j< 30; j++){
+					memcpy(board_ptr - (lines_above * board->width*30) + (j*board->width),tmp_ptr - (lines_above * board->width*30) + (j*board->width), 10*30*2);	//??
+				}
+			}
+			i++;
 
 		} else if(counter == 0){
 			break;
+		} else{
+			board_ptr -= (board->width * 30);				//??
 		}
-		board_ptr -= (board->width * 30);				//??
 		counter = 0;
 	}
 }
