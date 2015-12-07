@@ -1,5 +1,5 @@
 #include "menu.h"
-
+#include "video_gr.c"
 
 
 Menu * new_main_menu(){
@@ -8,13 +8,27 @@ Menu * new_main_menu(){
 	main_menu->background = loadBitmap("/home/lcom/proj/code/img/test.bmp");
 
 	unsigned int i;
-	for(i = 0; i < 4;i++)
+	for(i = 0; i < 6;i++)
 	{
-		main_menu->buttons[i].width = 50;
-		main_menu->buttons[i].height = 50;
-		main_menu->buttons[i].x = 512 - (main_menu->buttons[i].width/2);
-		main_menu->buttons[i].y = (382 - (main_menu->buttons[i].height)/2) + i * 75;
+		//main_menu->buttons[i].width = 50;
+		//main_menu->buttons[i].height = 50;
+		main_menu->buttons[i].x = getH_res()/2 - (main_menu->buttons[i].width/2);
+		main_menu->buttons[i].y = (getV_res()/2 - (main_menu->buttons[i].height)/2) + i * 75;
 	}
+
+	main_menu->buttons[0].null = map_Bitmap("/home/lcom/proj/code/img/button0_null", &main_menu->buttons[0].width, &main_menu->buttons[0].height);
+	main_menu->buttons[0].above = map_Bitmap("/home/lcom/proj/code/img/button0_above", &main_menu->buttons[0].width, &main_menu->buttons[0].height);
+	main_menu->buttons[1].null = map_Bitmap("/home/lcom/proj/code/img/button1_null", &main_menu->buttons[1].width, &main_menu->buttons[1].height);
+	main_menu->buttons[1].above = map_Bitmap("/home/lcom/proj/code/img/button1_above", &main_menu->buttons[1].width, &main_menu->buttons[1].height);
+	main_menu->buttons[2].null = map_Bitmap("/home/lcom/proj/code/img/button2_null", &main_menu->buttons[2].width, &main_menu->buttons[2].height);
+	main_menu->buttons[2].above = map_Bitmap("/home/lcom/proj/code/img/button2_above", &main_menu->buttons[2].width, &main_menu->buttons[2].height);
+	main_menu->buttons[3].null = map_Bitmap("/home/lcom/proj/code/img/button3_null", &main_menu->buttons[3].width, &main_menu->buttons[3].height);
+	main_menu->buttons[3].above = map_Bitmap("/home/lcom/proj/code/img/button3_above", &main_menu->buttons[3].width, &main_menu->buttons[3].height);
+	main_menu->buttons[4].null = map_Bitmap("/home/lcom/proj/code/img/button4_null", &main_menu->buttons[4].width, &main_menu->buttons[4].height);
+	main_menu->buttons[4].above = map_Bitmap("/home/lcom/proj/code/img/button4_above", &main_menu->buttons[4].width, &main_menu->buttons[4].height);
+	main_menu->buttons[5].null = map_Bitmap("/home/lcom/proj/code/img/button5_null", &main_menu->buttons[5].width, &main_menu->buttons[5].height);
+	main_menu->buttons[5].above = map_Bitmap("/home/lcom/proj/code/img/button5_above", &main_menu->buttons[5].width, &main_menu->buttons[5].height);
+
 	return main_menu;
 }
 
@@ -34,7 +48,17 @@ Menu * new_score_menu(){
 }
 
 void draw_main_menu(Menu * menu){
-	menu = new_main_menu();
+	vg_map(menu->background, 0, 0, getH_res(), getV_res());
+	unsigned int i;
+	for(i = 0; i < 6; i++){
+		if(buttons[i].isAbove){
+			vg_map(menu->buttons[i].above, menu->buttons[i].x, menu->buttons[i].y, menu->buttons[i].width, menu->buttons[i].height);
+		}
+		else{
+			vg_map(menu->buttons[i].null, menu->buttons[i].x, menu->buttons[i].y, menu->buttons[i].width, menu->buttons[i].height);
+		}
+	}
+
 }
 
 /*void draw_score_menu(Menu * menu){
@@ -94,6 +118,7 @@ void update_main_menu_state(Menu * menu, unsigned int mouse_x, unsigned int mous
 			menu->state = NOACTION;
 	}
 }
+
 
 /*void update_score_menu(Menu * menu){
 
