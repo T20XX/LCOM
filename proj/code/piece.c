@@ -44,3 +44,7 @@ Piece *new_piece(unsigned int x, unsigned int y){
 void draw_piece(Piece * piece){
 	vg_sprite(&piece->sprite, 0);
 }
+
+void delete_piece(Piece * piece){
+	free(piece);
+}
