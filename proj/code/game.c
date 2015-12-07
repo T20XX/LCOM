@@ -217,11 +217,11 @@ void rotate_piece(Piece * piece){
 
 	unsigned int i,j;
 	for(i = 0; i < piece->sprite.width; i++){
-		piece_ptr = piece->sprite.map+i;
+		piece_ptr = piece->sprite.map +(piece->sprite.width * (piece->sprite.height-1))+i;
 		for(j=0; j < piece->sprite.height;j++){
 			*temp_ptr = *piece_ptr;
 			temp_ptr++;
-			piece_ptr += piece->sprite.width;
+			piece_ptr -= piece->sprite.width;
 		}
 	}
 
@@ -229,5 +229,5 @@ void rotate_piece(Piece * piece){
 	piece->sprite.height = temp.sprite.width;
 	piece->sprite.map =  temp.sprite.map;
 
-	delete_piece(&temp);
+	//delete_piece(&temp);
 }
