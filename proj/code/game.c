@@ -125,13 +125,13 @@ void update_game(Game * game){
 		*game->next_piece = temp;
 		delete_piece(&temp);
 
-		unsigned int * x = game->actual_piece->sprite.x;
+		/*unsigned int * x = game->actual_piece->sprite.x;
 		game->actual_piece->sprite.x = game->next_piece->sprite.x;
 		game->next_piece->sprite.x = x;
 
 		unsigned int * y = &game->actual_piece->sprite.y;
 		&game->actual_piece->sprite.y = &game->next_piece->sprite.y;
-		&game->next_piece->sprite.y = y;
+		&game->next_piece->sprite.y = y;*/
 
 
 	} else if (game->state == REACH_END){

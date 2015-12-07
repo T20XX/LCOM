@@ -13,6 +13,7 @@
 #include "piece.h"
 #include "sprite.h"
 #include "bitmap.h"
+#include "menu.h"
 
 //typedef enum {MAIN_MENU, GAME_MODE1, GAME_MODE2,GAME_MODE3,GAME_MODE4,HIGH_SCORES,EXIT} state;
 
@@ -34,9 +35,9 @@ bool is_two_byte = false;
 int mainhandler(){
 	vg_init (0x117);				//Initialization of graphics mode in 1024x768 resolution
 
-	//menu_handler();
+	menu_handler();
 
-	game_handler();
+	//game_handler();
 
 	vg_exit();
 
@@ -72,11 +73,13 @@ int menu_handler(){
 	mouse_sprite.x = mouse_position.x;
 	mouse_sprite.y = mouse_position.y;
 
-	Bitmap *img = (Bitmap*) malloc(sizeof(Bitmap));;
+	Menu * main_menu = new_main_menu();
 
-	img = loadBitmap("/home/lcom/proj/img/test.bmp");
+	//Bitmap *img = (Bitmap*) malloc(sizeof(Bitmap));;
 
-	if (img != NULL){
+	//img = loadBitmap("/home/lcom/proj/img/test.bmp");
+
+	//if (img != NULL){
 
 		int mouse_irq_set = mouse_subscribe_int();
 		int timer_irq_set = timer_subscribe_int();
@@ -101,7 +104,7 @@ int menu_handler(){
 					if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
 						counter++;
 
-						drawBitmap(img, 0, 0 , ALIGN_LEFT);
+						draw_main_menu(main_menu);
 						mouse_sprite.x = mouse_position.x;
 						mouse_sprite.y = mouse_position.y;
 						vg_sprite(&mouse_sprite,0);
@@ -118,7 +121,7 @@ int menu_handler(){
 
 		mouse_unsubscribe_int();
 		timer_unsubscribe_int();
-	}
+	//}
 
 	return 0;
 }
