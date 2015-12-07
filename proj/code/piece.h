@@ -14,4 +14,6 @@ Piece *new_piece(unsigned int x, unsigned int y);
 
 void draw_piece(Piece * piece);
 
+void delete_piece(Piece * piece);
+
 #endif /* __PIECE_H */

@@ -54,6 +54,7 @@ Game * new_game(unsigned int mode){
 	game->timer_event = NO_TICK;
 	game->kbd_event = NOKEY;
 	game->state = DO_NOTHING;
+	game->pieces_already_swapped = 0;
 	return game;
 }
 
@@ -84,8 +85,12 @@ void update_gamestate(Game * game){
 			game->state = REACH_END;
 		else
 			game->state = GAME_OVER;
+
 	}else if (game->kbd_event == SPACEBAR_DOWN){
-		game->state = SWAP_PIECES;
+		if (game->pieces_already_swapped == 0){
+			game->state = SWAP_PIECES;
+			game->pieces_already_swapped = 1;
+		}
 	}
 
 	if (game->timer_event == FALL_TICK){
@@ -115,6 +120,18 @@ void update_game(Game * game){
 	} else if (game->state == DO_NOTHING){
 
 	} else if (game->state == SWAP_PIECES){
+		Piece temp = *game->actual_piece;
+		*game->actual_piece = *game->next_piece;
+		*game->next_piece = temp;
+		delete_piece(&temp);
+
+		unsigned int * x = game->actual_piece->sprite.x;
+		game->actual_piece->sprite.x = game->next_piece->sprite.x;
+		game->next_piece->sprite.x = x;
+
+		unsigned int * y = &game->actual_piece->sprite.y;
+		&game->actual_piece->sprite.y = &game->next_piece->sprite.y;
+		&game->next_piece->sprite.y = y;
 
 
 	} else if (game->state == REACH_END){
@@ -133,6 +150,8 @@ void update_game(Game * game){
 
 	game->actual_piece->sprite.xspeed = 0;
 	game->actual_piece->sprite.yspeed = 0;
+
+	game->pieces_already_swapped = 0;
 }
 
 void draw_game(Game * game){

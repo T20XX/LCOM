@@ -43,6 +43,7 @@ typedef struct {
 	unsigned int fall_delay;
 	timer_game_event timer_event;
 	Board board;
+	unsigned int pieces_already_swapped;
 } Game;
 
 Game * new_game(unsigned int mode);
