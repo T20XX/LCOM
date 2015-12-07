@@ -219,14 +219,15 @@ void rotate_piece(Piece * piece){
 	for(i = 0; i < piece->sprite.width; i++){
 		piece_ptr = piece->sprite.map+i;
 		for(j=0; j < piece->sprite.height;j++){
-		temp_ptr = piece_ptr;
-		temp_ptr++;
-		piece_ptr += piece->sprite.width;
+			*temp_ptr = *piece_ptr;
+			temp_ptr++;
+			piece_ptr += piece->sprite.width;
 		}
 	}
 
 	piece->sprite.width = temp.sprite.height;
 	piece->sprite.height = temp.sprite.width;
+	piece->sprite.map =  temp.sprite.map;
 
 	delete_piece(&temp);
 }
