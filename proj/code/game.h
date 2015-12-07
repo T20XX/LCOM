@@ -58,4 +58,6 @@ void add_piece(Piece * piece, Board * board);
 
 void remove_finished_lines(Board * board);
 
+void rotate_piece(Piece * piece);
+
 #endif /* __GAME_H */
