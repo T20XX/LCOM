@@ -106,31 +106,12 @@ void update_main_menu(Menu * menu){
 	//	; voltar para tras? usado no score menu(BACK)
 }
 
-void update_main_menu_state(Menu * menu, unsigned int mouse_x, unsigned int mouse_y){
-	if(mouse_x < menu->buttons[0].x || mouse_x > (menu->buttons[0].x + menu->buttons[0].width))
-		menu->state = NOACTION;
-	else{
+void update_main_menu_state(Menu * menu){
+	menu->last_state = menu->state;
+	if(menu->event == BUTTON0_ISABOVE)
+		menu->state = BUTTON0_ABOVE;
 
-		unsigned int i, index = 0;
-		for(i = 0; i < 6; i++){
-			if(mouse_y >= menu->buttons[i].y && mouse_y <= (menu->buttons[i].y+ menu->buttons[i].height))
-				break;
-			index++;
-		}
-		if(index == 0)
-			menu->state = BUTTON0_ABOVE;
-		else if(index == 1)
-			menu->state = BUTTON1_ABOVE;
-		else if(index == 2)
-			menu->state = BUTTON2_ABOVE;
-		else if(index == 3)
-			menu->state = BUTTON3_ABOVE;
-		else if(index == 4)
-			menu->state = BUTTON4_ABOVE;
-		else if(index == 5)
-			menu->state = BUTTON5_ABOVE;
-		else menu->state = NOACTION;
-  }
+
 }
 
 
