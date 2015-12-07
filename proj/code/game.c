@@ -115,7 +115,7 @@ void update_game(Game * game){
 		game->actual_piece->sprite.xspeed += FACE_LENGTH;
 
 	} else if (game->state == ROTATE){
-
+		rotate_piece(game->actual_piece);
 
 	} else if (game->state == DO_NOTHING){
 
@@ -208,4 +208,25 @@ void remove_finished_lines(Board * board){
 		}
 		counter = 0;
 	}
+}
+
+void rotate_piece(Piece * piece){
+	Piece temp = *piece;
+	uint16_t * temp_ptr = temp.sprite.map;
+	uint16_t * piece_ptr = piece->sprite.map;
+
+	unsigned int i;
+	for(i = 0; i < piece->width; i++){
+		piece_ptr = piece->sprite.map+i;
+		for(j=0; j < piece->height;j++){
+		temp_ptr = piece_ptr;
+		temp_ptr++;
+		piece_ptr += piece->width;
+		}
+	}
+
+	piece->width = temp.height;
+	piece->height = temp.width;
+
+	delete_piece(&temp);
 }
