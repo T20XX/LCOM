@@ -170,7 +170,7 @@ uint16_t * map_Bitmap(const char* filename, int *width, int *height){
 
 	deleteBitmap(bmp);
 
-	return map;
+	return (uint16_t * )map;
 }
 
 void deleteBitmap(Bitmap* bmp) {
