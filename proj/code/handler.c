@@ -35,9 +35,9 @@ bool is_two_byte = false;
 int mainhandler(){
 	vg_init (0x117);				//Initialization of graphics mode in 1024x768 resolution
 
-	//menu_handler();
+	menu_handler();
 
-	game_handler();
+	//game_handler();
 
 	vg_exit();
 
@@ -103,7 +103,8 @@ int menu_handler(){
 					}
 					if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
 						counter++;
-
+						update_main_menu_state(main_menu, mouse_position.x, mouse_position.y);
+						update_main_menu(main_menu);
 						draw_main_menu(main_menu);
 						mouse_sprite.x = mouse_position.x;
 						mouse_sprite.y = mouse_position.y;

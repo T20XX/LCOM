@@ -3,8 +3,8 @@
 #include "bitmap.h"
 #include <stdint.h>
 
-typedef enum main_menu_event {BUTTON1_CLICK, BUTTON2_CLICK, BUTTON3_CLICK, BUTTON4_CLICK, BUTTON5_CLICK, BUTTON6_CLICK} main_menu_event;
-typedef enum main_menu_state {BUTTON1_ABOVE, BUTTON2_ABOVE, BUTTON3_ABOVE, BUTTON4_ABOVE, BUTTON5_ABOVE, BUTTON6_ABOVE, NOACTION} main_menu_state;
+typedef enum main_menu_event {BUTTON0_CLICK, BUTTON1_CLICK, BUTTON2_CLICK, BUTTON3_CLICK, BUTTON4_CLICK, BUTTON5_CLICK} main_menu_event;
+typedef enum main_menu_state {BUTTON0_ABOVE, BUTTON1_ABOVE, BUTTON2_ABOVE, BUTTON3_ABOVE, BUTTON4_ABOVE, BUTTON5_ABOVE, NOACTION} main_menu_state;
 
 typedef struct {
   unsigned int x,y;
