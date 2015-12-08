@@ -72,19 +72,19 @@ void draw_main_menu(Menu * menu){
 
 void update_main_menu(Menu * menu){
 
-	if(menu->state == BUTTON0_ABOVE)
+	if(menu->event == BUTTON0_ISABOVE)
 		menu->buttons[0].isAbove = 1;
-	else if(menu->state == BUTTON1_ABOVE)
+	else if(menu->event == BUTTON1_ISABOVE)
 		menu->buttons[1].isAbove = 1;
-	else if(menu->state ==  BUTTON2_ABOVE)
+	else if(menu->event ==  BUTTON2_ISABOVE)
 		menu->buttons[2].isAbove = 1;
-	else if(menu->state == BUTTON3_ABOVE)
+	else if(menu->event == BUTTON3_ISABOVE)
 		menu->buttons[3].isAbove = 1;
-	else if(menu->state == BUTTON4_ABOVE)
+	else if(menu->event == BUTTON4_ISABOVE)
 		menu->buttons[4].isAbove = 1;
-	else if(menu->state == BUTTON5_ABOVE)
+	else if(menu->event == BUTTON5_ISABOVE)
 		menu->buttons[5].isAbove = 1;
-	else if(menu->state == NOACTION){
+	else if(menu->event == NOACTION){
 		unsigned int i;
 		for(i=0; i < 6; i++){
 			menu->buttons[i].isAbove = 0;
@@ -92,15 +92,15 @@ void update_main_menu(Menu * menu){
 	}
 
 
-	if(menu->event == BUTTON1_CLICK)
-		; // 1vs1 modo peças
-	else if(menu->event == BUTTON2_CLICK)
+	if(menu->state == SINGLEPLAYER)
+		;
+	else if(menu->state == MULTIPLAYER)
 		; //1vs1 modo tempo
-	else if(menu->event == BUTTON3_CLICK)
+	else if(menu->state == MULTIPLAYER)
 		; // 1vs1 modo persona
-	else if(menu->event == BUTTON4_CLICK)
+	else if(menu->state == HIGHSCORES)
 		; //Scores
-	else if(menu->event == BUTTON5_CLICK)
+	else if(menu->state == EXIT)
 		;	//exit game
 	//else if(menu->event == BUTTON6_CLICK)
 	//	; voltar para tras? usado no score menu(BACK)
@@ -108,10 +108,35 @@ void update_main_menu(Menu * menu){
 
 void update_main_menu_state(Menu * menu){
 	menu->last_state = menu->state;
-	if(menu->event == BUTTON0_ISABOVE)
-		menu->state = BUTTON0_ABOVE;
 
-
+	if(menu->main_menu_event == LEFT_CLICK){
+		if(menu->state == BUTTON0_SELECT)
+			menu->state = SINGLEPLAYER;
+		if(menu->state == BUTTON1_SELECT)
+			menu->state = MULTIPLAYER;
+		if(menu->state == BUTTON2_SELECT)
+			menu->state = MULTIPLAYER;
+		if(menu->state == BUTTON3_SELECT)
+			menu->state = HIGHSCORES;
+		if(menu->state == BUTTON4_SELECT)
+			menu->state = EXIT;
+		if(menu->state == BUTTON5_SELECT)
+			menu->state = EXIT; // O QUE E AQUI?
+	}
+	else {
+	if(menu->main_menu_event == BUTTON0_ISABOVE)
+		menu->state = BUTTON0_SELECT;
+	if(menu->main_menu_event == BUTTON1_ISABOVE)
+		menu->state = BUTTON1_SELECT;
+	if(menu->main_menu_event == BUTTON2_ISABOVE)
+		menu->state = BUTTON2_SELECT;
+	if(menu->main_menu_event == BUTTON3_ISABOVE)
+		menu->state = BUTTON3_SELECT;
+	if(menu->main_menu_event == BUTTON4_ISABOVE)
+		menu->state = BUTTON4_SELECT;
+	if(menu->main_menu_event == BUTTON5_ISABOVE)
+		menu->state = BUTTON5_SELECT;
+	}
 }
 
 

@@ -76,30 +76,33 @@ int mouse_packet_handler(){
 }
 
 main_menu_event main_menu_event_handler(Menu* menu){
-	if(mouse.position.x < menu->buttons[0].x || mouse.position.x > (menu->buttons[0].x + menu->buttons[0].width))
-		return NOACTION;
-	else{
-		unsigned int i, index = 0;
-		for(i = 0; i < 6; i++){
-			if(mouse.position.y >= menu->buttons[i].y && mouse.position.y <= (menu->buttons[i].y+ menu->buttons[i].height))
-				break;
-			index++;
-		}
-		if(index == 0)
-			if(right_click == 1)
-				return BUTTON0_CLICK;
-			else
+
+	if(left_click == 1)
+		return LEFT_CLICK;
+	else {
+		if(mouse_position.x < menu->buttons[0].x || mouse_position.x > (menu->buttons[0].x + menu->buttons[0].width))
+			return NOACTION;
+		else{
+			unsigned int i, index = 0;
+			for(i = 0; i < 6; i++){
+				if(mouse_position.y >= menu->buttons[i].y && mouse_position.y <= (menu->buttons[i].y+ menu->buttons[i].height))
+					break;
+				index++;
+			}
+			if(index == 0)
 				return BUTTON0_ISABOVE;
-		else if(index == 1)
-			return BUTTON1_ISABOVE;
-		else if(index == 2)
-			return BUTTON2_ISABOVE;
-		else if(index == 3)
-			return BUTTON3_ISABOVE;
-		else if(index == 4)
-			return BUTTON4_ISABOVE;
-		else if(index == 5)
-			return BUTTON5_ISABOVE;
+			else if(index == 1)
+				return BUTTON1_ISABOVE;
+			else if(index == 2)
+				return BUTTON2_ISABOVE;
+			else if(index == 3)
+				return BUTTON3_ISABOVE;
+			else if(index == 4)
+				return BUTTON4_ISABOVE;
+			else if(index == 5)
+				return BUTTON5_ISABOVE;
+			else return NOACTION;
+		}
 	}
 }
 
