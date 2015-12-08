@@ -35,6 +35,10 @@ Menu * new_main_menu(){
 		main_menu->buttons[i].y =200 + i * 75;
 	}
 
+
+	main_menu->event = NOACTION;
+	main_menu->state = DO_NOTHING;
+
 	return main_menu;
 }
 
@@ -72,19 +76,19 @@ void draw_main_menu(Menu * menu){
 
 void update_main_menu(Menu * menu){
 
-	if(menu->event == BUTTON0_ISABOVE)
+	if(menu->state == BUTTON0_SELECT)
 		menu->buttons[0].isAbove = 1;
-	else if(menu->event == BUTTON1_ISABOVE)
+	else if(menu->state == BUTTON1_SELECT)
 		menu->buttons[1].isAbove = 1;
-	else if(menu->event ==  BUTTON2_ISABOVE)
+	else if(menu->state == BUTTON2_SELECT)
 		menu->buttons[2].isAbove = 1;
-	else if(menu->event == BUTTON3_ISABOVE)
+	else if(menu->state == BUTTON3_SELECT)
 		menu->buttons[3].isAbove = 1;
-	else if(menu->event == BUTTON4_ISABOVE)
+	else if(menu->state == BUTTON4_SELECT)
 		menu->buttons[4].isAbove = 1;
-	else if(menu->event == BUTTON5_ISABOVE)
+	else if(menu->state == BUTTON5_SELECT)
 		menu->buttons[5].isAbove = 1;
-	else if(menu->event == NOACTION){
+	else if(menu->state == DO_NOTHING){
 		unsigned int i;
 		for(i=0; i < 6; i++){
 			menu->buttons[i].isAbove = 0;
@@ -103,38 +107,40 @@ void update_main_menu(Menu * menu){
 	else if(menu->state == EXIT)
 		;	//exit game
 	//else if(menu->event == BUTTON6_CLICK)
-	//	; voltar para tras? usado no score menu(BACK)
+	//	; voltar para tras? usado no score menu(BACK)*/
 }
 
 void update_main_menu_state(Menu * menu){
-	menu->last_state = menu->state;
+	//menu->last_state = menu->state;
 
 	if(menu->main_menu_event == LEFT_CLICK){
 		if(menu->state == BUTTON0_SELECT)
 			menu->state = SINGLEPLAYER;
-		if(menu->state == BUTTON1_SELECT)
+		else if(menu->state == BUTTON1_SELECT)
 			menu->state = MULTIPLAYER;
-		if(menu->state == BUTTON2_SELECT)
+		else if(menu->state == BUTTON2_SELECT)
 			menu->state = MULTIPLAYER;
-		if(menu->state == BUTTON3_SELECT)
+		else if(menu->state == BUTTON3_SELECT)
 			menu->state = HIGHSCORES;
-		if(menu->state == BUTTON4_SELECT)
+		else if(menu->state == BUTTON4_SELECT)
 			menu->state = EXIT;
-		if(menu->state == BUTTON5_SELECT)
+		else if(menu->state == BUTTON5_SELECT)
 			menu->state = EXIT; // O QUE E AQUI?
+		else if(menu->state == DO_NOTHING)
+			menu->state = DO_NOTHING;
 	}
 	else {
-	if(menu->main_menu_event == BUTTON0_ISABOVE)
+	if(menu->event == BUTTON0_ISABOVE)
 		menu->state = BUTTON0_SELECT;
-	if(menu->main_menu_event == BUTTON1_ISABOVE)
+	if(menu->event == BUTTON1_ISABOVE)
 		menu->state = BUTTON1_SELECT;
-	if(menu->main_menu_event == BUTTON2_ISABOVE)
+	if(menu->Event == BUTTON2_ISABOVE)
 		menu->state = BUTTON2_SELECT;
-	if(menu->main_menu_event == BUTTON3_ISABOVE)
+	if(menu->event == BUTTON3_ISABOVE)
 		menu->state = BUTTON3_SELECT;
-	if(menu->main_menu_event == BUTTON4_ISABOVE)
+	if(menu->event == BUTTON4_ISABOVE)
 		menu->state = BUTTON4_SELECT;
-	if(menu->main_menu_event == BUTTON5_ISABOVE)
+	if(menu->event == BUTTON5_ISABOVE)
 		menu->state = BUTTON5_SELECT;
 	}
 }

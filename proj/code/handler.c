@@ -36,9 +36,9 @@ bool is_two_byte = false;
 int mainhandler(){
 	vg_init (0x117);				//Initialization of graphics mode in 1024x768 resolution
 
-	menu_handler();
+	//menu_handler();
 
-	//game_handler();
+	game_handler();
 
 	vg_exit();
 

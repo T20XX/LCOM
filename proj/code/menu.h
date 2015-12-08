@@ -5,7 +5,7 @@
 
 typedef enum main_menu_event {LEFT_CLICK, BUTTON0_ISABOVE, BUTTON1_ISABOVE, BUTTON2_ISABOVE, BUTTON3_ISABOVE, BUTTON4_ISABOVE, BUTTON5_ISABOVE, NOACTION} main_menu_event;
 
-typedef enum main_menu_state {BUTTON0_SELECT, BUTTON1_SELECT, BUTTON2_SELECT, BUTTON3_SELECT, BUTTON4_SELECT, BUTTON5_SELECT, SINGLEPLAYER, MULTIPLAYER, HIGHSCORES, EXIT} main_menu_state;
+typedef enum main_menu_state {/*BUTTON_SELECT, BUTTON1_SELECT, BUTTON2_SELECT, BUTTON3_SELECT, BUTTON4_SELECT, BUTTON5_SELECT,*/ SINGLEPLAYER, MULTIPLAYER, HIGHSCORES, EXIT, DO_NOTHING} main_menu_state;
 
 typedef struct {
 	unsigned int x,y;
@@ -18,7 +18,8 @@ typedef struct {
 
 typedef struct {
 	Bitmap* background;
-	main_menu_state state, last_state;
+	main_menu_state state;
+	main_menu_state last_state;
 	main_menu_event event;
 	Button * buttons;
 } Menu;
