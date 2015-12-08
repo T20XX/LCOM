@@ -115,7 +115,13 @@ void update_game(Game * game){
 		game->actual_piece->sprite.xspeed += FACE_LENGTH;
 
 	} else if (game->state == ROTATE){
-		rotate_piece(game->actual_piece);
+		Piece * rotated = (Piece*) malloc(sizeof(Piece));
+
+		rotate_piece(game->actual_piece, rotated);
+
+		delete_piece(game->actual_piece);
+		game->actual_piece = rotated;
+
 
 	} else if (game->state == DO_NOTHING){
 
@@ -123,7 +129,7 @@ void update_game(Game * game){
 		Piece temp = *game->actual_piece;
 		*game->actual_piece = *game->next_piece;
 		*game->next_piece = temp;
-		delete_piece(&temp);
+		//delete_piece(&temp);
 
 		/*unsigned int * x = game->actual_piece->sprite.x;
 		game->actual_piece->sprite.x = game->next_piece->sprite.x;
@@ -210,9 +216,20 @@ void remove_finished_lines(Board * board){
 	}
 }
 
-void rotate_piece(Piece * piece){
-	Piece temp = *piece;
+void rotate_piece(Piece * piece, Piece * rotated){
+	/*Piece temp = *piece;
 	uint16_t * temp_ptr = temp.sprite.map;
+	uint16_t * piece_ptr = piece->sprite.map;*/
+
+	/*rotated->sprite.x = piece->sprite.x;
+	rotated->sprite.y = piece->sprite.y;
+	rotated->sprite.height = piece->sprite.width;
+	rotated->sprite.width = piece->sprite.height;*/
+
+	*rotated = *piece;
+
+	uint16_t * temp_ptr;
+	temp_ptr = (uint16_t *)malloc(rotated->sprite.height*rotated->sprite.width * 2);
 	uint16_t * piece_ptr = piece->sprite.map;
 
 	unsigned int i,j;
@@ -225,9 +242,15 @@ void rotate_piece(Piece * piece){
 		}
 	}
 
-	piece->sprite.width = temp.sprite.height;
-	piece->sprite.height = temp.sprite.width;
-	piece->sprite.map =  temp.sprite.map;
+
+	rotated->sprite.height = piece->sprite.width;
+	rotated->sprite.width = piece->sprite.height;
+
+	rotated->sprite.map = temp_ptr - (rotated->sprite.width*rotated->sprite.height);
+
+	//piece->sprite.width = temp.sprite.height;
+	//piece->sprite.height = temp.sprite.width;
+	//piece->sprite.map =  temp.sprite.map;
 
 	//delete_piece(&temp);
 }
