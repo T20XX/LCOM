@@ -60,4 +60,6 @@ void remove_finished_lines(Board * board);
 
 void rotate_piece(Piece * piece, Piece * rotated);
 
+void swap_pieces(Piece * actual, Piece * next);
+
 #endif /* __GAME_H */

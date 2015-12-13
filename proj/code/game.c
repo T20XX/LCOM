@@ -126,9 +126,8 @@ void update_game(Game * game){
 	} else if (game->state == DO_NOTHING){
 
 	} else if (game->state == SWAP_PIECES){
-		Piece temp = *game->actual_piece;
-		*game->actual_piece = *game->next_piece;
-		*game->next_piece = temp;
+		swap_pieces (game->actual_piece,game->next_piece);
+
 		//delete_piece(&temp);
 
 		/*unsigned int * x = game->actual_piece->sprite.x;
@@ -147,8 +146,10 @@ void update_game(Game * game){
 		game->actual_piece->sprite.x = game->board.x + BOARD_RELATIVE_MIDDLE_X;
 		game->actual_piece->sprite.y = game->board.y;
 
-		game->next_piece = new_piece((game->board.x ),
-				(game->board.y));
+		game->next_piece = new_piece((game->board.x + 420),
+				(game->board.y + 90));									//substituir por constante
+
+		game->pieces_already_swapped = 0;
 	}
 
 	game->actual_piece->sprite.x += game->actual_piece->sprite.xspeed;
@@ -156,8 +157,6 @@ void update_game(Game * game){
 
 	game->actual_piece->sprite.xspeed = 0;
 	game->actual_piece->sprite.yspeed = 0;
-
-	game->pieces_already_swapped = 0;
 }
 
 void draw_game(Game * game){
@@ -226,10 +225,10 @@ void rotate_piece(Piece * piece, Piece * rotated){
 	rotated->sprite.height = piece->sprite.width;
 	rotated->sprite.width = piece->sprite.height;*/
 
-	*rotated = *piece;
+	//*rotated = *piece;
 
 	uint16_t * temp_ptr;
-	temp_ptr = (uint16_t *)malloc(rotated->sprite.height*rotated->sprite.width * 2);
+	temp_ptr = (uint16_t *)malloc(piece->sprite.height*piece->sprite.width * 2);
 	uint16_t * piece_ptr = piece->sprite.map;
 
 	unsigned int i,j;
@@ -242,7 +241,8 @@ void rotate_piece(Piece * piece, Piece * rotated){
 		}
 	}
 
-
+	rotated->sprite.x = piece->sprite.x;
+		rotated->sprite.y = piece->sprite.y;
 	rotated->sprite.height = piece->sprite.width;
 	rotated->sprite.width = piece->sprite.height;
 
@@ -252,5 +252,33 @@ void rotate_piece(Piece * piece, Piece * rotated){
 	//piece->sprite.height = temp.sprite.width;
 	//piece->sprite.map =  temp.sprite.map;
 
-	//delete_piece(&temp);
+	//delete_piece(piece);
+}
+
+void swap_pieces(Piece * actual, Piece * next){
+	unsigned int actual_x = actual->sprite.x;
+	unsigned int next_x = next->sprite.x;
+	unsigned int actual_y = actual->sprite.y;
+	unsigned int next_y = next->sprite.y;
+	unsigned int width = actual->sprite.width;
+	unsigned int height = actual->sprite.height;
+
+	uint16_t * temp_ptr;
+	temp_ptr = (uint16_t *)malloc(actual->sprite.height*actual->sprite.width * 2);
+	uint16_t *actual_ptr = actual->sprite.map;
+
+	unsigned int i;
+			for(i=0; i < actual->sprite.height;i++){
+				memcpy(temp_ptr,actual_ptr,actual->sprite.width*2);
+				temp_ptr += actual->sprite.width;
+				actual_ptr += actual->sprite.width;
+			}
+
+	actual->sprite = next->sprite;
+	actual->sprite.x=actual_x;
+	actual->sprite.y=actual_y;
+
+	next->sprite.width = width;
+	next->sprite.height = height;
+	next->sprite.map = temp_ptr - (width*height);
 }
