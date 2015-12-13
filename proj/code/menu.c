@@ -37,7 +37,7 @@ Menu * new_main_menu(){
 
 
 	main_menu->event = NOACTION;
-	main_menu->state = DO_NOTHING;
+	main_menu->state = DONOTHING;
 
 	return main_menu;
 }
@@ -88,7 +88,7 @@ void update_main_menu(Menu * menu){
 		menu->buttons[4].isAbove = 1;
 	else if(menu->state == BUTTON5_SELECT)
 		menu->buttons[5].isAbove = 1;
-	else if(menu->state == DO_NOTHING){
+	else if(menu->state == DONOTHING){
 		unsigned int i;
 		for(i=0; i < 6; i++){
 			menu->buttons[i].isAbove = 0;
@@ -104,7 +104,7 @@ void update_main_menu(Menu * menu){
 		; // 1vs1 modo persona
 	else if(menu->state == HIGHSCORES)
 		; //Scores
-	else if(menu->state == EXIT)
+	else if(menu->state == CLOSE)
 		;	//exit game
 	//else if(menu->event == BUTTON6_CLICK)
 	//	; voltar para tras? usado no score menu(BACK)*/
@@ -113,7 +113,7 @@ void update_main_menu(Menu * menu){
 void update_main_menu_state(Menu * menu){
 	//menu->last_state = menu->state;
 
-	if(menu->main_menu_event == LEFT_CLICK){
+	if(menu->event == LEFT_CLICK){
 		if(menu->state == BUTTON0_SELECT)
 			menu->state = SINGLEPLAYER;
 		else if(menu->state == BUTTON1_SELECT)
@@ -123,18 +123,18 @@ void update_main_menu_state(Menu * menu){
 		else if(menu->state == BUTTON3_SELECT)
 			menu->state = HIGHSCORES;
 		else if(menu->state == BUTTON4_SELECT)
-			menu->state = EXIT;
+			menu->state = CLOSE;
 		else if(menu->state == BUTTON5_SELECT)
-			menu->state = EXIT; // O QUE E AQUI?
-		else if(menu->state == DO_NOTHING)
-			menu->state = DO_NOTHING;
+			menu->state = CLOSE; // O QUE E AQUI?
+		else if(menu->state == DONOTHING)
+			menu->state = DONOTHING;
 	}
 	else {
 	if(menu->event == BUTTON0_ISABOVE)
 		menu->state = BUTTON0_SELECT;
 	if(menu->event == BUTTON1_ISABOVE)
 		menu->state = BUTTON1_SELECT;
-	if(menu->Event == BUTTON2_ISABOVE)
+	if(menu->event == BUTTON2_ISABOVE)
 		menu->state = BUTTON2_SELECT;
 	if(menu->event == BUTTON3_ISABOVE)
 		menu->state = BUTTON3_SELECT;
