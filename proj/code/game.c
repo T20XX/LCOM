@@ -119,8 +119,8 @@ void update_game(Game * game){
 
 		rotate_piece(game->actual_piece, rotated);
 
-		delete_piece(game->actual_piece);
-		game->actual_piece = rotated;
+		//delete_piece(game->actual_piece);
+		//game->actual_piece = rotated;
 
 
 	} else if (game->state == DO_NOTHING){
@@ -241,12 +241,20 @@ void rotate_piece(Piece * piece, Piece * rotated){
 		}
 	}
 
-	rotated->sprite.x = piece->sprite.x;
-		rotated->sprite.y = piece->sprite.y;
-	rotated->sprite.height = piece->sprite.width;
-	rotated->sprite.width = piece->sprite.height;
+	unsigned int width = piece->sprite.width;
+	unsigned int height = piece->sprite.height;
 
-	rotated->sprite.map = temp_ptr - (rotated->sprite.width*rotated->sprite.height);
+	piece->sprite.height = width;
+		piece->sprite.width = height;
+
+	piece->sprite.map = temp_ptr - (width * height);
+
+//	rotated->sprite.x = piece->sprite.x;
+//		rotated->sprite.y = piece->sprite.y;
+//	rotated->sprite.height = piece->sprite.width;
+//	rotated->sprite.width = piece->sprite.height;
+//
+//	rotated->sprite.map = temp_ptr - (rotated->sprite.width*rotated->sprite.height);
 
 	//piece->sprite.width = temp.sprite.height;
 	//piece->sprite.height = temp.sprite.width;
