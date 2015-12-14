@@ -2,6 +2,7 @@
 #include <minix/syslib.h>
 #include <minix/drivers.h>
 #include <stdbool.h>
+#include "menu.h"
 #include "i8042.h"
 #include "i8254.h"
 #include "handler.h"
@@ -13,7 +14,6 @@
 #include "piece.h"
 #include "sprite.h"
 #include "bitmap.h"
-#include "menu.h"
 
 //typedef struct {
 //	unsigned int x, y;
@@ -138,8 +138,7 @@ int menu_handler(){
 					update_main_menu(main_menu);
 					draw_main_menu(main_menu);
 					vg_map_transparent(mouse.map, mouse.x, mouse.y, mouse.width, mouse.height, 0);
-					char * ptr = "Rosa";
-					vg_string(ptr, 100,100,0xffff);
+					vg_string("""TESTE, 1, 2, 3", 100,100,2,0xffff);
 					//vg_pixel(mouse_position.x,mouse_position.y,20);
 					vg_buffer();
 				}
@@ -269,6 +268,10 @@ int game_handler(){
 
 	//mouse_unsubscribe_int();
 	timer_unsubscribe_int();
-	kbd_unsubscribe_int();
+	while (1){
+		if (kbd_unsubscribe_int() == 0)
+			break;
+	}
+
 	return 0;
 }
