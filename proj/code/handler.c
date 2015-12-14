@@ -14,6 +14,7 @@
 #include "piece.h"
 #include "sprite.h"
 #include "bitmap.h"
+#include "vbe.h"
 
 //typedef struct {
 //	unsigned int x, y;
@@ -30,13 +31,13 @@ unsigned long code;
 bool is_two_byte = false;
 
 int mainhandler(){
-	vg_init (0x117);				//Initialization of graphics mode in 1024x768 resolution
+	vg_init (GRAPHICS_MODE_1024_768_256);				//Initialization of graphics mode in 1024x768 resolution
 
 	mouse.map=map_Bitmap("/home/lcom/proj/code/img/mouse.bmp", &mouse.width, &mouse.height);
 
-	menu_handler();
+	//menu_handler();
 
-	//game_handler();
+	game_handler();
 
 	vg_exit();
 

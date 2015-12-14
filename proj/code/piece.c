@@ -14,25 +14,25 @@ Piece *new_piece(unsigned int x, unsigned int y){
 	piece->sprite.xspeed = 0;
 	piece->sprite.yspeed = 0;
 	if(random == 0){
-		piece->sprite.map = map_Bitmap("/home/lcom/proj/code/img/i.bmp", &tempwidth, &tempheight); // WARNING
+		piece->sprite.map = (uint16_t *)map_Bitmap("/home/lcom/proj/code/img/i.bmp", &tempwidth, &tempheight); // WARNING
 	}
 	else if(random == 1){
-		piece->sprite.map = map_Bitmap("/home/lcom/proj/code/img/j.bmp", &tempwidth, &tempheight);
+		piece->sprite.map = (uint16_t *)map_Bitmap("/home/lcom/proj/code/img/j.bmp", &tempwidth, &tempheight);
 	}
 	else if(random == 2){
-		piece->sprite.map = map_Bitmap("/home/lcom/proj/code/img/l.bmp", &tempwidth, &tempheight);
+		piece->sprite.map = (uint16_t *)map_Bitmap("/home/lcom/proj/code/img/l.bmp", &tempwidth, &tempheight);
 	}
 	else if(random == 3){
-		piece->sprite.map = map_Bitmap("/home/lcom/proj/code/img/o.bmp", &tempwidth, &tempheight);
+		piece->sprite.map = (uint16_t *)map_Bitmap("/home/lcom/proj/code/img/o.bmp", &tempwidth, &tempheight);
 	}
 	else if(random == 4){
-		piece->sprite.map = map_Bitmap("/home/lcom/proj/code/img/s.bmp", &tempwidth, &tempheight);
+		piece->sprite.map = (uint16_t *)map_Bitmap("/home/lcom/proj/code/img/s.bmp", &tempwidth, &tempheight);
 	}
 	else if(random == 5){
-		piece->sprite.map = map_Bitmap("/home/lcom/proj/code/img/t.bmp", &tempwidth, &tempheight);
+		piece->sprite.map = (uint16_t *)map_Bitmap("/home/lcom/proj/code/img/t.bmp", &tempwidth, &tempheight);
 	}
 	else if(random == 6){
-		piece->sprite.map = map_Bitmap("/home/lcom/proj/code/img/z.bmp", &tempwidth, &tempheight);
+		piece->sprite.map = (uint16_t *)map_Bitmap("/home/lcom/proj/code/img/z.bmp", &tempwidth, &tempheight);
 	}
 
 	piece->sprite.width = tempwidth;

@@ -4,8 +4,13 @@
 #include <stdint.h>
 #include "sprite.h"
 
-#define MIN_CHAR 33
-#define MAX_CHAR 126
+#define MIN_CHAR	33
+#define MAX_CHAR	126
+#define BLACK	0X0000
+#define BLUE	0X001F
+#define GREEN	0x07E0
+#define RED		0xF800
+#define WHITE	0xFFFF
 
 char * getPhysicalAdress();
 unsigned getH_res();
