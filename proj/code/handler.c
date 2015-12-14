@@ -32,6 +32,8 @@ bool is_two_byte = false;
 int mainhandler(){
 	vg_init (0x117);				//Initialization of graphics mode in 1024x768 resolution
 
+	mouse.map=map_Bitmap("/home/lcom/proj/code/img/mouse.bmp", &mouse.width, &mouse.height);
+
 	menu_handler();
 
 	game_handler();
@@ -59,11 +61,12 @@ int mouse_packet_handler(){
 		mouse.deltax = packet[1] - 256 *((packet[0] & XSIGN) >> 4);
 		mouse.deltay = packet[2] - 256 * ((packet[0] & YSIGN) >> 5);
 
-		if (mouse.x + mouse.deltax> 0 && mouse.x + mouse.deltax < getH_res() &&
-				mouse.y - mouse.deltay > 0 && mouse.y -mouse.deltay < getV_res()){
+		if (mouse.x + mouse.deltax > 0 && mouse.x + mouse.deltax + mouse.width < getH_res() &&
+				mouse.y - mouse.deltay > 0 && mouse.y -mouse.deltay + mouse.height< getV_res()){
 			mouse.x += mouse.deltax;
 			mouse.y -= mouse.deltay;
 		}
+		//if
 
 
 	}
@@ -103,19 +106,8 @@ main_menu_event main_menu_event_handler(Menu* menu){
 
 
 int menu_handler(){
-	//só para testes
-	Sprite mouse_sprite;
-	mouse_sprite.map = read_xpm(cross, &mouse_sprite.width, &mouse_sprite.height);
-	mouse_sprite.x = mouse.x;
-	mouse_sprite.y = mouse.y;
 
 	Menu * main_menu = new_main_menu();
-
-	//Bitmap *img = (Bitmap*) malloc(sizeof(Bitmap));;
-
-	//img = loadBitmap("/home/lcom/proj/img/test.bmp");
-
-	//if (img != NULL){
 
 	int mouse_irq_set = mouse_subscribe_int();
 	int timer_irq_set = timer_subscribe_int();
@@ -143,9 +135,7 @@ int menu_handler(){
 					update_main_menu_state(main_menu);
 					update_main_menu(main_menu);
 					draw_main_menu(main_menu);
-					mouse_sprite.x = mouse.x;
-					mouse_sprite.y = mouse.y;
-					vg_sprite(&mouse_sprite,0);
+					vg_map_transparent(mouse.map, mouse.x, mouse.y, mouse.width, mouse.height, 0);
 					//vg_pixel(mouse_position.x,mouse_position.y,20);
 					vg_buffer();
 				}
@@ -159,7 +149,6 @@ int menu_handler(){
 
 	mouse_unsubscribe_int();
 	timer_unsubscribe_int();
-	//}
 
 	return 0;
 }
