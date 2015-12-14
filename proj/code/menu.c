@@ -83,15 +83,9 @@ void update_main_menu(Menu * menu){
 	else if(menu->state == BUTTON2_SELECT)
 		menu->buttons[2].isAbove = 1;
 	else if(menu->state == BUTTON3_SELECT)
-		menu->buttons[4].isAbove = 1;
+		menu->buttons[3].isAbove = 1;
 	else if(menu->state == BUTTON4_SELECT)
-		menu->buttons[5].isAbove = 1;
-	else if(menu->state == NOACTION){
-		unsigned int i;
-		for(i=0; i < 6; i++){
-			menu->buttons[i].isAbove = 0;
-		}
-	}
+		menu->buttons[4].isAbove = 1;
 	else if(menu->state == BUTTON5_SELECT)
 		menu->buttons[5].isAbove = 1;
 	else if(menu->state == DONOTHING){
