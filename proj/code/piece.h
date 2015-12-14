@@ -4,7 +4,7 @@
 #include "sprite.h"
 #include "piecespix.h"
 
-#define FACE_LENGTH 		30;
+#define FACE_LENGTH 		30
 
 typedef struct{
 	Sprite sprite;

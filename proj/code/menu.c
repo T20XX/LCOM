@@ -104,7 +104,7 @@ void update_main_menu(Menu * menu){
 		; // 1vs1 modo persona
 	else if(menu->state == HIGHSCORES)
 		; //Scores
-	else if(menu->state == CLOSE)
+	else if(menu->state == SHUTDOWN)
 		;	//exit game
 	//else if(menu->event == BUTTON6_CLICK)
 	//	; voltar para tras? usado no score menu(BACK)*/
@@ -123,9 +123,9 @@ void update_main_menu_state(Menu * menu){
 		else if(menu->state == BUTTON3_SELECT)
 			menu->state = HIGHSCORES;
 		else if(menu->state == BUTTON4_SELECT)
-			menu->state = CLOSE;
+			menu->state = SHUTDOWN;
 		else if(menu->state == BUTTON5_SELECT)
-			menu->state = CLOSE; // O QUE E AQUI?
+			menu->state = SHUTDOWN; // O QUE E AQUI?
 		else if(menu->state == DONOTHING)
 			menu->state = DONOTHING;
 	}
