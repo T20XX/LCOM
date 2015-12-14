@@ -132,16 +132,17 @@ void update_main_menu_state(Menu * menu){
 	else {
 	if(menu->event == BUTTON0_ISABOVE)
 		menu->state = BUTTON0_SELECT;
-	if(menu->event == BUTTON1_ISABOVE)
+	else if(menu->event == BUTTON1_ISABOVE)
 		menu->state = BUTTON1_SELECT;
-	if(menu->event == BUTTON2_ISABOVE)
+	else if(menu->event == BUTTON2_ISABOVE)
 		menu->state = BUTTON2_SELECT;
-	if(menu->event == BUTTON3_ISABOVE)
+	else if(menu->event == BUTTON3_ISABOVE)
 		menu->state = BUTTON3_SELECT;
-	if(menu->event == BUTTON4_ISABOVE)
+	else if(menu->event == BUTTON4_ISABOVE)
 		menu->state = BUTTON4_SELECT;
-	if(menu->event == BUTTON5_ISABOVE)
+	else if(menu->event == BUTTON5_ISABOVE)
 		menu->state = BUTTON5_SELECT;
+	else menu->state = DONOTHING;
 	}
 }
 
