@@ -176,46 +176,49 @@ int vg_map_transparent(uint16_t * map, unsigned int x, unsigned int y, unsigned 
 	return 0;
 }
 
-int vg_string(char * string,unsigned int x, unsigned int y,  uint16_t color){
-
+int vg_string(char * string,unsigned int x, unsigned int y, unsigned int spacing,  uint16_t color){
 	uint16_t * map;
 	unsigned int width, height;
 	map = map_Bitmap("/home/lcom/proj/code/img/font.bmp", &width, &height);
-	uint16_t * ptr;
+	uint16_t * ptr = map;
 	char counter;
 	unsigned int letter_width;
 	unsigned int i, j,tempx = x,tempy = y;
-	while(*string == NULL){
+	while(*string != NULL){
 		if(*string >= MIN_CHAR && *string <= MAX_CHAR){
-			counter = MIN_CHAR-1;
+			counter = MIN_CHAR - 2;
 			while(counter != *string){
 				if(*ptr == 0)
 					counter++;
 				ptr++;
 			}
-			letter_width = 0;
-			while(*ptr != 0x001F){
+			letter_width = 1;
+			while(*ptr != 0xFFFF){
 				letter_width++;
+				ptr++;
 			}
-			ptr += width - letter_width;
+			letter_width++;
 			for(i = 0; i < height-1; i++){
+				ptr += width - letter_width-1;
+				tempy++;
+				tempx=x;
 				for(j = 0; j < letter_width;j++)
 				{
-					if ((*ptr) != 0x2016){
-						vg_pixel(tempx,tempy,*ptr);
+					if ((*ptr) != 0x07E0){
+						vg_pixel(tempx,tempy,color);
 					}
 					ptr++;
 					tempx++;
 				}
-				ptr += width - letter_width;
-				tempy++;
-				tempx=x;
 			}
 			tempy =y;
 			x = tempx;
+		} else if (*string == ' '){
+			x += 20;
 		}
 		string++;
-ptr = map;
+		ptr = map;
+		x += spacing;
 	}
 	return 0;
 }

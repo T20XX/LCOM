@@ -40,11 +40,11 @@ typedef struct {
 
 Button new_button(const char* filename_null,const char* filename_above);
 Menu * new_main_menu();
-Menu * new_score_menu();
+//Menu * new_score_menu();
 void draw_main_menu(Menu * menu);
-void draw_score_menu(Menu * menu);
+//void draw_score_menu(Menu * menu);
 void update_main_menu(Menu * menu);
-void update_score_menu(Menu * menu);
+//void update_score_menu(Menu * menu);
 void update_main_menu_state(Menu * menu);
 #endif /* __MENU_H */
 
