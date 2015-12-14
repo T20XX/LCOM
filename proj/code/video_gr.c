@@ -158,6 +158,22 @@ int vg_map(uint16_t * map, unsigned int x, unsigned int y, unsigned int width, u
 return 0;
 }
 
+int vg_map_transparent(uint16_t * map, unsigned int x, unsigned int y, unsigned int width, unsigned int height, uint16_t color){
+	uint16_t * ptr = map;
+
+		unsigned int i,j;
+		for(i = y; i< y + height;i++){
+			for(j = x; j < x + width;j++){
+				if ((*ptr) != color){
+					vg_pixel(j,i,*ptr);
+				}
+				ptr++;
+			}
+		}
+return 0;
+}
+
+
 void vg_buffer()
 {
 	memcpy(video_mem, buffer, h_res * v_res * bits_per_pixel/ 8);

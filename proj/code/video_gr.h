@@ -44,6 +44,9 @@ int vg_sprite(Sprite* sprite, char transparent_color);
 
 int vg_map(uint16_t * map, unsigned int x, unsigned int y, unsigned int width, unsigned int height);
 
+int vg_map_transparent(uint16_t * map, unsigned int x, unsigned int y, unsigned int width, unsigned int height, uint16_t color);
+
 void vg_buffer();
+
 
 #endif /* __VIDEO_GR_H */
