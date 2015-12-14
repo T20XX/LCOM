@@ -46,7 +46,7 @@ Game * new_game(unsigned int mode){
 	game->next_piece = new_piece(x_next,y_next);
 
 	//Correction in x to place piece in middle after knowing its width
-	game->actual_piece->sprite.x -= (int)((game->actual_piece->sprite.width / 2) /30) * 30;  //error when using face_length
+	game->actual_piece->sprite.x -= (int)((game->actual_piece->sprite.width / 2) /FACE_LENGTH) * 30;  //error when using face_length
 
 	//Initializing others variables of game
 	game->time_elapsed = 0;
