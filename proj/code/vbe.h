@@ -11,14 +11,14 @@
 
 #define BIT(n) (0x01<<(n))
 
-#define SET_VBE_MODE		0x4F02;
-#define GET_VBE_INFO		0x4F01;
-#define GET_CONTROLLER_INFO	0x4F00;
-#define VIDEO_CARD			0x10;
+#define SET_VBE_MODE		0x4F02
+#define GET_VBE_INFO		0x4F01
+#define GET_CONTROLLER_INFO	0x4F00
+#define VIDEO_CARD			0x10
 
-#define LINEAR_FRAMEBUFFER_BIT BIT(14);
+#define LINEAR_FRAMEBUFFER_BIT BIT(14)
 
-#define GRAPHICS_MODE_1024_768_256 0x117; //0x105
+#define GRAPHICS_MODE_1024_768_256 0x117 //0x105
 
 /** @name VBE Mode Info Block */
 /**@{

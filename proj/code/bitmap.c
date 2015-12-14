@@ -119,7 +119,7 @@ void drawBitmap(Bitmap* bmp, int x, int y, Alignment alignment) {
 		if (pos < 0 || pos >= getV_res())
 			continue;
 
-		bufferStartPos = getBuffer();
+		bufferStartPos = (char *)getBuffer();
 		bufferStartPos += x * 2 + pos * getH_res() * 2;
 
 		imgStartPos = bmp->bitmapData + xCorrection * 2 + i * width * 2;
@@ -151,7 +151,7 @@ uint16_t * map_Bitmap(const char* filename, int *width, int *height){
 	}*/
 
 	char* map;
-	map= malloc((*width)*(*height)*2);
+	map = (char *)malloc((*width)*(*height)*2);
 	char* ptr;
 	char* imgStartPos;
 

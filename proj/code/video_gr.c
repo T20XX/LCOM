@@ -179,7 +179,7 @@ int vg_map_transparent(uint16_t * map, unsigned int x, unsigned int y, unsigned 
 int vg_string(char * string,unsigned int x, unsigned int y, unsigned int spacing,  uint16_t color){
 	uint16_t * map;
 	unsigned int width, height;
-	map = map_Bitmap("/home/lcom/proj/code/img/font.bmp", &width, &height);
+	map = (uint16_t *)map_Bitmap("/home/lcom/proj/code/img/font.bmp", &width, &height);
 	uint16_t * ptr = map;
 	char counter;
 	unsigned int letter_width;
@@ -188,12 +188,12 @@ int vg_string(char * string,unsigned int x, unsigned int y, unsigned int spacing
 		if(*string >= MIN_CHAR && *string <= MAX_CHAR){
 			counter = MIN_CHAR - 2;
 			while(counter != *string){
-				if(*ptr == 0)
+				if(*ptr == BLACK)
 					counter++;
 				ptr++;
 			}
 			letter_width = 1;
-			while(*ptr != 0xFFFF){
+			while(*ptr != WHITE){
 				letter_width++;
 				ptr++;
 			}
@@ -204,7 +204,7 @@ int vg_string(char * string,unsigned int x, unsigned int y, unsigned int spacing
 				tempx=x;
 				for(j = 0; j < letter_width;j++)
 				{
-					if ((*ptr) != 0x07E0){
+					if ((*ptr) != GREEN){
 						vg_pixel(tempx,tempy,color);
 					}
 					ptr++;
