@@ -1,13 +1,16 @@
 #ifndef __VIDEO_GR_H
 #define __VIDEO_GR_H
 
-
+#include <stdint.h>
 #include "sprite.h"
+
+#define MIN_CHAR 33
+#define MAX_CHAR 126
 
 char * getPhysicalAdress();
 unsigned getH_res();
 unsigned getV_res();
-char * getBuffer();
+uint16_t * getBuffer();
 
 /** @defgroup video_gr video_gr
  * @{
@@ -37,14 +40,16 @@ int vg_exit(void);
 
  /** @} end of video_gr */
  
-int vg_pixel(unsigned short x, unsigned short y, unsigned long color);
+int vg_pixel(unsigned short x, unsigned short y, uint16_t  color);
 
 
-int vg_sprite(Sprite* sprite, char transparent_color);
+int vg_sprite(Sprite* sprite, uint16_t transparent_color);
 
 int vg_map(uint16_t * map, unsigned int x, unsigned int y, unsigned int width, unsigned int height);
 
 int vg_map_transparent(uint16_t * map, unsigned int x, unsigned int y, unsigned int width, unsigned int height, uint16_t color);
+
+int vg_string(char * string,unsigned int x, unsigned int y,  uint16_t color);
 
 void vg_buffer();
 

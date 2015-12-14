@@ -6,9 +6,11 @@
 
 #include "vbe.h"
 #include "lmlib.h"
-#include "sprite.h"
+//#include "sprite.h"
 #include <stdio.h>
-#include <stdint.h>
+//#include <stdint.h>
+#include <string.h>
+#include "video_gr.h"
 
 /* Constants for VBE 0x105 mode */
 
@@ -24,6 +26,7 @@
 #define V_RES		  768
 #define BITS_PER_PIXEL	  16
 
+
 /* Private global variables */
 
 static uint16_t *video_mem;		/* Process address to which VRAM is mapped */
@@ -34,10 +37,10 @@ static unsigned h_res;		/* Horizontal screen resolution in pixels */
 static unsigned v_res;		/* Vertical screen resolution in pixels */
 static unsigned bits_per_pixel; /* Number of VRAM bits per pixel */
 
-char * getPhysicalAdress(){return physical_adress;};
-unsigned getH_res(){return h_res;};
-unsigned getV_res(){return v_res;};
-uint16_t * getBuffer(){return buffer;};
+char * getPhysicalAdress(){return physical_adress;}
+unsigned getH_res(){return h_res;}
+unsigned getV_res(){return v_res;}
+uint16_t * getBuffer(){return buffer;}
 
 void change_variables(vbe_mode_info_t *info){
 	int r;
@@ -142,37 +145,80 @@ int vg_map(uint16_t * map, unsigned int x, unsigned int y, unsigned int width, u
 	uint16_t * imgStartPos;
 
 	int i;
-		for (i = 0; i < height; i++) {
-			int pos = y + height - 1 - i;
+	for (i = 0; i < height; i++) {
+		int pos = y + height - 1 - i;
 
-			if (pos < 0 || pos >= v_res)
-				continue;
+		if (pos < 0 || pos >= v_res)
+			continue;
 
-			bufferStartPos = buffer;
-			bufferStartPos += x + pos * h_res;
+		bufferStartPos = buffer;
+		bufferStartPos += x + pos * h_res;
 
-			imgStartPos = map + (height - 1 - i)* width;
+		imgStartPos = map + (height - 1 - i)* width;
 
-			memcpy(bufferStartPos, imgStartPos, width*2);
-		}
-return 0;
+		memcpy(bufferStartPos, imgStartPos, width*2);
+	}
+	return 0;
 }
 
 int vg_map_transparent(uint16_t * map, unsigned int x, unsigned int y, unsigned int width, unsigned int height, uint16_t color){
 	uint16_t * ptr = map;
 
-		unsigned int i,j;
-		for(i = y; i< y + height;i++){
-			for(j = x; j < x + width;j++){
-				if ((*ptr) != color){
-					vg_pixel(j,i,*ptr);
-				}
-				ptr++;
+	unsigned int i,j;
+	for(i = y; i< y + height;i++){
+		for(j = x; j < x + width;j++){
+			if ((*ptr) != color){
+				vg_pixel(j,i,*ptr);
 			}
+			ptr++;
 		}
-return 0;
+	}
+	return 0;
 }
 
+int vg_string(char * string,unsigned int x, unsigned int y,  uint16_t color){
+
+	uint16_t * map;
+	unsigned int width, height;
+	map = map_Bitmap("/home/lcom/proj/code/img/font.bmp", &width, &height);
+	uint16_t * ptr;
+	char counter;
+	unsigned int letter_width;
+	unsigned int i, j,tempx = x,tempy = y;
+	while(*string == NULL){
+		if(*string >= MIN_CHAR && *string <= MAX_CHAR){
+			counter = MIN_CHAR-1;
+			while(counter != *string){
+				if(*ptr == 0)
+					counter++;
+				ptr++;
+			}
+			letter_width = 0;
+			while(*ptr != 0x001F){
+				letter_width++;
+			}
+			ptr += width - letter_width;
+			for(i = 0; i < height-1; i++){
+				for(j = 0; j < letter_width;j++)
+				{
+					if ((*ptr) != 0x2016){
+						vg_pixel(tempx,tempy,*ptr);
+					}
+					ptr++;
+					tempx++;
+				}
+				ptr += width - letter_width;
+				tempy++;
+				tempx=x;
+			}
+			tempy =y;
+			x = tempx;
+		}
+		string++;
+ptr = map;
+	}
+	return 0;
+}
 
 void vg_buffer()
 {
