@@ -36,7 +36,7 @@ int mainhandler(){
 
 	menu_handler();
 
-	game_handler();
+	//game_handler();
 
 	vg_exit();
 
@@ -138,6 +138,8 @@ int menu_handler(){
 					update_main_menu(main_menu);
 					draw_main_menu(main_menu);
 					vg_map_transparent(mouse.map, mouse.x, mouse.y, mouse.width, mouse.height, 0);
+					char * ptr = "Rosa";
+					vg_string(ptr, 100,100,0xffff);
 					//vg_pixel(mouse_position.x,mouse_position.y,20);
 					vg_buffer();
 				}
