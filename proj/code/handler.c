@@ -66,7 +66,9 @@ int mouse_packet_handler(){
 			mouse.x += mouse.deltax;
 			mouse.y -= mouse.deltay;
 		}
-		//if
+		mouse.left_btn = packet[0] & LB;
+		mouse.middle_btn = packet[0] & MB;
+		mouse.right_btn = packet[0] & RB;
 
 
 	}
