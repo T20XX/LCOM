@@ -223,6 +223,15 @@ int vg_string(char * string,unsigned int x, unsigned int y, unsigned int spacing
 	return 0;
 }
 
+int vg_rectangle(unsigned int x, unsigned int y, unsigned int width, unsigned int height, uint16_t color){
+	//uint16_t * ptr = buffer;
+	//buffer+=x + y * h_res;
+	unsigned int i;
+	for (i = y; i < y+height;i++){
+		memset(buffer + x + i * h_res, color, width * 2);
+	}
+}
+
 void vg_buffer()
 {
 	memcpy(video_mem, buffer, h_res * v_res * bits_per_pixel/ 8);

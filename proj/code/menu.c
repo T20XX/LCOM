@@ -123,9 +123,9 @@ void update_main_menu_state(Menu * menu){
 		else if(menu->state == BUTTON3_SELECT)
 			menu->state = HIGHSCORES;
 		else if(menu->state == BUTTON4_SELECT)
-			menu->state = SHUTDOWN;
+			menu->state = INSTRUCTIONS;
 		else if(menu->state == BUTTON5_SELECT)
-			menu->state = SHUTDOWN; // O QUE E AQUI?
+			menu->state = SHUTDOWN;
 		else if(menu->state == DONOTHING)
 			menu->state = DONOTHING;
 	}
@@ -155,3 +155,6 @@ void update_main_menu_state(Menu * menu){
 		; //volta para o main_menu; (BACK)
 }*/
 
+void delete_main_menu(Menu * menu){
+	free(menu);
+}

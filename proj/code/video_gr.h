@@ -56,6 +56,8 @@ int vg_map_transparent(uint16_t * map, unsigned int x, unsigned int y, unsigned 
 
 int vg_string(char * string,unsigned int x, unsigned int y, unsigned int spacing,  uint16_t color);
 
+int vg_rectangle(unsigned int x, unsigned int y, unsigned int width, unsigned int height, uint16_t color);
+
 void vg_buffer();
 
 

@@ -16,11 +16,6 @@
 #include "bitmap.h"
 #include "vbe.h"
 
-//typedef struct {
-//	unsigned int x, y;
-//} Position;
-
-//Position mouse_position = { .x = 512, .y = 384};
 
 Mouse_t mouse;
 
@@ -30,16 +25,48 @@ static unsigned int packet_counter = 0 ;
 unsigned long code;
 bool is_two_byte = false;
 
+int timer_irq_set;
+int kbd_irq_set;
+int mouse_irq_set;
+
+unsigned int selecao = 0;
+
 int mainhandler(){
 	vg_init (GRAPHICS_MODE_1024_768_256);				//Initialization of graphics mode in 1024x768 resolution
+	timer_irq_set = timer_subscribe_int();
+	kbd_irq_set = kbd_subscribe_int();
+	mouse_irq_set = mouse_subscribe_int();
+	write_to_mouse();
+	enable_packets();
 
 	mouse.map=map_Bitmap("/home/lcom/proj/code/img/mouse.bmp", &mouse.width, &mouse.height);
+	while (selecao != 6){
+		menu_handler();
 
-	//menu_handler();
+		switch (selecao){
+		case 1:
+			game_handler();
+			selecao = 0;
+		case 2:
+			selecao = 0;
+		case 3:
+			selecao = 0;
+		case 4:
+			selecao = 0;
+		case 5:
+			selecao = 0;
 
-	game_handler();
+		}
+		//game_handler();
+		//selecao = 0;
+	}
 
 	vg_exit();
+	timer_unsubscribe_int();
+	kbd_unsubscribe_int();
+	mouse_unsubscribe_int();
+
+
 
 	return 0;
 }
@@ -107,21 +134,32 @@ main_menu_event main_menu_event_handler(Menu* menu){
 	}
 }
 
+selecao_handler(Menu* menu){
+	if (menu->state == SINGLEPLAYER)
+		selecao = 1;
+	if (menu->state == MULTIPLAYER)
+		selecao = 2;
+	if (menu->state == CHARACTERS)
+		selecao = 3;
+	if (menu->state == HIGHSCORES)
+		selecao = 4;
+	if (menu->state == INSTRUCTIONS)
+		selecao = 5;
+	if (menu->state == SHUTDOWN)
+		selecao = 6;
+}
+
 
 int menu_handler(){
 
 	Menu * main_menu = new_main_menu();
 
-	int mouse_irq_set = mouse_subscribe_int();
-	int timer_irq_set = timer_subscribe_int();
 	int ipc_status;
 	message msg;
 	int r;
-	write_to_mouse();
-	enable_packets();
 	int counter = 0; //Inicialização do contador
 
-	while( counter < (10 * 60)) {
+	while(selecao == 0) {
 		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
 			printf("driver_receive failed with: %d", r);
 			continue;
@@ -142,6 +180,7 @@ int menu_handler(){
 					vg_string("""TESTE, 1, 2, 3", 100,100,2,0xffff);
 					//vg_pixel(mouse_position.x,mouse_position.y,20);
 					vg_buffer();
+					selecao_handler(main_menu);
 				}
 			default:
 				break; /* no other notifications expected: do nothing */
@@ -150,10 +189,7 @@ int menu_handler(){
 			/* no standard messages expected: do nothing */
 		}
 	}
-
-	mouse_unsubscribe_int();
-	timer_unsubscribe_int();
-
+	delete_main_menu(main_menu);
 	return 0;
 }
 
@@ -170,10 +206,6 @@ int kbd_int_handler() {
 		code |= (0xE0 << 8);
 		is_two_byte = false;
 	}
-	/*if ((code & CODETYPE) == 0x00)
-		printf("Makecode : 0x%02x \n",code);
-	else
-		printf("Breakcode : 0x%02x \n",code);*/
 }
 
 
@@ -201,6 +233,19 @@ kbd_game_event kbd_event_handler(){
 	else return NOKEY;
 }
 
+mouse_game_event mouse_event_handler(){
+//	if(mouse.deltax > 10)
+//	{
+//		return MOUSE_LEFT;
+//	}
+//	else if(mouse.deltax < 10)
+//	{
+//		return MOUSE_RIGHT;
+//	}
+//	else
+		return MOUSE_STOPPED;
+}
+
 timer_game_event timer_event_handler(int counter){
 	if( counter%40 == 0)
 		return FALL_TICK;
@@ -211,24 +256,11 @@ timer_game_event timer_event_handler(int counter){
 int game_handler(){
 	Game *game;
 	game = new_game(0);
-	//
-	//
-	//vg_sprite(&game->actual_piece->sprite,0);
-	//vg_sprite(&game->next_piece->sprite,0);
 
 
-	draw_game(game);
-
-	vg_buffer();
-
-	//int mouse_irq_set = mouse_subscribe_int();
-	int timer_irq_set = timer_subscribe_int();
-	int kbd_irq_set = kbd_subscribe_int();
 	int ipc_status;
 	message msg;
 	int r;
-	//write_to_mouse();
-	//enable_packets();
 	int counter = 0; //Inicialização do contador
 
 	while( code != BREAKCODE && game->state != GAME_OVER) {
@@ -239,9 +271,14 @@ int game_handler(){
 		if (is_ipc_notify(ipc_status)) { /* received notification */
 			switch (_ENDPOINT_P(msg.m_source)) {
 			case HARDWARE: /* hardware interrupt notification */
-				//if (msg.NOTIFY_ARG & mouse_irq_set) { /* subscribed interrupt */
-				//	mouse_packet_handler();
-				//}
+				if (msg.NOTIFY_ARG & mouse_irq_set) {
+					mouse_packet_handler();
+					if (packet_counter == 0){
+						game->mouse_event = mouse_event_handler();
+						update_gamestate(game);
+						update_game(game);
+					}
+				}
 				if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
 					kbd_int_handler();
 					game->last_kbd_event = game->kbd_event;
@@ -251,12 +288,20 @@ int game_handler(){
 				}
 				if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
 					counter++;
+					if (counter > 1000){
+						counter = 0;
+					}
 					game->timer_event = timer_event_handler(counter);
 					if(game->timer_event != NO_TICK){
 						update_gamestate(game);
 						update_game(game);
 					}
 					draw_game(game);
+					char buffer[10];
+					sprintf(buffer, "%d", counter);
+					//vg_rectangle(0,0,200,100,BLACK);
+					vg_string(buffer,0,0,2,WHITE);
+
 					vg_buffer();
 				}
 			default:
@@ -265,13 +310,6 @@ int game_handler(){
 		} else { /* received a standard message, not a notification */
 			/* no standard messages expected: do nothing */
 		}
-	}
-
-	//mouse_unsubscribe_int();
-	timer_unsubscribe_int();
-	while (1){
-		if (kbd_unsubscribe_int() == 0)
-			break;
 	}
 
 	return 0;
