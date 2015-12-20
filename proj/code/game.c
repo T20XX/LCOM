@@ -53,6 +53,7 @@ Game * new_game(unsigned int mode){
 	game->fall_delay = INIT_FALL_DELAY;
 	game->timer_event = NO_TICK;
 	game->kbd_event = NOKEY;
+	game->mouse_event = MOUSE_STOPPED;
 	game->state = DO_NOTHING;
 	game->pieces_already_swapped = 0;
 	return game;
@@ -60,10 +61,10 @@ Game * new_game(unsigned int mode){
 
 void update_gamestate(Game * game){
 	game->last_state = game->state;
-	if (game->kbd_event == NOKEY){
+	if (game->kbd_event == NOKEY && game->mouse_event == MOUSE_STOPPED){
 		game->state = DO_NOTHING;
 
-	}else if (game->kbd_event == LEFTKEY_DOWN){
+	}else if (game->kbd_event == LEFTKEY_DOWN || game->mouse_event == MOUSE_LEFT){
 		if (can_piece_move_x(game->actual_piece,&game->board,0)== 0)
 			game->state = MOVE_LEFT;
 		else
@@ -72,7 +73,7 @@ void update_gamestate(Game * game){
 	}else if (game->kbd_event == UPKEY_DOWN){
 		game->state = ROTATE;
 
-	}else if (game->kbd_event == RIGHTKEY_DOWN){
+	}else if (game->kbd_event == RIGHTKEY_DOWN || game->mouse_event == MOUSE_RIGHT){
 		if (can_piece_move_x(game->actual_piece,&game->board,1)== 0)
 			game->state = MOVE_RIGHT;
 		else
@@ -93,7 +94,7 @@ void update_gamestate(Game * game){
 		}
 	}
 
-	if (game->timer_event == FALL_TICK){
+	if (game->timer_event == FALL_TICK && game->state != FALL){
 		if (can_piece_fall(game->actual_piece,&game->board)== 0)
 			game->state = FALL;
 		else if (game->actual_piece->sprite.y >= game->board.y + 2* 30)		//??
@@ -162,6 +163,10 @@ void update_game(Game * game){
 void draw_game(Game * game){
 	vg_map(game->board.map,game->board.x,game->board.y,game->board.width,game->board.height);
 	vg_sprite(&game->actual_piece->sprite,0);
+	vg_rectangle(game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,1,120,760,BLACK);
+	vg_string("NEXT",game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_NEXT_STRING_Y, 2, WHITE);
+	vg_string("POINTS",game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_POINTS_STRING_Y, 2, WHITE);
+	vg_string("LINES",game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_LINES_STRING_Y, 2, WHITE);
 	vg_sprite(&game->next_piece->sprite,0);
 }
 

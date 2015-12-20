@@ -12,7 +12,9 @@ typedef enum {
 	BUTTON5_SELECT,
 	SINGLEPLAYER,
 	MULTIPLAYER,
+	CHARACTERS,
 	HIGHSCORES,
+	INSTRUCTIONS,
 	SHUTDOWN,
 	DONOTHING} main_menu_state;
 
@@ -46,5 +48,6 @@ void draw_main_menu(Menu * menu);
 void update_main_menu(Menu * menu);
 //void update_score_menu(Menu * menu);
 void update_main_menu_state(Menu * menu);
+void delete_main_menu(Menu * menu);
 #endif /* __MENU_H */
 

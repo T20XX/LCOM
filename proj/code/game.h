@@ -10,13 +10,17 @@ typedef enum kbd_game_event {LEFTKEY_DOWN, RIGHTKEY_DOWN, UPKEY_DOWN, DOWNKEY_DO
 
 typedef enum timer_game_event {FALL_TICK, NO_TICK} timer_game_event;
 
-//typedef enum {} mouse_game_event;
+typedef enum mouse_game_event {MOUSE_RIGHT, MOUSE_LEFT, MOUSE_STOPPED} mouse_game_event;
 
 //Game constants
 #define ONE_PLAYER_BOARD_X					332
 #define ONE_PLAYER_BOARD_Y					70
 #define ONE_PLAYER_RELATIVE_NEXT_PIECE_X	420
 #define ONE_PLAYER_RELATIVE_NEXT_PIECE_Y	90
+#define RELATIVE_NEXT_STRING_Y				50
+#define RELATIVE_POINTS_STRING_Y			200
+#define RELATIVE_LINES_STRING_Y				400
+
 
 #define TWO_PLAYER_BOARD_X					150
 #define TWO_PLAYER_BOARD_Y					70
@@ -40,6 +44,7 @@ typedef struct {
 	Piece * next_piece;
 	State state, last_state;
 	kbd_game_event kbd_event, last_kbd_event;
+	mouse_game_event mouse_event;
 	unsigned int fall_delay;
 	timer_game_event timer_event;
 	Board board;
