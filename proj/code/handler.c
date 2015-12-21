@@ -59,6 +59,7 @@ int mainhandler(){
 		}
 		//game_handler();
 		//selecao = 0;
+		code = 0;
 	}
 
 	vg_exit();
@@ -170,6 +171,9 @@ int menu_handler(){
 				if (msg.NOTIFY_ARG & mouse_irq_set) { /* subscribed interrupt */
 					mouse_packet_handler(mouse);
 				}
+				if (msg.NOTIFY_ARG & kbd_irq_set) {
+					kbd_int_handler();
+				}
 				if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
 					counter++;
 					main_menu->event = main_menu_event_handler(main_menu);
@@ -177,16 +181,13 @@ int menu_handler(){
 					update_main_menu(main_menu);
 					draw_main_menu(main_menu);
 					vg_map_transparent(mouse.map, mouse.x, mouse.y, mouse.width, mouse.height, 0);
-					vg_string("""TESTE, 1, 2, 3", 100,100,2,0xffff);
-					//vg_pixel(mouse_position.x,mouse_position.y,20);
 					vg_buffer();
 					selecao_handler(main_menu);
 				}
 			default:
-				break; /* no other notifications expected: do nothing */
+				break;
 			}
-		} else { /* received a standard message, not a notification */
-			/* no standard messages expected: do nothing */
+		} else {
 		}
 	}
 	delete_main_menu(main_menu);
@@ -234,34 +235,36 @@ kbd_game_event kbd_event_handler(){
 }
 
 mouse_game_event mouse_event_handler(){
-//	if(mouse.deltax > 10)
-//	{
-//		return MOUSE_LEFT;
-//	}
-//	else if(mouse.deltax < 10)
-//	{
-//		return MOUSE_RIGHT;
-//	}
-//	else
-		return MOUSE_STOPPED;
+	//	if(mouse.deltax > 10)
+	//	{
+	//		return MOUSE_LEFT;
+	//	}
+	//	else if(mouse.deltax < 10)
+	//	{
+	//		return MOUSE_RIGHT;
+	//	}
+	//	else
+	return MOUSE_STOPPED;
 }
 
-timer_game_event timer_event_handler(int counter){
-	if( counter%40 == 0)
+timer_game_event timer_event_handler(unsigned long counter, unsigned int delay){
+	if( counter%delay == 0)
 		return FALL_TICK;
 	else return NO_TICK;
 }
 
 
 int game_handler(){
-	Game *game;
+	Game * game;
 	game = new_game(0);
 
 
 	int ipc_status;
 	message msg;
 	int r;
-	int counter = 0; //Inicialização do contador
+	unsigned long counter = 0; //Inicialização do contador
+
+	char buffer[10];
 
 	while( code != BREAKCODE && game->state != GAME_OVER) {
 		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
@@ -273,11 +276,11 @@ int game_handler(){
 			case HARDWARE: /* hardware interrupt notification */
 				if (msg.NOTIFY_ARG & mouse_irq_set) {
 					mouse_packet_handler();
-					if (packet_counter == 0){
+					/*if (packet_counter == 0){
 						game->mouse_event = mouse_event_handler();
 						update_gamestate(game);
 						update_game(game);
-					}
+					}*/
 				}
 				if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
 					kbd_int_handler();
@@ -288,20 +291,15 @@ int game_handler(){
 				}
 				if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
 					counter++;
-					if (counter > 1000){
-						counter = 0;
-					}
-					game->timer_event = timer_event_handler(counter);
-					if(game->timer_event != NO_TICK){
-						update_gamestate(game);
-						update_game(game);
-					}
+					//game->timer_event = timer_event_handler(counter, game->fall_delay);
+					//if(game->timer_event != NO_TICK){
+					//	update_gamestate(game);
+					//	update_game(game);
+					//}
 					draw_game(game);
-					char buffer[10];
-					sprintf(buffer, "%d", counter);
-					//vg_rectangle(0,0,200,100,BLACK);
-					vg_string(buffer,0,0,2,WHITE);
-
+					vg_counter(game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_COUNTER_Y, counter);
+					//sprintf(buffer, "%d", counter);
+					//vg_string(buffer,0,0,2,WHITE);
 					vg_buffer();
 				}
 			default:
@@ -311,6 +309,8 @@ int game_handler(){
 			/* no standard messages expected: do nothing */
 		}
 	}
+
+	delete_game(game);
 
 	return 0;
 }

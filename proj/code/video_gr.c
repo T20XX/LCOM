@@ -220,16 +220,26 @@ int vg_string(char * string,unsigned int x, unsigned int y, unsigned int spacing
 		ptr = map;
 		x += spacing;
 	}
+	free(map);
 	return 0;
 }
 
 int vg_rectangle(unsigned int x, unsigned int y, unsigned int width, unsigned int height, uint16_t color){
-	//uint16_t * ptr = buffer;
-	//buffer+=x + y * h_res;
 	unsigned int i;
 	for (i = y; i < y+height;i++){
 		memset(buffer + x + i * h_res, color, width * 2);
 	}
+	return 0;
+}
+
+int vg_counter(unsigned int x, unsigned int y, unsigned long counter){
+	char temp[2];
+	sprintf(temp, "%d", (counter/3600));
+	vg_string(temp,x,y, 2, WHITE);
+	vg_string(":",x+30,y, 2, WHITE);
+	sprintf(temp, "%d", ((counter/60)%60));
+	vg_string(temp,x+40,y, 2, WHITE);
+	return 0;
 }
 
 void vg_buffer()

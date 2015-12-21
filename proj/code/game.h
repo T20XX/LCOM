@@ -17,9 +17,12 @@ typedef enum mouse_game_event {MOUSE_RIGHT, MOUSE_LEFT, MOUSE_STOPPED} mouse_gam
 #define ONE_PLAYER_BOARD_Y					70
 #define ONE_PLAYER_RELATIVE_NEXT_PIECE_X	420
 #define ONE_PLAYER_RELATIVE_NEXT_PIECE_Y	90
+#define RELATIVE_COUNTER_Y					0
 #define RELATIVE_NEXT_STRING_Y				50
 #define RELATIVE_POINTS_STRING_Y			200
+#define RELATIVE_POINTS_Y					260
 #define RELATIVE_LINES_STRING_Y				400
+#define RELATIVE_LINES_Y					460
 
 
 #define TWO_PLAYER_BOARD_X					150
@@ -39,7 +42,7 @@ typedef struct {
 
 typedef struct {
 	unsigned int game_mode;
-	unsigned int time_elapsed;
+	unsigned long time_elapsed;
 	Piece * actual_piece;
 	Piece * next_piece;
 	State state, last_state;
@@ -49,6 +52,8 @@ typedef struct {
 	timer_game_event timer_event;
 	Board board;
 	unsigned int pieces_already_swapped;
+	unsigned int points;
+	unsigned int lines;
 } Game;
 
 Game * new_game(unsigned int mode);
@@ -59,9 +64,11 @@ void update_game(Game * game);
 
 void draw_game(Game * game);
 
+void delete_game(Game * game);
+
 void add_piece(Piece * piece, Board * board);
 
-void remove_finished_lines(Board * board);
+int remove_finished_lines(Board * board);
 
 void rotate_piece(Piece * piece, Piece * rotated);
 
