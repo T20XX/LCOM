@@ -58,6 +58,8 @@ int vg_string(char * string,unsigned int x, unsigned int y, unsigned int spacing
 
 int vg_rectangle(unsigned int x, unsigned int y, unsigned int width, unsigned int height, uint16_t color);
 
+int vg_counter(unsigned int x, unsigned int y, unsigned long counter);
+
 void vg_buffer();
 
 

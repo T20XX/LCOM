@@ -56,6 +56,8 @@ Game * new_game(unsigned int mode){
 	game->mouse_event = MOUSE_STOPPED;
 	game->state = DO_NOTHING;
 	game->pieces_already_swapped = 0;
+	game->points = 0;
+	game->lines = 0;
 	return game;
 }
 
@@ -95,13 +97,15 @@ void update_gamestate(Game * game){
 	}
 
 	if (game->timer_event == FALL_TICK && game->state != FALL){
-		if (can_piece_fall(game->actual_piece,&game->board)== 0)
-			game->state = FALL;
-		else if (game->actual_piece->sprite.y >= game->board.y + 2* 30)		//??
-			game->state = REACH_END;
-		else
-			game->state = GAME_OVER;
-
+		if(game->state != FALL){
+			if (can_piece_fall(game->actual_piece,&game->board)== 0)
+				game->state = FALL;
+			else if (game->actual_piece->sprite.y >= game->board.y + 2* 30)		//??
+				game->state = REACH_END;
+			else
+				game->state = GAME_OVER;
+		}
+		game->time_elapsed += game->fall_delay;
 	}
 }
 
@@ -141,8 +145,10 @@ void update_game(Game * game){
 
 
 	} else if (game->state == REACH_END){
+		unsigned int lines_removed;
+
 		add_piece(game->actual_piece, &game->board);
-		remove_finished_lines(&game->board);
+		lines_removed = remove_finished_lines(&game->board);
 		game->actual_piece = game->next_piece;
 		game->actual_piece->sprite.x = game->board.x + BOARD_RELATIVE_MIDDLE_X;
 		game->actual_piece->sprite.y = game->board.y;
@@ -151,6 +157,9 @@ void update_game(Game * game){
 				(game->board.y + 90));									//substituir por constante
 
 		game->pieces_already_swapped = 0;
+		game->points += 50;
+		game->points += (lines_removed * 250);
+		game->lines += lines_removed;
 	}
 
 	game->actual_piece->sprite.x += game->actual_piece->sprite.xspeed;
@@ -161,13 +170,23 @@ void update_game(Game * game){
 }
 
 void draw_game(Game * game){
+	char temp[5];
+	vg_rectangle(0,0,1024,768,BLACK);
 	vg_map(game->board.map,game->board.x,game->board.y,game->board.width,game->board.height);
 	vg_sprite(&game->actual_piece->sprite,0);
-	vg_rectangle(game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,1,120,760,BLACK);
+
 	vg_string("NEXT",game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_NEXT_STRING_Y, 2, WHITE);
-	vg_string("POINTS",game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_POINTS_STRING_Y, 2, WHITE);
-	vg_string("LINES",game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_LINES_STRING_Y, 2, WHITE);
 	vg_sprite(&game->next_piece->sprite,0);
+	vg_string("POINTS",game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_POINTS_STRING_Y, 2, WHITE);
+	sprintf(temp, "%d", game->points);
+	vg_string(temp,game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_POINTS_Y, 2, WHITE);
+	vg_string("LINES",game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_LINES_STRING_Y, 2, WHITE);
+	sprintf(temp, "%d", game->lines);
+	vg_string(temp,game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_LINES_Y, 2, WHITE);
+}
+
+void delete_game(Game * game){
+	free(game);
 }
 
 void add_piece(Piece * piece, Board * board){
@@ -189,7 +208,9 @@ void add_piece(Piece * piece, Board * board){
 	}
 }
 
-void remove_finished_lines(Board * board){
+int remove_finished_lines(Board * board){
+	int lines_removed = 0;
+
 	uint16_t * board_ptr = board->map;
 
 	board_ptr += (board->width * 30 * 21) + 30;				//??
@@ -210,7 +231,7 @@ void remove_finished_lines(Board * board){
 				}
 			}
 			i++;
-
+			lines_removed++;
 		} else if(counter == 0){
 			break;
 		} else{
@@ -218,6 +239,7 @@ void remove_finished_lines(Board * board){
 		}
 		counter = 0;
 	}
+	return lines_removed;
 }
 
 void rotate_piece(Piece * piece, Piece * rotated){
@@ -250,16 +272,16 @@ void rotate_piece(Piece * piece, Piece * rotated){
 	unsigned int height = piece->sprite.height;
 
 	piece->sprite.height = width;
-		piece->sprite.width = height;
+	piece->sprite.width = height;
 
 	piece->sprite.map = temp_ptr - (width * height);
 
-//	rotated->sprite.x = piece->sprite.x;
-//		rotated->sprite.y = piece->sprite.y;
-//	rotated->sprite.height = piece->sprite.width;
-//	rotated->sprite.width = piece->sprite.height;
-//
-//	rotated->sprite.map = temp_ptr - (rotated->sprite.width*rotated->sprite.height);
+	//	rotated->sprite.x = piece->sprite.x;
+	//		rotated->sprite.y = piece->sprite.y;
+	//	rotated->sprite.height = piece->sprite.width;
+	//	rotated->sprite.width = piece->sprite.height;
+	//
+	//	rotated->sprite.map = temp_ptr - (rotated->sprite.width*rotated->sprite.height);
 
 	//piece->sprite.width = temp.sprite.height;
 	//piece->sprite.height = temp.sprite.width;
@@ -281,11 +303,11 @@ void swap_pieces(Piece * actual, Piece * next){
 	uint16_t *actual_ptr = actual->sprite.map;
 
 	unsigned int i;
-			for(i=0; i < actual->sprite.height;i++){
-				memcpy(temp_ptr,actual_ptr,actual->sprite.width*2);
-				temp_ptr += actual->sprite.width;
-				actual_ptr += actual->sprite.width;
-			}
+	for(i=0; i < actual->sprite.height;i++){
+		memcpy(temp_ptr,actual_ptr,actual->sprite.width*2);
+		temp_ptr += actual->sprite.width;
+		actual_ptr += actual->sprite.width;
+	}
 
 	actual->sprite = next->sprite;
 	actual->sprite.x=actual_x;
