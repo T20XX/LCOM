@@ -77,9 +77,9 @@ int can_piece_fall(Piece * piece, Board * board){
 }
 
 int can_piece_be_placed(Piece * piece, Board * board){
-	if (((piece->sprite.x + piece->sprite.width) >= (board->x + board->width)) ||
+	/*if (((piece->sprite.x + piece->sprite.width) >= (board->x + board->width)) ||
 			((piece->sprite.y + piece->sprite.height) >= (board->y + board->height)))
-					return 1;
+					return 1;*/
 
 
 	uint16_t * piece_ptr;

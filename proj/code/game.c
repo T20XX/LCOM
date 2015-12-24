@@ -315,17 +315,18 @@ void rotate_piece(Piece * piece, Board * board){
 	piece->sprite.width = height;
 
 	piece_ptr = piece->sprite.map;
-	piece->sprite.map = temp_ptr - (width * height);
+	temp_ptr -= (width * height);
+	piece->sprite.map = temp_ptr;
 
 	if (can_piece_be_placed(piece, board) == 1){
 		piece->sprite.height = height;
 		piece->sprite.width = width;
 		piece->sprite.map = piece_ptr;
-		free (temp_ptr);
+		//free (temp_ptr);
 	}
 	else
 	{
-		free (piece_ptr);
+		//free (piece_ptr);
 	}
 
 	//	rotated->sprite.x = piece->sprite.x;
