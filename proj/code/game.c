@@ -171,7 +171,7 @@ void update_game(Game * game){
 	} else if (game->state == DO_NOTHING){
 
 	} else if (game->state == SWAP_PIECES){
-		swap_pieces (game->actual_piece,game->next_piece);
+		swap_pieces (game->actual_piece,game->next_piece, &game->board);
 
 		//delete_piece(&temp);
 
@@ -210,7 +210,7 @@ void update_game(Game * game){
 }
 
 void draw_game(Game * game){
-	char temp[5];
+	char temp[8];
 	vg_rectangle(0,0,1024,768,BLACK);
 	vg_map(game->board.map,game->board.x,game->board.y,game->board.width,game->board.height);
 	vg_sprite(&game->actual_piece->sprite,0);
@@ -322,11 +322,11 @@ void rotate_piece(Piece * piece, Board * board){
 		piece->sprite.height = height;
 		piece->sprite.width = width;
 		piece->sprite.map = piece_ptr;
-		//free (temp_ptr);
+		free (temp_ptr);
 	}
 	else
 	{
-		//free (piece_ptr);
+		free (piece_ptr);
 	}
 
 	//	rotated->sprite.x = piece->sprite.x;
@@ -343,7 +343,7 @@ void rotate_piece(Piece * piece, Board * board){
 	//delete_piece(piece);
 }
 
-void swap_pieces(Piece * actual, Piece * next){
+void swap_pieces(Piece * actual, Piece * next, Board * board){
 	unsigned int actual_x = actual->sprite.x;
 	unsigned int next_x = next->sprite.x;
 	unsigned int actual_y = actual->sprite.y;
@@ -363,8 +363,11 @@ void swap_pieces(Piece * actual, Piece * next){
 	}
 
 	actual->sprite = next->sprite;
-	actual->sprite.x=actual_x;
-	actual->sprite.y=actual_y;
+	//actual->sprite.x=actual_x;
+	//actual->sprite.y=actual_y;
+
+	actual->sprite.x = board->x + BOARD_RELATIVE_MIDDLE_X;
+	actual->sprite.y = board->y;
 
 	next->sprite.width = width;
 	next->sprite.height = height;
