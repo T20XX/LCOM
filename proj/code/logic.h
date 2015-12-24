@@ -23,4 +23,6 @@ int can_piece_move_x(Piece * piece, Board * board, unsigned int dir);
 
 int can_piece_fall(Piece * piece, Board * board);
 
+int can_piece_be_placed(Piece * piece, Board * board);
+
 #endif /* __LOGIC_H */

@@ -49,7 +49,6 @@ Game * new_game(unsigned int mode){
 	game->actual_piece->sprite.x -= (int)((game->actual_piece->sprite.width / 2) /FACE_LENGTH) * 30;  //error when using face_length
 
 	//Initializing others variables of game
-	game->time_elapsed = 0;
 	game->fall_delay = INIT_FALL_DELAY;
 	game->timer_event = NO_TICK;
 	game->kbd_event = NOKEY;
@@ -62,41 +61,83 @@ Game * new_game(unsigned int mode){
 }
 
 void update_gamestate(Game * game){
-	game->last_state = game->state;
-	if (game->kbd_event == NOKEY && game->mouse_event == MOUSE_STOPPED){
-		game->state = DO_NOTHING;
+	//game->last_state = game->state;
+	switch (game->kbd_event){
 
-	}else if (game->kbd_event == LEFTKEY_DOWN || game->mouse_event == MOUSE_LEFT){
+	case NOKEY:
+		game->state = DO_NOTHING;
+		break;
+
+	case LEFTKEY_DOWN:
 		if (can_piece_move_x(game->actual_piece,&game->board,0)== 0)
 			game->state = MOVE_LEFT;
 		else
 			game->state = DO_NOTHING;
+		break;
 
-	}else if (game->kbd_event == UPKEY_DOWN){
-		game->state = ROTATE;
-
-	}else if (game->kbd_event == RIGHTKEY_DOWN || game->mouse_event == MOUSE_RIGHT){
+	case RIGHTKEY_DOWN:
 		if (can_piece_move_x(game->actual_piece,&game->board,1)== 0)
 			game->state = MOVE_RIGHT;
 		else
 			game->state = DO_NOTHING;
+		break;
 
-	}else if (game->kbd_event == DOWNKEY_DOWN){
+	case DOWNKEY_DOWN:
 		if (can_piece_fall(game->actual_piece,&game->board)== 0)
 			game->state = FALL;
 		else if (game->actual_piece->sprite.y >= game->board.y + 2* 30)		//??
 			game->state = REACH_END;
 		else
 			game->state = GAME_OVER;
+		break;
 
-	}else if (game->kbd_event == SPACEBAR_DOWN){
+	case UPKEY_DOWN:
+		game->state = ROTATE;
+		break;
+
+	case SPACEBAR_DOWN:
 		if (game->pieces_already_swapped == 0){
 			game->state = SWAP_PIECES;
 			game->pieces_already_swapped = 1;
 		}
-	}
+		break;
 
-	if (game->timer_event == FALL_TICK && game->state != FALL){
+	default:
+		break;
+	}
+	//	if (game->kbd_event == DOWNKEY_DOWN || game->timer_event == FALL_TICK){
+	//			if (can_piece_fall(game->actual_piece,&game->board)== 0)
+	//				game->state = FALL;
+	//			else if (game->actual_piece->sprite.y >= game->board.y + 2* 30)		//??
+	//				game->state = REACH_END;
+	//			else
+	//				game->state = GAME_OVER;
+	//	}else if (game->kbd_event == NOKEY && game->mouse_event == MOUSE_STOPPED){
+	//		game->state = DO_NOTHING;
+	//
+	//	}else if (game->kbd_event == LEFTKEY_DOWN || game->mouse_event == MOUSE_LEFT){
+	//		if (can_piece_move_x(game->actual_piece,&game->board,0)== 0)
+	//			game->state = MOVE_LEFT;
+	//		else
+	//			game->state = DO_NOTHING;
+	//
+	//	}else if (game->kbd_event == UPKEY_DOWN){
+	//		game->state = ROTATE;
+	//
+	//	}else if (game->kbd_event == RIGHTKEY_DOWN || game->mouse_event == MOUSE_RIGHT){
+	//		if (can_piece_move_x(game->actual_piece,&game->board,1)== 0)
+	//			game->state = MOVE_RIGHT;
+	//		else
+	//			game->state = DO_NOTHING;
+	//
+	//	} else if (game->kbd_event == SPACEBAR_DOWN){
+	//		if (game->pieces_already_swapped == 0){
+	//			game->state = SWAP_PIECES;
+	//			game->pieces_already_swapped = 1;
+	//		}
+	//	}
+
+	if (game->timer_event == FALL_TICK){
 		if(game->state != FALL){
 			if (can_piece_fall(game->actual_piece,&game->board)== 0)
 				game->state = FALL;
@@ -105,7 +146,6 @@ void update_gamestate(Game * game){
 			else
 				game->state = GAME_OVER;
 		}
-		game->time_elapsed += game->fall_delay;
 	}
 }
 
@@ -122,7 +162,7 @@ void update_game(Game * game){
 	} else if (game->state == ROTATE){
 		Piece * rotated = (Piece*) malloc(sizeof(Piece));
 
-		rotate_piece(game->actual_piece, rotated);
+		rotate_piece(game->actual_piece, &game->board);
 
 		//delete_piece(game->actual_piece);
 		//game->actual_piece = rotated;
@@ -242,7 +282,7 @@ int remove_finished_lines(Board * board){
 	return lines_removed;
 }
 
-void rotate_piece(Piece * piece, Piece * rotated){
+void rotate_piece(Piece * piece, Board * board){
 	/*Piece temp = *piece;
 	uint16_t * temp_ptr = temp.sprite.map;
 	uint16_t * piece_ptr = piece->sprite.map;*/
@@ -274,7 +314,19 @@ void rotate_piece(Piece * piece, Piece * rotated){
 	piece->sprite.height = width;
 	piece->sprite.width = height;
 
+	piece_ptr = piece->sprite.map;
 	piece->sprite.map = temp_ptr - (width * height);
+
+	if (can_piece_be_placed(piece, board) == 1){
+		piece->sprite.height = height;
+		piece->sprite.width = width;
+		piece->sprite.map = piece_ptr;
+		free (temp_ptr);
+	}
+	else
+	{
+		free (piece_ptr);
+	}
 
 	//	rotated->sprite.x = piece->sprite.x;
 	//		rotated->sprite.y = piece->sprite.y;

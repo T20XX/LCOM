@@ -15,6 +15,7 @@
 #include "sprite.h"
 #include "bitmap.h"
 #include "vbe.h"
+#include "rtc.h"
 
 
 Mouse_t mouse;
@@ -28,6 +29,7 @@ bool is_two_byte = false;
 int timer_irq_set;
 int kbd_irq_set;
 int mouse_irq_set;
+int rtc_irq_set;
 
 unsigned int selecao = 0;
 
@@ -36,6 +38,7 @@ int mainhandler(){
 	timer_irq_set = timer_subscribe_int();
 	kbd_irq_set = kbd_subscribe_int();
 	mouse_irq_set = mouse_subscribe_int();
+	rtc_irq_set = rtc_subscribe_int();
 	write_to_mouse();
 	enable_packets();
 
@@ -61,11 +64,11 @@ int mainhandler(){
 		//selecao = 0;
 		code = 0;
 	}
-
 	vg_exit();
 	timer_unsubscribe_int();
 	kbd_unsubscribe_int();
 	mouse_unsubscribe_int();
+	rtc_unsubscribe_int();
 
 
 
@@ -180,6 +183,7 @@ int menu_handler(){
 					update_main_menu_state(main_menu);
 					update_main_menu(main_menu);
 					draw_main_menu(main_menu);
+					rtc_draw_current_time(RTC_TIME_X,RTC_TIME_Y);
 					vg_map_transparent(mouse.map, mouse.x, mouse.y, mouse.width, mouse.height, 0);
 					vg_buffer();
 					selecao_handler(main_menu);
@@ -286,16 +290,18 @@ int game_handler(){
 					kbd_int_handler();
 					game->last_kbd_event = game->kbd_event;
 					game->kbd_event = kbd_event_handler();
-					update_gamestate(game);
-					update_game(game);
+					if (game->kbd_event != NOKEY){
+						update_gamestate(game);
+						update_game(game);
+					}
 				}
 				if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
 					counter++;
-					//game->timer_event = timer_event_handler(counter, game->fall_delay);
-					//if(game->timer_event != NO_TICK){
-					//	update_gamestate(game);
-					//	update_game(game);
-					//}
+					game->timer_event = timer_event_handler(counter, game->fall_delay);
+					if(game->timer_event != NO_TICK){
+						update_gamestate(game);
+						update_game(game);
+					}
 					draw_game(game);
 					vg_counter(game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_COUNTER_Y, counter);
 					//sprintf(buffer, "%d", counter);

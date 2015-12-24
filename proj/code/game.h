@@ -42,7 +42,6 @@ typedef struct {
 
 typedef struct {
 	unsigned int game_mode;
-	unsigned long time_elapsed;
 	Piece * actual_piece;
 	Piece * next_piece;
 	State state, last_state;
@@ -70,7 +69,7 @@ void add_piece(Piece * piece, Board * board);
 
 int remove_finished_lines(Board * board);
 
-void rotate_piece(Piece * piece, Piece * rotated);
+void rotate_piece(Piece * piece, Board * board);
 
 void swap_pieces(Piece * actual, Piece * next);
 
