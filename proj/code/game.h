@@ -71,6 +71,6 @@ int remove_finished_lines(Board * board);
 
 void rotate_piece(Piece * piece, Board * board);
 
-void swap_pieces(Piece * actual, Piece * next);
+void swap_pieces(Piece * actual, Piece * next, Board * board);
 
 #endif /* __GAME_H */
