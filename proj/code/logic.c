@@ -59,7 +59,7 @@ int can_piece_fall(Piece * piece, Board * board){
 		relative_y = 0;
 		while((*piece_ptr) == 0){							//"Climbs" piece sprite to find "pixel" not black
 			relative_y -= FACE_LENGTH;
-			piece_ptr += piece->sprite.width * FACE_LENGTH;			//??
+			piece_ptr -= piece->sprite.width * FACE_LENGTH;			//??
 		}
 
 		board_ptr = board->map;
@@ -73,5 +73,27 @@ int can_piece_fall(Piece * piece, Board * board){
 		}
 	}
 
+	return 0;
+}
+
+int can_piece_be_placed(Piece * piece, Board * board){
+	if (((piece->sprite.x + piece->sprite.width) >= (board->x + board->width)) ||
+			((piece->sprite.y + piece->sprite.height) >= (board->y + board->height)))
+					return 1;
+
+
+	uint16_t * piece_ptr;
+	uint16_t * board_ptr;
+
+	unsigned int i, j;
+	for(i=0; i<(piece->sprite.height / FACE_LENGTH);i++){
+		for(j=0; j<(piece->sprite.width / FACE_LENGTH);j++){
+			piece_ptr = piece->sprite.map + (j* FACE_LENGTH)+ (i *piece->sprite.width * FACE_LENGTH);
+			board_ptr = board->map + ((piece->sprite.x - board->x) + (j*FACE_LENGTH)) +
+					(board->width * ((piece->sprite.y - board->y) + (i * FACE_LENGTH)));
+			if(*piece_ptr != 0x00 && *board_ptr != 0x00)
+				return 1;
+		}
+	}
 	return 0;
 }

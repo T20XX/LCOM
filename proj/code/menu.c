@@ -11,7 +11,7 @@ Button new_button(const char* filename_null,const char* filename_above){
 Menu * new_main_menu(){
 	Menu * main_menu = (Menu*) malloc(sizeof(Menu));
 	main_menu->buttons = (Button*)malloc(sizeof(Button)*6);
-	main_menu->background = loadBitmap("/home/lcom/proj/code/img/test.bmp");
+	main_menu->background = loadBitmap("/home/lcom/proj/code/img/background.bmp");
 
 	main_menu->buttons[0].null = map_Bitmap("/home/lcom/proj/code/img/button0_null.bmp", &main_menu->buttons[0].width, &main_menu->buttons[0].height);
 	main_menu->buttons[0].above = map_Bitmap("/home/lcom/proj/code/img/button0_above.bmp", &main_menu->buttons[0].width, &main_menu->buttons[0].height);
