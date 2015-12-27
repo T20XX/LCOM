@@ -233,12 +233,26 @@ int vg_rectangle(unsigned int x, unsigned int y, unsigned int width, unsigned in
 }
 
 int vg_counter(unsigned int x, unsigned int y, unsigned long counter){
-	char temp[2];
+	char temp[3];
 	sprintf(temp, "%d", (counter/3600));
+	if (counter/3600 < 10){
+			temp[2] = temp[1];
+			temp[1] = temp[0];
+			temp[0] = '0';
+		}
 	vg_string(temp,x,y, 2, WHITE);
-	vg_string(":",x+30,y, 2, WHITE);
+
+	x+=40;
+	vg_string(":",x,y, 2, WHITE);
+
 	sprintf(temp, "%d", ((counter/60)%60));
-	vg_string(temp,x+40,y, 2, WHITE);
+	if ((counter/60)%60 < 10){
+				temp[2] = temp[1];
+				temp[1] = temp[0];
+				temp[0] = '0';
+			}
+	x+=10;
+	vg_string(temp,x,y, 2, WHITE);
 	return 0;
 }
 

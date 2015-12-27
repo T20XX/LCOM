@@ -33,6 +33,8 @@ int rtc_irq_set;
 
 unsigned int selecao = 0;
 
+unsigned int highscores[3];
+
 int mainhandler(){
 	vg_init (GRAPHICS_MODE_1024_768_256);				//Initialization of graphics mode in 1024x768 resolution
 	timer_irq_set = timer_subscribe_int();
@@ -43,6 +45,7 @@ int mainhandler(){
 	enable_packets();
 
 	mouse.map=map_Bitmap("/home/lcom/proj/code/img/mouse.bmp", &mouse.width, &mouse.height);
+	rtc_get_highscores(highscores);
 	while (selecao != 6){
 		menu_handler();
 
@@ -55,6 +58,7 @@ int mainhandler(){
 		case 3:
 			selecao = 0;
 		case 4:
+			highscores_handler();
 			selecao = 0;
 		case 5:
 			selecao = 0;
@@ -315,8 +319,64 @@ int game_handler(){
 			/* no standard messages expected: do nothing */
 		}
 	}
+	if (game->points >= highscores[0]){
+		highscores[2]=highscores[1];
+		highscores[1]=highscores[0];
+		highscores[0] = game->points;
+	} else if (game->points >= highscores[1]){
+		highscores[2]=highscores[1];
+		highscores[1] = game->points;
+	} else if (game->points >= highscores[2]){
+		highscores[2] = game->points;
+	}
 
+	rtc_set_highscores(highscores);
 	delete_game(game);
+
+	return 0;
+}
+
+
+int highscores_handler(){
+
+	int ipc_status;
+	message msg;
+	int r;
+
+	char temp[8];
+
+	while( code != BREAKCODE) {
+		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+			printf("driver_receive failed with: %d", r);
+			continue;
+		}
+		if (is_ipc_notify(ipc_status)) { /* received notification */
+			switch (_ENDPOINT_P(msg.m_source)) {
+			case HARDWARE: /* hardware interrupt notification */
+				if (msg.NOTIFY_ARG & mouse_irq_set) {
+					mouse_packet_handler();
+
+				}
+				if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
+					kbd_int_handler();
+				}
+				if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
+					vg_string("HIGHSCORES",0,0,2,WHITE);
+					sprintf(temp, "%d", highscores[0]);
+					vg_string(temp,0,100,2,WHITE);
+					sprintf(temp, "%d", highscores[1]);
+					vg_string(temp,0,200,2,WHITE);
+					sprintf(temp, "%d", highscores[2]);
+					vg_string(temp,0,300,2,WHITE);
+					vg_buffer();
+				}
+			default:
+				break; /* no other notifications expected: do nothing */
+			}
+		} else { /* received a standard message, not a notification */
+			/* no standard messages expected: do nothing */
+		}
+	}
 
 	return 0;
 }
