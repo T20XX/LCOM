@@ -16,6 +16,7 @@
 #include "bitmap.h"
 #include "vbe.h"
 #include "rtc.h"
+#include "serial.h"
 
 
 Mouse_t mouse;
@@ -30,6 +31,7 @@ int timer_irq_set;
 int kbd_irq_set;
 int mouse_irq_set;
 int rtc_irq_set;
+int serial_irq_set;
 
 unsigned int selecao = 0;
 
@@ -41,6 +43,7 @@ int mainhandler(){
 	kbd_irq_set = kbd_subscribe_int();
 	mouse_irq_set = mouse_subscribe_int();
 	rtc_irq_set = rtc_subscribe_int();
+	serial_irq_set = serial_subscribe_int();
 	write_to_mouse();
 	enable_packets();
 
@@ -54,6 +57,7 @@ int mainhandler(){
 			game_handler();
 			selecao = 0;
 		case 2:
+			multi_game_handler();
 			selecao = 0;
 		case 3:
 			selecao = 0;
@@ -73,7 +77,7 @@ int mainhandler(){
 	kbd_unsubscribe_int();
 	mouse_unsubscribe_int();
 	rtc_unsubscribe_int();
-
+	serial_unsubscribe_int();
 
 
 	return 0;
@@ -191,6 +195,9 @@ int menu_handler(){
 					vg_map_transparent(mouse.map, mouse.x, mouse.y, mouse.width, mouse.height, 0);
 					vg_buffer();
 					selecao_handler(main_menu);
+				}
+				if (msg.NOTIFY_ARG & serial_irq_set) {
+
 				}
 			default:
 				break;
@@ -312,6 +319,8 @@ int game_handler(){
 					//vg_string(buffer,0,0,2,WHITE);
 					vg_buffer();
 				}
+				if (msg.NOTIFY_ARG & serial_irq_set) {
+				}
 			default:
 				break; /* no other notifications expected: do nothing */
 			}
@@ -336,6 +345,105 @@ int game_handler(){
 	return 0;
 }
 
+
+int multi_game_handler(){
+	//Game * game;
+	//game = new_game(0);
+
+	serial_write_char('A');
+
+	int int_type;
+	int_type = serial_interrupt_identification();
+	switch (int_type){
+	case -1:
+		vg_string("UART DID NOT GENERATE THAT INTERRUPT",0,0,2,WHITE);
+		break;
+	case 0:
+		vg_string("MODEM STATUS",0,50,2,WHITE);
+		break;
+	case 1:
+		vg_string("TRANSMITTER EMPTY",0,100,2,WHITE);
+		break;
+	case 2:
+		vg_string("RECEIVED DATA AVAILABLE",0,150,2,WHITE);
+		break;
+	case 3:
+		vg_string("LINE STATUS",0,200,2,WHITE);
+		break;
+	case 4:
+		vg_string("CHARACTER TIMEOUT INDICATION",0,250,2,WHITE);
+		break;
+	default:
+		break;
+	}
+
+
+
+	int ipc_status;
+	message msg;
+	int r;
+	unsigned long counter = 0; //Inicialização do contador
+
+	char buffer[10];
+
+	while( code != BREAKCODE) {
+		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+			printf("driver_receive failed with: %d", r);
+			continue;
+		}
+		if (is_ipc_notify(ipc_status)) { /* received notification */
+			switch (_ENDPOINT_P(msg.m_source)) {
+			case HARDWARE: /* hardware interrupt notification */
+				if (msg.NOTIFY_ARG & mouse_irq_set) {
+					mouse_packet_handler();
+				}
+				if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
+					kbd_int_handler();
+					//					game->last_kbd_event = game->kbd_event;
+					//					game->kbd_event = kbd_event_handler();
+					//					if (game->kbd_event != NOKEY){
+					//						update_gamestate(game);
+					//						update_game(game);
+					//					}
+				}
+				if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
+					//					counter++;
+					//					game->timer_event = timer_event_handler(counter, game->fall_delay);
+					//					if(game->timer_event != NO_TICK){
+					//						update_gamestate(game);
+					//						update_game(game);
+					//					}
+					//					draw_game(game);
+					//					vg_counter(game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_COUNTER_Y, counter);
+					vg_buffer();
+				}
+				if (msg.NOTIFY_ARG & serial_irq_set) {
+					char temp;
+					temp = serial_read_char();
+					vg_string(&temp,0,0,2,WHITE);
+					//					int int_type;
+					//					int_type = serial_interrupt_identification();
+					//					switch (int_type){
+					//					case -1: vg_string("UART DID NOT GENERATE THAT INTERRUPT",0,0,2,WHITE);
+					//					case 0: vg_string("MODEM STATUS",0,0,2,WHITE);
+					//					case 1:vg_string("TRANSMITTER EMPTY",0,0,2,WHITE);
+					//					case 2:vg_string("RECEIVED DATA AVAILABLE",0,0,2,WHITE);
+					//					case 3:vg_string("LINE STATUS",0,0,2,WHITE);
+					//					case 4:vg_string("CHARACTER TIMEOUT INDICATION",0,0,2,WHITE);
+					//					}
+				}
+			default:
+				break; /* no other notifications expected: do nothing */
+			}
+		} else { /* received a standard message, not a notification */
+			/* no standard messages expected: do nothing */
+		}
+	}
+
+	//delete_game(game);
+
+	return 0;
+}
 
 int highscores_handler(){
 
@@ -369,6 +477,8 @@ int highscores_handler(){
 					sprintf(temp, "%d", highscores[2]);
 					vg_string(temp,0,300,2,WHITE);
 					vg_buffer();
+				}
+				if (msg.NOTIFY_ARG & serial_irq_set) {
 				}
 			default:
 				break; /* no other notifications expected: do nothing */
