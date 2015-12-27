@@ -116,3 +116,37 @@ void rtc_draw_current_time(unsigned int x, unsigned int y){
 	}
 	vg_string(temp,x,y, 2, WHITE);
 }
+
+
+void rtc_get_highscores(unsigned int highscores[3]){
+	unsigned long temp;
+
+	sys_outb(RTC_ADDR_REG, HIGH_REG_1);
+	sys_inb(RTC_DATA_REG, &temp);
+	highscores[0]= (unsigned int)temp * 50;
+
+	sys_outb(RTC_ADDR_REG, HIGH_REG_2);
+	sys_inb(RTC_DATA_REG, &temp);
+	highscores[1]= (unsigned int)temp * 50;
+
+	sys_outb(RTC_ADDR_REG, HIGH_REG_3);
+	sys_inb(RTC_DATA_REG, &temp);
+	highscores[2]= (unsigned int)temp * 50;
+}
+
+void rtc_set_highscores(unsigned int highscores[3]){
+	unsigned long temp;
+
+	temp = highscores[0]/50;
+	sys_outb(RTC_ADDR_REG, HIGH_REG_1);
+	sys_outb(RTC_DATA_REG, temp);
+
+
+	temp = highscores[1]/50;
+	sys_outb(RTC_ADDR_REG, HIGH_REG_2);
+	sys_outb(RTC_DATA_REG, temp);
+
+	temp = highscores[2]/50;
+	sys_outb(RTC_ADDR_REG, HIGH_REG_3);
+	sys_outb(RTC_DATA_REG, temp);
+}
