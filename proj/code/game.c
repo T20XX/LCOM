@@ -294,8 +294,8 @@ int remove_finished_lines(Board * board){
 			}
 			i++;
 			lines_removed++;
-		} else if(counter == 0){
-			break;
+		//} else if(counter == 0){
+			//break;
 		} else{
 			board_ptr -= (board->width * 30);				//??
 		}
