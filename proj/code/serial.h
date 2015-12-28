@@ -23,6 +23,9 @@
 #define X64_BYTE_FIFO					5
 #define FIFO_STATUS						6
 
+//LSR
+#define LINE_STATUS_LSR					5
+
 int serial_subscribe_int();
 
 int serial_unsubscribe_int();

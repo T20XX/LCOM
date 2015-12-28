@@ -170,6 +170,7 @@ int menu_handler(){
 	message msg;
 	int r;
 	int counter = 0; //Inicialização do contador
+	unsigned long serial_info;
 
 	while(selecao == 0) {
 		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
@@ -197,7 +198,11 @@ int menu_handler(){
 					selecao_handler(main_menu);
 				}
 				if (msg.NOTIFY_ARG & serial_irq_set) {
-
+					if (serial_int_handler(&serial_info) == 2){
+						if (serial_info == 'G'){
+							selecao = 2;
+						}
+					}
 				}
 			default:
 				break;
@@ -205,7 +210,12 @@ int menu_handler(){
 		} else {
 		}
 	}
-	delete_main_menu(main_menu);
+	if (selecao == 2 && main_menu->state == MULTIPLAYER){
+		serial_write_char('G');
+		serial_int_handler(&serial_info);
+	}
+
+		delete_main_menu(main_menu);
 	return 0;
 }
 
@@ -345,13 +355,7 @@ int game_handler(){
 	return 0;
 }
 
-
-int multi_game_handler(){
-	//Game * game;
-	//game = new_game(0);
-
-	serial_write_char('A');
-
+int serial_int_handler(unsigned long * temp){
 	int int_type;
 	int_type = serial_interrupt_identification();
 	switch (int_type){
@@ -363,21 +367,30 @@ int multi_game_handler(){
 		break;
 	case 1:
 		vg_string("TRANSMITTER EMPTY",0,100,2,WHITE);
+		sys_inb(COM1_ADDRESS + INTERRUPT_IDENTIFICATION_IIR, temp);		//RESET
 		break;
 	case 2:
 		vg_string("RECEIVED DATA AVAILABLE",0,150,2,WHITE);
+		*temp = serial_read_char();											//RESET
 		break;
 	case 3:
 		vg_string("LINE STATUS",0,200,2,WHITE);
+		sys_inb(COM1_ADDRESS + LINE_STATUS_LSR, temp);						//RESET
 		break;
 	case 4:
 		vg_string("CHARACTER TIMEOUT INDICATION",0,250,2,WHITE);
+		*temp = serial_read_char();											//RESET
 		break;
 	default:
 		break;
 	}
 
+	return int_type;
+}
 
+int multi_game_handler(){
+	//Game * game;
+	//game = new_game(0);
 
 	int ipc_status;
 	message msg;
@@ -385,6 +398,10 @@ int multi_game_handler(){
 	unsigned long counter = 0; //Inicialização do contador
 
 	char buffer[10];
+	unsigned long serial_info;
+//	if (serial_int_handler(&serial_info) == 1){
+//		serial_write_char('G');
+//	}
 
 	while( code != BREAKCODE) {
 		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
@@ -399,6 +416,10 @@ int multi_game_handler(){
 				}
 				if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
 					kbd_int_handler();
+					//char temp;
+					//temp = serial_read_char();
+					//unsigned long tmp;
+					//sys_inb(COM1_ADDRESS + LINE_STATUS_LSR, &tmp);
 					//					game->last_kbd_event = game->kbd_event;
 					//					game->kbd_event = kbd_event_handler();
 					//					if (game->kbd_event != NOKEY){
@@ -418,9 +439,11 @@ int multi_game_handler(){
 					vg_buffer();
 				}
 				if (msg.NOTIFY_ARG & serial_irq_set) {
-					char temp;
-					temp = serial_read_char();
-					vg_string(&temp,0,0,2,WHITE);
+					//unsigned long tmp;
+					//sys_inb(COM1_ADDRESS + LINE_STATUS_LSR, &tmp);
+					//char temp;
+					//temp = serial_read_char();
+					//vg_string(&temp,0,0,2,WHITE);
 					//					int int_type;
 					//					int_type = serial_interrupt_identification();
 					//					switch (int_type){
