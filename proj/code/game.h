@@ -53,6 +53,7 @@ typedef struct {
 	unsigned int pieces_already_swapped;
 	unsigned int points;
 	unsigned int lines;
+	unsigned int lines_received;
 } Game;
 
 Game * new_game(unsigned int mode);
@@ -72,5 +73,7 @@ int remove_finished_lines(Board * board);
 void rotate_piece(Piece * piece, Board * board);
 
 void swap_pieces(Piece * actual, Piece * next, Board * board);
+
+int add_lines_received(Board * board, unsigned int lines);
 
 #endif /* __GAME_H */

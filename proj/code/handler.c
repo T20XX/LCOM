@@ -56,16 +56,23 @@ int mainhandler(){
 		case 1:
 			game_handler();
 			selecao = 0;
+			break;
 		case 2:
 			multi_game_handler();
 			selecao = 0;
+			break;
 		case 3:
 			selecao = 0;
+			break;
 		case 4:
 			highscores_handler();
 			selecao = 0;
+			break;
 		case 5:
 			selecao = 0;
+			break;
+		default:
+			break;
 
 		}
 		//game_handler();
@@ -199,7 +206,7 @@ int menu_handler(){
 				}
 				if (msg.NOTIFY_ARG & serial_irq_set) {
 					if (serial_int_handler(&serial_info) == 2){
-						if (serial_info == 'G'){
+						if (serial_info == 'M'){
 							selecao = 2;
 						}
 					}
@@ -211,11 +218,11 @@ int menu_handler(){
 		}
 	}
 	if (selecao == 2 && main_menu->state == MULTIPLAYER){
-		serial_write_char('G');
+		serial_write_char('M');
 		serial_int_handler(&serial_info);
 	}
 
-		delete_main_menu(main_menu);
+	delete_main_menu(main_menu);
 	return 0;
 }
 
@@ -389,8 +396,8 @@ int serial_int_handler(unsigned long * temp){
 }
 
 int multi_game_handler(){
-	//Game * game;
-	//game = new_game(0);
+	Game * game;
+	game = new_game(1);
 
 	int ipc_status;
 	message msg;
@@ -399,11 +406,8 @@ int multi_game_handler(){
 
 	char buffer[10];
 	unsigned long serial_info;
-//	if (serial_int_handler(&serial_info) == 1){
-//		serial_write_char('G');
-//	}
 
-	while( code != BREAKCODE) {
+	while(code != BREAKCODE && game->state != GAME_OVER) {
 		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
 			printf("driver_receive failed with: %d", r);
 			continue;
@@ -416,44 +420,34 @@ int multi_game_handler(){
 				}
 				if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
 					kbd_int_handler();
-					//char temp;
-					//temp = serial_read_char();
-					//unsigned long tmp;
-					//sys_inb(COM1_ADDRESS + LINE_STATUS_LSR, &tmp);
-					//					game->last_kbd_event = game->kbd_event;
-					//					game->kbd_event = kbd_event_handler();
-					//					if (game->kbd_event != NOKEY){
-					//						update_gamestate(game);
-					//						update_game(game);
-					//					}
+					char temp;
+					temp = serial_read_char();
+					unsigned long tmp;
+					sys_inb(COM1_ADDRESS + LINE_STATUS_LSR, &tmp);
+					game->last_kbd_event = game->kbd_event;
+					game->kbd_event = kbd_event_handler();
+					if (game->kbd_event != NOKEY){
+						update_gamestate(game);
+						update_game(game);
+					}
 				}
 				if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
-					//					counter++;
-					//					game->timer_event = timer_event_handler(counter, game->fall_delay);
-					//					if(game->timer_event != NO_TICK){
-					//						update_gamestate(game);
-					//						update_game(game);
-					//					}
-					//					draw_game(game);
-					//					vg_counter(game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_COUNTER_Y, counter);
+					counter++;
+					game->timer_event = timer_event_handler(counter, game->fall_delay);
+					if(game->timer_event != NO_TICK){
+						update_gamestate(game);
+						update_game(game);
+					}
+					draw_game(game);
+					vg_counter(game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_COUNTER_Y, counter);
 					vg_buffer();
 				}
 				if (msg.NOTIFY_ARG & serial_irq_set) {
-					//unsigned long tmp;
-					//sys_inb(COM1_ADDRESS + LINE_STATUS_LSR, &tmp);
-					//char temp;
-					//temp = serial_read_char();
-					//vg_string(&temp,0,0,2,WHITE);
-					//					int int_type;
-					//					int_type = serial_interrupt_identification();
-					//					switch (int_type){
-					//					case -1: vg_string("UART DID NOT GENERATE THAT INTERRUPT",0,0,2,WHITE);
-					//					case 0: vg_string("MODEM STATUS",0,0,2,WHITE);
-					//					case 1:vg_string("TRANSMITTER EMPTY",0,0,2,WHITE);
-					//					case 2:vg_string("RECEIVED DATA AVAILABLE",0,0,2,WHITE);
-					//					case 3:vg_string("LINE STATUS",0,0,2,WHITE);
-					//					case 4:vg_string("CHARACTER TIMEOUT INDICATION",0,0,2,WHITE);
-					//					}
+					if (serial_int_handler(&serial_info) == 2){
+						if (serial_info != 'G'){
+							game->lines_received += serial_info;
+						}
+					}
 				}
 			default:
 				break; /* no other notifications expected: do nothing */
@@ -461,9 +455,11 @@ int multi_game_handler(){
 		} else { /* received a standard message, not a notification */
 			/* no standard messages expected: do nothing */
 		}
+		if (serial_info == 'G')
+			break;
 	}
 
-	//delete_game(game);
+	delete_game(game);
 
 	return 0;
 }

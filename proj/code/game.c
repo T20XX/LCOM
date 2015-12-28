@@ -3,6 +3,7 @@
 #include "video_gr.h"
 #include "logic.h"
 #include "bitmap.h"
+#include "serial.h"
 
 //typedef struct {
 //	unsigned int x, y;
@@ -57,6 +58,7 @@ Game * new_game(unsigned int mode){
 	game->pieces_already_swapped = 0;
 	game->points = 0;
 	game->lines = 0;
+	game->lines_received = 0;
 	return game;
 }
 
@@ -200,6 +202,18 @@ void update_game(Game * game){
 		game->points += 50;
 		game->points += (lines_removed * 250);
 		game->lines += lines_removed;
+		if(game->game_mode == 1){
+			if (lines_removed == 0){
+				add_lines_received(&game->board, game->lines_received);
+			}else{
+				serial_write_char(lines_removed + game->lines_received);
+			}
+			game->lines_received = 0;
+		}
+	} else if (game->state == GAME_OVER){
+		if(game->game_mode == 1){
+			serial_write_char('G');
+		}
 	}
 
 	game->actual_piece->sprite.x += game->actual_piece->sprite.xspeed;
@@ -217,12 +231,20 @@ void draw_game(Game * game){
 
 	vg_string("NEXT",game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_NEXT_STRING_Y, 2, WHITE);
 	vg_sprite(&game->next_piece->sprite,0);
+
 	vg_string("POINTS",game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_POINTS_STRING_Y, 2, WHITE);
 	sprintf(temp, "%d", game->points);
 	vg_string(temp,game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_POINTS_Y, 2, WHITE);
+
 	vg_string("LINES",game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_LINES_STRING_Y, 2, WHITE);
 	sprintf(temp, "%d", game->lines);
 	vg_string(temp,game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_LINES_Y, 2, WHITE);
+
+	if (game->game_mode == 1){
+		vg_string("WAITING LINES",game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_LINES_STRING_Y+50, 2, WHITE);
+		sprintf(temp, "%d", game->lines_received);
+		vg_string(temp,game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_LINES_Y+50, 2, WHITE);
+	}
 }
 
 void delete_game(Game * game){
@@ -258,7 +280,7 @@ int remove_finished_lines(Board * board){
 	unsigned int i,j, counter;
 	for (i = 20; i > 0; i--){
 		for (j = 0; j< 10; j++){
-			if (*(board_ptr + j *30) != 0)
+			if (*(board_ptr + j *30) != BLACK && *(board_ptr + j *30) != 0x2965)
 				counter++;
 		}
 		if(counter == 10){
@@ -372,4 +394,22 @@ void swap_pieces(Piece * actual, Piece * next, Board * board){
 	next->sprite.width = width;
 	next->sprite.height = height;
 	next->sprite.map = temp_ptr - (width*height);
+}
+
+int add_lines_received(Board * board, unsigned int lines){
+	uint16_t * board_ptr = board->map;
+	uint16_t * temp_ptr = board->map;
+	temp_ptr += (board->width * FACE_LENGTH * lines);
+
+	unsigned int i;
+	for(i= 0; i < (22 - lines);i++){
+		memcpy(board_ptr, temp_ptr, board->width * FACE_LENGTH * 2);
+		board_ptr += board->width * FACE_LENGTH;
+		temp_ptr += board->width * FACE_LENGTH;
+	}
+	temp_ptr = board->map + board->width * FACE_LENGTH * 22;
+	for(i= 0; i < lines;i++){
+			memcpy(board_ptr, temp_ptr, board->width * FACE_LENGTH * 2);
+			board_ptr += board->width * FACE_LENGTH;
+		}
 }
