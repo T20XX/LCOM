@@ -75,8 +75,6 @@ int mainhandler(){
 			break;
 
 		}
-		//game_handler();
-		//selecao = 0;
 		code = 0;
 	}
 	vg_exit();
