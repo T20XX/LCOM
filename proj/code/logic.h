@@ -30,4 +30,6 @@ int can_char_move_x(Character * character, unsigned int dir);
 
 int can_char_fall(Character * character);
 
+int can_char_jump(Character * character);
+
 #endif /* __LOGIC_H */

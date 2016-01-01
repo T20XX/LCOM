@@ -120,7 +120,13 @@ int can_char_move_x(Character * character, unsigned int dir){
 }
 
 int can_char_fall(Character * character){
-	if (vg_get_pixel((unsigned int)character->x, (unsigned int)(character->y + character->height + character->yspeed)) == BLACK && vg_get_pixel((unsigned int)character->x + character->width - 1, (unsigned int)(character->y + character->height + character->yspeed)) == BLACK)
+	if (vg_get_pixel((unsigned int)(character->x), (unsigned int)(character->y + character->height + character->yspeed)) == BLACK && vg_get_pixel((unsigned int)(character->x + character->width - 1), (unsigned int)(character->y + character->height + character->yspeed)) == BLACK)
+		return 0;
+	else
+		return 1;
+}
+int can_char_jump(Character * character){
+	if (vg_get_pixel((unsigned int)(character->x), (unsigned int)(character->y + character->yspeed)) == BLACK && vg_get_pixel((unsigned int)(character->x + character->width - 1), (unsigned int)(character->y + character->yspeed)) == BLACK)
 		return 0;
 	else
 		return 1;
