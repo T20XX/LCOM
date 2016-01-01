@@ -17,6 +17,7 @@
 #include "vbe.h"
 #include "rtc.h"
 #include "serial.h"
+#include "character.h"
 
 
 Mouse_t mouse;
@@ -62,6 +63,7 @@ int mainhandler(){
 			selecao = 0;
 			break;
 		case 3:
+			battle_game_handler();
 			selecao = 0;
 			break;
 		case 4:
@@ -156,7 +158,7 @@ selecao_handler(Menu* menu){
 		selecao = 1;
 	if (menu->state == MULTIPLAYER)
 		selecao = 2;
-	if (menu->state == CHARACTERS)
+	if (menu->state == BATTLE)
 		selecao = 3;
 	if (menu->state == HIGHSCORES)
 		selecao = 4;
@@ -458,6 +460,104 @@ int multi_game_handler(){
 	}
 
 	delete_game(game);
+
+	return 0;
+}
+
+kbd_character_event kbd_char_event_handler(){
+	switch (code){
+	case A_MC: return A_DOWN;
+	case A_BC: return A_UP;
+	case W_MC: return W_DOWN;
+	case W_BC: return W_UP;
+	case S_MC: return S_DOWN;
+	case S_BC: return S_UP;
+	case D_MC: return D_DOWN;
+	case D_BC: return D_UP;
+	default: return NO_KEY;
+	}
+}
+
+timer_character_event timer_char_event_handler(unsigned long * counter, Character * character){
+	if ((*counter)%CHAR_MOVE_FRAME_DELAY == 0){
+		return MOVE_FRAME_TICK;
+	} else {
+		return NOTICK;
+	}
+}
+
+int battle_game_handler(){
+	Game * game;
+	game = new_game(0);
+	Character * character;
+	character = new_character();
+
+
+	int ipc_status;
+	message msg;
+	int r;
+	unsigned long counter = 0; //Inicialização do contador
+
+	char buffer[10];
+
+	while( code != BREAKCODE && game->state != GAME_OVER) {
+		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+			printf("driver_receive failed with: %d", r);
+			continue;
+		}
+		if (is_ipc_notify(ipc_status)) { /* received notification */
+			switch (_ENDPOINT_P(msg.m_source)) {
+			case HARDWARE: /* hardware interrupt notification */
+				if (msg.NOTIFY_ARG & mouse_irq_set) {
+					mouse_packet_handler();
+					/*if (packet_counter == 0){
+						game->mouse_event = mouse_event_handler();
+						update_gamestate(game);
+						update_game(game);
+					}*/
+				}
+				if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
+					kbd_int_handler();
+					game->last_kbd_event = game->kbd_event;
+					game->kbd_event = kbd_event_handler();
+					if (game->kbd_event != NOKEY){
+						update_gamestate(game);
+						update_game(game);
+					}
+
+					character->kbd_event = kbd_char_event_handler();
+					update_character_state(character);
+					//update_character(character);
+
+				}
+				if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
+					counter++;
+					game->timer_event = timer_event_handler(counter, game->fall_delay);
+					if(game->timer_event != NO_TICK){
+						update_gamestate(game);
+						update_game(game);
+					}
+					character->timer_event = timer_char_event_handler(&counter, character);
+					update_character_state(character);
+					update_character(character);
+
+					draw_game(game);
+					draw_character(character);
+					vg_counter(game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_COUNTER_Y, counter);
+					vg_buffer();
+				}
+				if (msg.NOTIFY_ARG & serial_irq_set) {
+				}
+			default:
+				break; /* no other notifications expected: do nothing */
+			}
+		} else { /* received a standard message, not a notification */
+			/* no standard messages expected: do nothing */
+		}
+	}
+
+	delete_game(game);
+	delete_character(character);
 
 	return 0;
 }

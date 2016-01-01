@@ -30,6 +30,14 @@
 #define RIGHTKEY_BC			0XE0CD
 #define SPACEBAR_MC			0X39
 #define SPACEBAR_BC			0XB9
+#define A_MC				0X1E
+#define A_BC				0X9E
+#define W_MC				0X11
+#define W_BC				0X91
+#define S_MC				0X1F
+#define S_BC				0X9F
+#define D_MC				0X20
+#define D_BC				0XA0
 
 //MOUSE VARIABLES
 #define MOUSE_IRQ 			12

@@ -100,7 +100,7 @@ void update_main_menu(Menu * menu){
 		;
 	else if(menu->state == MULTIPLAYER)
 		; //1vs1 modo tempo
-	else if(menu->state == MULTIPLAYER)
+	else if(menu->state == BATTLE)
 		; // 1vs1 modo persona
 	else if(menu->state == HIGHSCORES)
 		; //Scores
@@ -119,7 +119,7 @@ void update_main_menu_state(Menu * menu){
 		else if(menu->state == BUTTON1_SELECT)
 			menu->state = MULTIPLAYER;
 		else if(menu->state == BUTTON2_SELECT)
-			menu->state = MULTIPLAYER;
+			menu->state = BATTLE;
 		else if(menu->state == BUTTON3_SELECT)
 			menu->state = HIGHSCORES;
 		else if(menu->state == BUTTON4_SELECT)

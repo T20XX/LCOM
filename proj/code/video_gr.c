@@ -118,6 +118,12 @@ int vg_exit() {
 		return 0;
 }
 
+uint16_t vg_get_pixel(unsigned int x,unsigned int y){
+	uint16_t * ptr = buffer;
+	ptr = (ptr + x + y * h_res);
+	return * ptr;
+}
+
 int vg_pixel(unsigned short x, unsigned short y, uint16_t color){
 	/*uint16_t * ptr;
 	ptr= (buffer + x + y*h_res);//*bits_per_pixel/8;
@@ -236,10 +242,10 @@ int vg_counter(unsigned int x, unsigned int y, unsigned long counter){
 	char temp[3];
 	sprintf(temp, "%d", (counter/3600));
 	if (counter/3600 < 10){
-			temp[2] = temp[1];
-			temp[1] = temp[0];
-			temp[0] = '0';
-		}
+		temp[2] = temp[1];
+		temp[1] = temp[0];
+		temp[0] = '0';
+	}
 	vg_string(temp,x,y, 2, WHITE);
 
 	x+=40;
@@ -247,10 +253,10 @@ int vg_counter(unsigned int x, unsigned int y, unsigned long counter){
 
 	sprintf(temp, "%d", ((counter/60)%60));
 	if ((counter/60)%60 < 10){
-				temp[2] = temp[1];
-				temp[1] = temp[0];
-				temp[0] = '0';
-			}
+		temp[2] = temp[1];
+		temp[1] = temp[0];
+		temp[0] = '0';
+	}
 	x+=10;
 	vg_string(temp,x,y, 2, WHITE);
 	return 0;

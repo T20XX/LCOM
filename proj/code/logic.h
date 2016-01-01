@@ -1,6 +1,7 @@
 #ifndef __LOGIC_H
 #define __LOGIC_H
 
+#include "character.h"
 #include "piece.h"
 #include "game.h"
 
@@ -24,5 +25,9 @@ int can_piece_move_x(Piece * piece, Board * board, unsigned int dir);
 int can_piece_fall(Piece * piece, Board * board);
 
 int can_piece_be_placed(Piece * piece, Board * board);
+
+int can_char_move_x(Character * character, unsigned int dir);
+
+int can_char_fall(Character * character);
 
 #endif /* __LOGIC_H */
