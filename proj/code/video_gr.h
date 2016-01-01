@@ -47,6 +47,7 @@ int vg_exit(void);
  
 int vg_pixel(unsigned short x, unsigned short y, uint16_t  color);
 
+uint16_t vg_get_pixel(unsigned int x,unsigned int y);
 
 int vg_sprite(Sprite* sprite, uint16_t transparent_color);
 

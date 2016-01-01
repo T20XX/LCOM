@@ -1,6 +1,7 @@
 #include <stdint.h>
 
 #include "logic.h"
+#include "video_gr.h"
 
 
 //change everything to FACE_LENGTH
@@ -96,4 +97,31 @@ int can_piece_be_placed(Piece * piece, Board * board){
 		}
 	}
 	return 0;
+}
+
+int can_char_move_x(Character * character, unsigned int dir){
+	if (dir == 0){
+		if (vg_get_pixel((unsigned int)(character->x + character->xspeed - 1), (unsigned int)(character->y + 1)) == BLACK)
+			if (vg_get_pixel((unsigned int)(character->x + character->xspeed - 1), (unsigned int)(character->y + character->height - 1)) == BLACK)
+				return 0;
+			else
+				return 1;
+		else
+			return 1;
+	}else{
+		if (vg_get_pixel((unsigned int)(character->x + character->width + character->xspeed + 1), (unsigned int)(character->y + 1)) == BLACK)
+			if (vg_get_pixel((unsigned int)(character->x + character->width + character->xspeed + 1), (unsigned int)(character->y + character->height - 1)) == BLACK)
+				return 0;
+			else
+				return 1;
+		else
+			return 1;
+	}
+}
+
+int can_char_fall(Character * character){
+	if (vg_get_pixel((unsigned int)character->x, (unsigned int)(character->y + character->height + character->yspeed)) == BLACK && vg_get_pixel((unsigned int)character->x + character->width - 1, (unsigned int)(character->y + character->height + character->yspeed)) == BLACK)
+		return 0;
+	else
+		return 1;
 }
