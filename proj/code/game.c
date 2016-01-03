@@ -156,6 +156,12 @@ void update_game(Game * game){
 		game->points += (lines_removed * 250);
 		//update of lines completed
 		game->lines += lines_removed;
+		//update fall delay
+		if (lines_removed != 0){
+			if (game->lines < 60){
+				game->fall_delay = INIT_FALL_DELAY - (unsigned int)(0.5 * game->lines);
+			}
+		}
 		// serial sending lines completed, multiplayer mode only
 		if(game->game_mode == 1){
 			if (lines_removed == 0){
@@ -264,7 +270,7 @@ int remove_finished_lines(Board * board){
 			i++;
 			//increment lines removed
 			lines_removed++;
-		//} else if(counter == 0){
+			//} else if(counter == 0){
 			//break;
 		} else{
 			//moves to upper line
@@ -351,7 +357,7 @@ int add_lines_received(Board * board, unsigned int lines){
 	temp_ptr = board->map + board->width * FACE_LENGTH * 22;
 	for(i= 0; i < lines;i++){
 		//moves downer lines up by copying them up
-			memcpy(board_ptr, temp_ptr, board->width * FACE_LENGTH * 2);
-			board_ptr += board->width * FACE_LENGTH;
-		}
+		memcpy(board_ptr, temp_ptr, board->width * FACE_LENGTH * 2);
+		board_ptr += board->width * FACE_LENGTH;
+	}
 }

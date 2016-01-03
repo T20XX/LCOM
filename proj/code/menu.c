@@ -1,18 +1,13 @@
 #include "menu.h"
 #include "video_gr.h"
 
-Button new_button(const char* filename_null,const char* filename_above){
-	Button * button = (Button*) malloc(sizeof(Button));
-	button->null = map_Bitmap(filename_null, &button->width, &button->height);
-	button->above = map_Bitmap(filename_above, &button->width, &button->height);
-	return *button;
-}
-
 Menu * new_main_menu(){
+	// allocates memory and loads background image
 	Menu * main_menu = (Menu*) malloc(sizeof(Menu));
 	main_menu->buttons = (Button*)malloc(sizeof(Button)*6);
 	main_menu->background = loadBitmap("/home/lcom/proj/code/img/background.bmp");
 
+	// loads all buttons images when mouse is and is not above the button
 	main_menu->buttons[0].null = map_Bitmap("/home/lcom/proj/code/img/button0_null.bmp", &main_menu->buttons[0].width, &main_menu->buttons[0].height);
 	main_menu->buttons[0].above = map_Bitmap("/home/lcom/proj/code/img/button0_above.bmp", &main_menu->buttons[0].width, &main_menu->buttons[0].height);
 	main_menu->buttons[1].null = map_Bitmap("/home/lcom/proj/code/img/button1_null.bmp", &main_menu->buttons[1].width, &main_menu->buttons[1].height);
@@ -29,8 +24,7 @@ Menu * new_main_menu(){
 	unsigned int i;
 	for(i = 0; i < 6;i++)
 	{
-		//main_menu->buttons[i].width = 50;
-		//main_menu->buttons[i].height = 50;
+		// sets buttons position
 		main_menu->buttons[i].x = (getH_res()/2) - (main_menu->buttons[i].width/2);
 		main_menu->buttons[i].y =200 + i * 75;
 	}
@@ -42,23 +36,93 @@ Menu * new_main_menu(){
 	return main_menu;
 }
 
-Menu * new_score_menu(){
-	Menu * score_menu = (Menu*) malloc(sizeof(Menu));
-	score_menu->background = loadBitmap("/home/lcom/proj/code/img/test.bmp");
+void update_main_menu_state(Menu * menu){
+	switch (menu->event){
+	case LEFT_CLICK:
+		switch (menu->state){
+		case BUTTON0_SELECT:
+			menu->state = SINGLEPLAYER;
+			break;
+		case BUTTON1_SELECT:
+			menu->state = MULTIPLAYER;
+			break;
+		case BUTTON2_SELECT:
+			menu->state = BATTLE;
+			break;
+		case BUTTON3_SELECT:
+			menu->state = HIGHSCORES;
+			break;
+		case BUTTON4_SELECT:
+			menu->state = INSTRUCTIONS;
+			break;
+		case BUTTON5_SELECT:
+			menu->state = SHUTDOWN;
+			break;
+		default:
+			menu->state = DONOTHING;
+			break;
+		}
+		break;
+		case BUTTON0_ISABOVE:
+			menu->state = BUTTON0_SELECT;
+			break;
+		case BUTTON1_ISABOVE:
+			menu->state = BUTTON1_SELECT;
+			break;
+		case BUTTON2_ISABOVE:
+			menu->state = BUTTON2_SELECT;
+			break;
+		case BUTTON3_ISABOVE:
+			menu->state = BUTTON3_SELECT;
+			break;
+		case BUTTON4_ISABOVE:
+			menu->state = BUTTON4_SELECT;
+			break;
+		case BUTTON5_ISABOVE:
+			menu->state = BUTTON5_SELECT;
+			break;
+		default:
+			menu->state = DONOTHING;
+			break;
+	}
+}
 
+void update_main_menu(Menu * menu){
+	// all buttons flag are reseted to avoid "ghost effect" when passing through all buttons fast
 	unsigned int i;
-	score_menu->buttons[5].width = 50;
-	score_menu->buttons[5].height = 50;
-	score_menu->buttons[5].x = 300;
-	score_menu->buttons[5].y =700;
+	for(i=0; i < 6; i++){
+		//resets all buttons is above flag
+		menu->buttons[i].isAbove = 0;
+	}
 
-	//tabelas de scores.
-
-	return score_menu;
+	switch (menu->state){
+	case BUTTON0_SELECT:
+		menu->buttons[0].isAbove = 1;
+		break;
+	case BUTTON1_SELECT:
+		menu->buttons[1].isAbove = 1;
+		break;
+	case BUTTON2_SELECT:
+		menu->buttons[2].isAbove = 1;
+		break;
+	case BUTTON3_SELECT:
+		menu->buttons[3].isAbove = 1;
+		break;
+	case BUTTON4_SELECT:
+		menu->buttons[4].isAbove = 1;
+		break;
+	case BUTTON5_SELECT:
+		menu->buttons[5].isAbove = 1;
+		break;
+	default:
+		break;
+	}
 }
 
 void draw_main_menu(Menu * menu){
+	//draws background image
 	drawBitmap(menu->background,0,0,ALIGN_LEFT);
+	//draws all buttons
 	unsigned int i;
 	for(i = 0; i < 6; i++){
 		if(menu->buttons[i].isAbove == 1){
@@ -70,91 +134,7 @@ void draw_main_menu(Menu * menu){
 	}
 }
 
-/*void draw_score_menu(Menu * menu){
-	menu = new_score_menu;
-}*/
-
-void update_main_menu(Menu * menu){
-
-	if(menu->state == BUTTON0_SELECT)
-		menu->buttons[0].isAbove = 1;
-	else if(menu->state == BUTTON1_SELECT)
-		menu->buttons[1].isAbove = 1;
-	else if(menu->state == BUTTON2_SELECT)
-		menu->buttons[2].isAbove = 1;
-	else if(menu->state == BUTTON3_SELECT)
-		menu->buttons[3].isAbove = 1;
-	else if(menu->state == BUTTON4_SELECT)
-		menu->buttons[4].isAbove = 1;
-	else if(menu->state == BUTTON5_SELECT)
-		menu->buttons[5].isAbove = 1;
-	else if(menu->state == DONOTHING){
-		unsigned int i;
-		for(i=0; i < 6; i++){
-			menu->buttons[i].isAbove = 0;
-		}
-	}
-
-
-	if(menu->state == SINGLEPLAYER)
-		;
-	else if(menu->state == MULTIPLAYER)
-		; //1vs1 modo tempo
-	else if(menu->state == BATTLE)
-		; // 1vs1 modo persona
-	else if(menu->state == HIGHSCORES)
-		; //Scores
-	else if(menu->state == SHUTDOWN)
-		;	//exit game
-	//else if(menu->event == BUTTON6_CLICK)
-	//	; voltar para tras? usado no score menu(BACK)*/
-}
-
-void update_main_menu_state(Menu * menu){
-	//menu->last_state = menu->state;
-
-	if(menu->event == LEFT_CLICK){
-		if(menu->state == BUTTON0_SELECT)
-			menu->state = SINGLEPLAYER;
-		else if(menu->state == BUTTON1_SELECT)
-			menu->state = MULTIPLAYER;
-		else if(menu->state == BUTTON2_SELECT)
-			menu->state = BATTLE;
-		else if(menu->state == BUTTON3_SELECT)
-			menu->state = HIGHSCORES;
-		else if(menu->state == BUTTON4_SELECT)
-			menu->state = INSTRUCTIONS;
-		else if(menu->state == BUTTON5_SELECT)
-			menu->state = SHUTDOWN;
-		else if(menu->state == DONOTHING)
-			menu->state = DONOTHING;
-	}
-	else {
-	if(menu->event == BUTTON0_ISABOVE)
-		menu->state = BUTTON0_SELECT;
-	else if(menu->event == BUTTON1_ISABOVE)
-		menu->state = BUTTON1_SELECT;
-	else if(menu->event == BUTTON2_ISABOVE)
-		menu->state = BUTTON2_SELECT;
-	else if(menu->event == BUTTON3_ISABOVE)
-		menu->state = BUTTON3_SELECT;
-	else if(menu->event == BUTTON4_ISABOVE)
-		menu->state = BUTTON4_SELECT;
-	else if(menu->event == BUTTON5_ISABOVE)
-		menu->state = BUTTON5_SELECT;
-	else menu->state = DONOTHING;
-	}
-}
-
-
-/*void update_score_menu(Menu * menu){
-
-	if(menu->state == BUTTON6_ABOVE)
-		menu->buttons[5].above;
-	if(menu->event == BUTTON6_CLICK)
-		; //volta para o main_menu; (BACK)
-}*/
-
 void delete_main_menu(Menu * menu){
+	//releases menu allocated memory
 	free(menu);
 }

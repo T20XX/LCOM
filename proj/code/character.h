@@ -99,14 +99,14 @@ void update_character(Character * character);
 /**
  * @brief Draws the character in the video buffer
  *
- * @param character Character to change
+ * @param character Character to draw
  */
 void draw_character(Character * character);
 
 /**
  * @brief Deletes the character by releasing the allocated memory
  *
- * @param character Character to change
+ * @param character Character to destroy
  */
 void delete_character(Character * character);
 
