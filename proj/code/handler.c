@@ -108,8 +108,8 @@ int mouse_packet_handler(){
 		mouse.deltax = packet[1] - 256 *((packet[0] & XSIGN) >> 4);
 		mouse.deltay = packet[2] - 256 * ((packet[0] & YSIGN) >> 5);
 
-		if (mouse.x + mouse.deltax > 0 && mouse.x + mouse.deltax + mouse.width < getH_res() &&
-				mouse.y - mouse.deltay > 0 && mouse.y -mouse.deltay + mouse.height< getV_res()){
+		if (mouse.x + mouse.deltax > 2 && mouse.x + mouse.deltax + mouse.width < getH_res() &&
+				mouse.y - mouse.deltay > 2 && mouse.y -mouse.deltay + mouse.height< getV_res()){
 			mouse.x += mouse.deltax;
 			mouse.y -= mouse.deltay;
 		}

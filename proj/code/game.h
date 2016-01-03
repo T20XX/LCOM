@@ -135,14 +135,14 @@ void update_game(Game * game);
 /**
  * @brief Draws the board, actual and next piece, points and lines in the video buffer
  *
- * @param game Game to change
+ * @param game Game to draw
  */
 void draw_game(Game * game);
 
 /**
  * @brief Deletes the game by releasing the allocated memory
  *
- * @param game Game to change
+ * @param game Game to destroy
  */
 void delete_game(Game * game);
 
