@@ -7,6 +7,7 @@
 Character * new_character(){
 	Character * character = (Character *) malloc(sizeof(Character));
 
+	// defines initial position
 	character->x = CHAR_INIT_X;
 	character->y = CHAR_INIT_Y;
 
@@ -32,8 +33,9 @@ void update_character_state(Character * character){
 	switch (character->kbd_event){
 
 	//case NO_KEY:
+	//case W_UP:
+	//
 	case A_UP:
-		//case W_UP:
 	case S_UP:
 	case D_UP:
 		character->state = STOPPED;
@@ -59,24 +61,14 @@ void update_character_state(Character * character){
 
 	switch(character->timer_event){
 	case MOVE_FRAME_TICK:
+		// increment of sprite counting or reset to 0
 		if (character->sprite_counting == (NUMBER_OF_SPRITES -1)){
 			character->sprite_counting = 0;
 		} else {
 			character->sprite_counting++;
 		}
 
-		/*switch (character->state){
-		case CHAR_MOVE_LEFT:
-			character->current = character->left + character->width * character->height * character->sprite_counting;
-			break;
-		case CHAR_MOVE_RIGHT:
-			character->current = character->right + character->width * character->height * character->sprite_counting;
-			break;
-		default:
-			character->current = character->left;
-			break;
-		}*/
-
+		// changes pointer to correct sprite
 		if (character->xspeed < 0){
 			character->current = character->left + character->width * character->height * character->sprite_counting;
 		} else if(character->xspeed > 0){
@@ -84,24 +76,12 @@ void update_character_state(Character * character){
 		} else{
 			character->current = character->left;
 		}
-
-		//character->current += character->width * character->height * character->sprite_counting;
 		break;
 	}
-
-	//	if (game->timer_event == FALL_TICK){
-	//		if(game->state != FALL){
-	//			if (can_piece_fall(game->actual_piece,&game->board)== 0)
-	//				game->state = FALL;
-	//			else if (game->actual_piece->sprite.y >= game->board.y + 2* 30)		//??
-	//				game->state = REACH_END;
-	//			else
-	//				game->state = GAME_OVER;
-	//		}
-	//	}
 }
 
 void update_character(Character * character){
+	//updates xspeed based on character state
 	switch (character->state){
 	case CHAR_FALL:
 		break;
@@ -121,19 +101,12 @@ void update_character(Character * character){
 			character->xspeed = 0;
 		}
 		break;
-		//case CHAR_JUMP:
-		//	character->yspeed = -CHAR_JUMP_SPEED;
-		//	character->state = CHAR_FALL;
-		//	break;
 	case STOPPED:
 		character->xspeed = 0;
-		//character->yspeed = 0;
 		break;
 	default:
 		break;
 	}
-
-	//character->yspeed += GRAVITY_SPEED;
 
 	if (character->jumping == 1){
 		character->yspeed = -CHAR_JUMP_SPEED;
@@ -144,10 +117,11 @@ void update_character(Character * character){
 		character->yspeed = 0;
 	}
 
-
+	// updates position adding speed components
 	character->x += character->xspeed;
 	character->y += character->yspeed;
 
+	//updates yspeed after veryfing if character can jump or fall
 	if (character->yspeed >= 0){
 		if (can_char_fall(character) == 0){
 			character->yspeed += GRAVITY_SPEED;
@@ -167,8 +141,9 @@ void update_character(Character * character){
 
 void draw_character(Character * character){
 	vg_map_transparent(character->current, (unsigned int)character->x, (unsigned int)character->y, character->width, character->height, GREEN);
-	char temp[26];
 
+	// for debugging purposes
+	/*char temp[26];
 	sprintf(temp, "%f", character->x);
 	vg_string(temp,0,0, 2, WHITE);
 	sprintf(temp, "%f", character->y);
@@ -184,9 +159,10 @@ void draw_character(Character * character){
 		vg_string("JUMPING",0,250, 2, WHITE);
 	}
 	sprintf(temp, "%f", character->yspeed);
-	vg_string(temp,0,300, 2, WHITE);
+	vg_string(temp,0,300, 2, WHITE);*/
 }
 
 void delete_character(Character * character){
+	// releases allocated memory by character
 	free(character);
 }
