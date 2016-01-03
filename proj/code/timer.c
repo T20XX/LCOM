@@ -62,10 +62,3 @@ int timer_get_conf(unsigned long timer, unsigned char *st) {
 	*st = aux;
 	return 0;
 }
-
-int timer_test_square(unsigned long freq) {
-	if (timer_set_square(0, freq))
-		return 0;
-	else
-		return 1;
-}

@@ -46,10 +46,27 @@ int serial_subscribe_int();
  */
 int serial_unsubscribe_int();
 
+/**
+ * @brief Identifies the origin of the interrupt
+ *
+ * @return Return a number from 0 to 4 corresponding to the 5 possibles interrupts and -1 upon failure
+ */
 int serial_interrupt_identification();
 
+/**
+ * @brief Reads the char from the serial port buffer
+ *
+ * @return The char read
+ */
 char serial_read_char();
 
+/**
+ * @brief Writes a char in the serial port buffer
+ *
+ * @param temp Char to write in the serial buffer
+ *
+ * @return Return 0 upon success
+ */
 int serial_write_char(char temp);
 
 #endif /* __SERIAL_H */

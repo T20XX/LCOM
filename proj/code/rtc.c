@@ -28,6 +28,7 @@ int rtc_unsubscribe_int() {
 
 unsigned char bcd_convert(unsigned char bin)
 {
+	//simple conversion from binary to BCD
 	return ((bin >> 4) * 10) + (bin & 0x0F);
 }
 
@@ -84,6 +85,7 @@ void rtc_draw_current_time(unsigned int x, unsigned int y){
 
 	rtc_current_time(&hour, &min, &sec);
 
+	//draws hours
 	sprintf(temp, "%d", hour);
 	if (hour < 10){
 		temp[2] = temp[1];
@@ -92,9 +94,11 @@ void rtc_draw_current_time(unsigned int x, unsigned int y){
 	}
 	vg_string(temp,x,y, 2, WHITE);
 
+	//draws ":"
 	x += 40;
 	vg_string(":",x,y, 2, WHITE);
 
+	//draws minutes
 	x += 10;
 	sprintf(temp, "%d", min);
 	if (min < 10){
@@ -104,9 +108,11 @@ void rtc_draw_current_time(unsigned int x, unsigned int y){
 	}
 	vg_string(temp,x,y, 2, WHITE);
 
+	//draws ":"
 	x += 40;
 	vg_string(":",x,y, 2, WHITE);
 
+	//draws seconds
 	x += 10;
 	sprintf(temp, "%d", sec);
 	if (sec < 10){

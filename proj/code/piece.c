@@ -4,7 +4,8 @@
 #include "piece.h"
 #include "video_gr.h"
 
-Piece *new_piece(unsigned int x, unsigned int y){
+Piece * new_piece(unsigned int x, unsigned int y){
+	// randomizes a number between 0 and 6 that are equivalent to the 7 pieces possible
 	int random = rand() % 7;
 	Piece * piece = (Piece*) malloc(sizeof(Piece));
 	int tempwidth;
@@ -13,8 +14,9 @@ Piece *new_piece(unsigned int x, unsigned int y){
 	piece->sprite.y = y;
 	piece->sprite.xspeed = 0;
 	piece->sprite.yspeed = 0;
+	// loads image of correspondent piece given random number
 	if(random == 0){
-		piece->sprite.map = (uint16_t *)map_Bitmap("/home/lcom/proj/code/img/i.bmp", &tempwidth, &tempheight); // WARNING
+		piece->sprite.map = (uint16_t *)map_Bitmap("/home/lcom/proj/code/img/i.bmp", &tempwidth, &tempheight);
 	}
 	else if(random == 1){
 		piece->sprite.map = (uint16_t *)map_Bitmap("/home/lcom/proj/code/img/j.bmp", &tempwidth, &tempheight);
@@ -42,9 +44,10 @@ Piece *new_piece(unsigned int x, unsigned int y){
 };
 
 void draw_piece(Piece * piece){
-	vg_sprite(&piece->sprite, 0);
+	vg_sprite(&piece->sprite, BLACK);
 }
 
 void delete_piece(Piece * piece){
+	// releases the allocated memory for piece structure
 	free(piece);
 }
