@@ -367,25 +367,32 @@ int serial_int_handler(unsigned long * temp){
 	int_type = serial_interrupt_identification();
 	switch (int_type){
 	case -1:
-		vg_string("UART DID NOT GENERATE THAT INTERRUPT",0,0,2,WHITE);
+		//for debugging purposes
+		//vg_string("UART DID NOT GENERATE THAT INTERRUPT",0,0,2,WHITE);
 		break;
 	case 0:
-		vg_string("MODEM STATUS",0,50,2,WHITE);
+		//for debugging purposes
+		//vg_string("MODEM STATUS",0,50,2,WHITE);
 		break;
 	case 1:
-		vg_string("TRANSMITTER EMPTY",0,100,2,WHITE);
+		//for debugging purposes
+		//vg_string("TRANSMITTER EMPTY",0,100,2,WHITE);
 		sys_inb(COM1_ADDRESS + INTERRUPT_IDENTIFICATION_IIR, temp);		//RESET
 		break;
 	case 2:
-		vg_string("RECEIVED DATA AVAILABLE",0,150,2,WHITE);
+
+		//for debugging purposes
+		//vg_string("RECEIVED DATA AVAILABLE",0,150,2,WHITE);
 		*temp = serial_read_char();											//RESET
 		break;
 	case 3:
-		vg_string("LINE STATUS",0,200,2,WHITE);
+		//for debugging purposes
+		//vg_string("LINE STATUS",0,200,2,WHITE);
 		sys_inb(COM1_ADDRESS + LINE_STATUS_LSR, temp);						//RESET
 		break;
 	case 4:
-		vg_string("CHARACTER TIMEOUT INDICATION",0,250,2,WHITE);
+		//for debugging purposes
+		//vg_string("CHARACTER TIMEOUT INDICATION",0,250,2,WHITE);
 		*temp = serial_read_char();											//RESET
 		break;
 	default:

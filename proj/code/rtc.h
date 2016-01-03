@@ -1,5 +1,5 @@
 /**
- * This module contains all functions to manage real time clock
+ * This module contains all functions to manage Real Time Clock(RTC)
  * Jorge Vale: 50%
  * Telmo Barros: 50%
  * Relative Weight:
@@ -46,12 +46,37 @@ int rtc_subscribe_int();
  */
 int rtc_unsubscribe_int();
 
+/**
+ * @brief Gets the current time from RTC registers
+ *
+ * @param hour Variable to change to the value of hours
+ * @param min Variable to change to the value of minutes
+ * @param sec Variable to change to the value of seconds
+ *
+ * @return Return 0 upon success
+ */
 int rtc_current_time(unsigned long *hour, unsigned long *min, unsigned long *sec);
 
+/**
+ * @brief Draws the current time in the video buffer, in hh:mm:ss model
+ *
+ * @param x X coordinate to begin the drawing
+ * @param y Y coordinate to begin the drawing
+ */
 void rtc_draw_current_time(unsigned int x, unsigned int y);
 
+/**
+ * @brief Gets the current values of highscores from the first three registers that we are able to use
+ *
+ * @param highscores[3] Array of highscores values to change to the values of registers
+ */
 void rtc_get_highscores(unsigned int highscores[3]);
 
+/**
+ * @brief Sets the first three registers that we are able to use TO the current values of highscores (update highscores)
+ *
+ * @param highscores[3] Array of highscores value to change the value of registers
+ */
 void rtc_set_highscores(unsigned int highscores[3]);
 
 #endif /* __RTC_H */

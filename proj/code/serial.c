@@ -37,6 +37,7 @@ int serial_interrupt_identification(){
 	if (temp & BIT(INTERRUPT_STATUS) != 0)
 		return -1;
 	else{
+		// gets origin of interrupt by reading three bits that store that information
 		temp &= BIT(INTERRUPT_ORIGIN) | BIT(INTERRUPT_ORIGIN +1) | BIT(INTERRUPT_ORIGIN +2);
 		temp >>= INTERRUPT_ORIGIN;
 		return (int)temp;
