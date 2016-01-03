@@ -71,6 +71,7 @@ int mainhandler(){
 			selecao = 0;
 			break;
 		case 5:
+			instructions_handler();
 			selecao = 0;
 			break;
 		default:
@@ -571,6 +572,8 @@ int battle_game_handler(){
 
 int highscores_handler(){
 
+	Bitmap * highscores_background = loadBitmap("/home/lcom/proj/code/img/highscores_background.bmp");
+
 	int ipc_status;
 	message msg;
 	int r;
@@ -593,13 +596,17 @@ int highscores_handler(){
 					kbd_int_handler();
 				}
 				if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
-					vg_string("HIGHSCORES",0,0,2,WHITE);
+					drawBitmap(highscores_background, 0, 0, ALIGN_LEFT);
+
 					sprintf(temp, "%d", highscores[0]);
-					vg_string(temp,0,100,2,WHITE);
+					vg_string(temp,450,248,2,BLACK);
 					sprintf(temp, "%d", highscores[1]);
-					vg_string(temp,0,200,2,WHITE);
+					vg_string(temp,450,368,2,BLACK);
 					sprintf(temp, "%d", highscores[2]);
-					vg_string(temp,0,300,2,WHITE);
+					vg_string(temp,450,492,2,BLACK);
+
+					rtc_draw_current_time(RTC_TIME_X,RTC_TIME_Y);
+
 					vg_buffer();
 				}
 				if (msg.NOTIFY_ARG & serial_irq_set) {
@@ -610,6 +617,70 @@ int highscores_handler(){
 		} else { /* received a standard message, not a notification */
 			/* no standard messages expected: do nothing */
 		}
+	}
+	deleteBitmap(highscores_background);
+	return 0;
+}
+
+int instructions_handler(){
+
+	Bitmap * instructions[4];
+	instructions[0] = loadBitmap("/home/lcom/proj/code/img/instructions1.bmp");
+	instructions[1] = loadBitmap("/home/lcom/proj/code/img/instructions2.bmp");
+	instructions[2] = loadBitmap("/home/lcom/proj/code/img/instructions3.bmp");
+	instructions[3] = loadBitmap("/home/lcom/proj/code/img/instructions4.bmp");
+	int ipc_status;
+	message msg;
+	int r;
+
+	char temp[8];
+
+	unsigned int current = 0;
+
+	while( code != BREAKCODE) {
+		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+			printf("driver_receive failed with: %d", r);
+			continue;
+		}
+		if (is_ipc_notify(ipc_status)) { /* received notification */
+			switch (_ENDPOINT_P(msg.m_source)) {
+			case HARDWARE: /* hardware interrupt notification */
+				if (msg.NOTIFY_ARG & mouse_irq_set) {
+					mouse_packet_handler();
+
+				}
+				if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
+					kbd_int_handler();
+					if (code == RIGHTKEY_MC){
+						if (current < 3){
+							current++;
+						}
+					}else if (code == LEFTKEY_MC){
+						if (current > 0){
+							current--;
+						}
+					}
+				}
+				if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
+					drawBitmap(instructions[current], 0, 0, ALIGN_LEFT);
+
+					rtc_draw_current_time(RTC_TIME_X,RTC_TIME_Y);
+
+					vg_buffer();
+				}
+				if (msg.NOTIFY_ARG & serial_irq_set) {
+				}
+			default:
+				break; /* no other notifications expected: do nothing */
+			}
+		} else { /* received a standard message, not a notification */
+			/* no standard messages expected: do nothing */
+		}
+	}
+
+	unsigned int i;
+	for(i = 0; i < 4;i++){
+		deleteBitmap(instructions[i]);
 	}
 
 	return 0;

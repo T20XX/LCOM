@@ -1,3 +1,9 @@
+/**
+ * This module contains all functions to manage graphics device
+ * Jorge Vale: 50%
+ * Telmo Barros: 50%
+ * Relative Weight:
+ */
 #ifndef __VIDEO_GR_H
 #define __VIDEO_GR_H
 
