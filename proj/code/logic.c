@@ -1,28 +1,27 @@
 #include <stdint.h>
 
 #include "logic.h"
+#include "logic.h"
 #include "video_gr.h"
 
-
-//change everything to FACE_LENGTH
 int can_piece_move_x(Piece * piece, Board * board, unsigned int dir){
 	uint16_t * piece_ptr;
 	uint16_t * board_ptr;
 
 	int relative_x;
 	unsigned int i;
-	for(i=0; i<(piece->sprite.height / FACE_LENGTH);i++){				//??
-		piece_ptr = piece->sprite.map + piece->sprite.width * i * FACE_LENGTH; //??
+	for(i=0; i<(piece->sprite.height / FACE_LENGTH);i++){
+		piece_ptr = piece->sprite.map + piece->sprite.width * i * FACE_LENGTH;
 		if (dir == 1){
-			piece_ptr += piece->sprite.width -1;	//?? To get the last "pixel"of the line
+			piece_ptr += piece->sprite.width -1;	//To get the last "pixel"of the line
 		}
 
 		relative_x = 0;								//relative x of block in piece
 		while((*piece_ptr) == 0){
 			if (dir == 0){
-				relative_x += FACE_LENGTH;								//??
+				relative_x += FACE_LENGTH;
 			}else if (dir == 1){
-				relative_x -= FACE_LENGTH;								//??
+				relative_x -= FACE_LENGTH;
 			}
 			piece_ptr += relative_x;
 		}
@@ -52,15 +51,15 @@ int can_piece_fall(Piece * piece, Board * board){
 
 	int relative_y;
 	unsigned int i;
-	for(i=0; i<(piece->sprite.width / FACE_LENGTH);i++){				//??
+	for(i=0; i<(piece->sprite.width / FACE_LENGTH);i++){
 		piece_ptr = piece->sprite.map +
 				(piece->sprite.width * (piece->sprite.height -1)) +
-				i * FACE_LENGTH; //??
+				i * FACE_LENGTH;
 
 		relative_y = 0;
-		while((*piece_ptr) == 0){							//"Climbs" piece sprite to find "pixel" not black
+		while((*piece_ptr) == 0){							// "Climbs" piece sprite to find "pixel" not black
 			relative_y -= FACE_LENGTH;
-			piece_ptr -= piece->sprite.width * FACE_LENGTH;			//??
+			piece_ptr -= piece->sprite.width * FACE_LENGTH;
 		}
 
 		board_ptr = board->map;
@@ -78,21 +77,17 @@ int can_piece_fall(Piece * piece, Board * board){
 }
 
 int can_piece_be_placed(Piece * piece, Board * board){
-	/*if (((piece->sprite.x + piece->sprite.width) >= (board->x + board->width)) ||
-			((piece->sprite.y + piece->sprite.height) >= (board->y + board->height)))
-					return 1;*/
-
-
 	uint16_t * piece_ptr;
 	uint16_t * board_ptr;
 
+	//verifies if all blocks that piece will be are black blocks (empty space)
 	unsigned int i, j;
 	for(i=0; i<(piece->sprite.height / FACE_LENGTH);i++){
 		for(j=0; j<(piece->sprite.width / FACE_LENGTH);j++){
 			piece_ptr = piece->sprite.map + (j* FACE_LENGTH)+ (i *piece->sprite.width * FACE_LENGTH);
 			board_ptr = board->map + ((piece->sprite.x - board->x) + (j*FACE_LENGTH)) +
 					(board->width * ((piece->sprite.y - board->y) + (i * FACE_LENGTH)));
-			if(*piece_ptr != 0x00 && *board_ptr != 0x00)
+			if(*piece_ptr != 0x00 && *board_ptr != BLACK)
 				return 1;
 		}
 	}
