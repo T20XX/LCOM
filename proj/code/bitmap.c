@@ -128,28 +128,26 @@ void drawBitmap(Bitmap* bmp, int x, int y, Alignment alignment) {
 	}
 }
 
+void deleteBitmap(Bitmap* bmp) {
+	if (bmp == NULL)
+		return;
+
+	free(bmp->bitmapData);
+	free(bmp);
+}
+
 uint16_t * map_Bitmap(const char* filename, int *width, int *height){
+	// loads bitmap
 	Bitmap * bmp = loadBitmap(filename);
 	if (bmp == NULL)
 		return;
 
+	// sets parameters with width and height
 	*width = bmp->bitmapInfoHeader.width;
-	//int drawWidth = width;
 	*height = bmp->bitmapInfoHeader.height;
 
 
-	/*int xCorrection = 0;
-	if (x < 0) {
-		xCorrection = -x;
-		drawWidth -= xCorrection;
-		x = 0;
-
-		if (drawWidth > getH_res())
-			drawWidth = getH_res();
-	} else if (x + drawWidth >= getH_res()) {
-		drawWidth = getH_res() - x;
-	}*/
-
+	// similar to the function of DrawBitmap (not developed by us)
 	char* map;
 	map = (char *)malloc((*width)*(*height)*2);
 	char* ptr;
@@ -157,8 +155,6 @@ uint16_t * map_Bitmap(const char* filename, int *width, int *height){
 
 	int i;
 	for (i = 0; i < (*height); i++) {
-		//int pos = y + height - 1 - i;
-
 
 		ptr = map;
 		ptr += ((*height) - 1 - i) * (*width) * 2;
@@ -168,15 +164,9 @@ uint16_t * map_Bitmap(const char* filename, int *width, int *height){
 		memcpy(ptr, imgStartPos, (*width) * 2);
 	}
 
+	// releases memory allocated to the bitmap
 	deleteBitmap(bmp);
 
+	// returns pointer to image mapped
 	return (uint16_t * )map;
-}
-
-void deleteBitmap(Bitmap* bmp) {
-	if (bmp == NULL)
-		return;
-
-	free(bmp->bitmapData);
-	free(bmp);
 }

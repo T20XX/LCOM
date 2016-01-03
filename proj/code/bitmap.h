@@ -62,15 +62,23 @@ Bitmap* loadBitmap(const char* filename);
  */
 void drawBitmap(Bitmap* bitmap, int x, int y, Alignment alignment);
 
-
-uint16_t * map_Bitmap(const char* filename, int *width, int *height);
-
 /**
  * @brief Destroys the given bitmap, freeing all resources used by it.
  *
  * @param bitmap bitmap to be destroyed
  */
 void deleteBitmap(Bitmap* bmp);
+
+/**
+ * Function developed by us, the intent of this function is two use less memory than with Bitmap structure and also can load sprites
+ * @brief Draws an unscaled, unrotated bitmap at the given position
+ *
+ * @param filename Path of the image to be mapped
+ * @param width variable to change to value of bitmap width
+ * @param height variable to change to value of bitmap height
+ * @return pointer to map created with image
+ */
+uint16_t * map_Bitmap(const char* filename, int *width, int *height);
 
 /**@}*/
 
