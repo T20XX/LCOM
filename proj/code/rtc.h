@@ -1,3 +1,9 @@
+/**
+ * This module contains all functions to manage real time clock
+ * Jorge Vale: 50%
+ * Telmo Barros: 50%
+ * Relative Weight:
+ */
 #ifndef __RTC_H
 #define __RTC_H
 
@@ -26,8 +32,18 @@
 
 #define RTC_IRQ				8
 
+/**
+ * @brief Subscribes the rtc interrupts
+ *
+ * @return Return rtc ID to verify the interrupts and -1 upon failure
+ */
 int rtc_subscribe_int();
 
+/**
+ * @brief Unsubscribes the rtc interrupts
+ *
+ * @return Return 0 upon success and 1 upon failure
+ */
 int rtc_unsubscribe_int();
 
 int rtc_current_time(unsigned long *hour, unsigned long *min, unsigned long *sec);
