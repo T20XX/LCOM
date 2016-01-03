@@ -9,14 +9,20 @@
 
 #include <stdint.h>
 
+/** @name Mouse_t structure */
+/** @{
+ *
+ * Mouse structure
+ */
 typedef struct{
-	unsigned int x, y;
-	unsigned int left_btn ,middle_btn, right_btn;
-	int deltax;
-	int deltay;
-	unsigned int width,height;
-	uint16_t * map;
+	unsigned int x, y;	// mouse position
+	unsigned int left_btn ,middle_btn, right_btn;	// flags to store three buttons state of press or release
+	int deltax;	// mouse movement in x axys
+	int deltay;	// mouse movement in y axys
+	unsigned int width,height;	// mouse sprite dimensions
+	uint16_t * map;	//mouse sprite image
 } Mouse_t;
+/** @} end of Mouse_t structure */
 
 /**
  * @brief Subscribes the mouse interrupts
