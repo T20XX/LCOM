@@ -1,3 +1,9 @@
+/**
+ * This module contains all functions to manage serial port
+ * Jorge Vale: 50%
+ * Telmo Barros: 50%
+ * Relative Weight:
+ */
 #ifndef __SERIAL_H
 #define __SERIAL_H
 
@@ -26,8 +32,18 @@
 //LSR
 #define LINE_STATUS_LSR					5
 
+/**
+ * @brief Subscribes the serial port interrupts
+ *
+ * @return Return serial port ID to verify the interrupts and -1 upon failure
+ */
 int serial_subscribe_int();
 
+/**
+ * @brief Unsubscribes the serial port interrupts
+ *
+ * @return Return 0 upon success and 1 upon failure
+ */
 int serial_unsubscribe_int();
 
 int serial_interrupt_identification();
