@@ -11,9 +11,9 @@ int kbd_subscribe_int() {
 	int kbd_id = BIT(kbd_hook_id);
 
 	if (sys_irqsetpolicy(KBD_IRQ, IRQ_REENABLE|IRQ_EXCLUSIVE, &kbd_hook_id) != OK)
-		return 1;
+		return -1;
 	if (sys_irqenable(&kbd_hook_id) != OK)
-		return 1;
+		return -1;
 	return kbd_id;
 }
 

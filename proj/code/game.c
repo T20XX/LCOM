@@ -148,6 +148,7 @@ void update_gamestate(Game * game){
 			else
 				game->state = GAME_OVER;
 		}
+		game->timer_event = NO_TICK;
 	}
 }
 
@@ -241,9 +242,9 @@ void draw_game(Game * game){
 	vg_string(temp,game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_LINES_Y, 2, WHITE);
 
 	if (game->game_mode == 1){
-		vg_string("WAITING LINES",game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_LINES_STRING_Y+50, 2, WHITE);
+		vg_string("WAITING LINES",game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_WAITING_LINES_STRING_Y, 2, WHITE);
 		sprintf(temp, "%d", game->lines_received);
-		vg_string(temp,game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_LINES_Y+50, 2, WHITE);
+		vg_string(temp,game->board.x+ONE_PLAYER_RELATIVE_NEXT_PIECE_X,game->board.y+RELATIVE_WAITING_LINES_Y, 2, WHITE);
 	}
 }
 
