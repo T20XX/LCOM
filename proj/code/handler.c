@@ -472,7 +472,39 @@ int multi_game_handler(){
 
 	char buffer[10];
 	unsigned long serial_info;
-	//while
+
+	serial_int_handler(&serial_info);
+	serial_write_char('R');
+	while(serial_info != 'R') {
+		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+			printf("driver_receive failed with: %d", r);
+			continue;
+		}
+		if (is_ipc_notify(ipc_status)) { /* received notification */
+			switch (_ENDPOINT_P(msg.m_source)) {
+			case HARDWARE: /* hardware interrupt notification */
+				if (msg.NOTIFY_ARG & mouse_irq_set) {
+					mouse_packet_handler();
+				}
+				if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
+					kbd_int_handler();
+				}
+				if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
+					vg_string("Waiting your oponent",300,200,2, WHITE);
+					vg_buffer();
+				}
+				if (msg.NOTIFY_ARG & serial_irq_set) {
+					serial_int_handler(&serial_info);
+				}
+			default:
+				break; /* no other notifications expected: do nothing */
+			}
+		} else { /* received a standard message, not a notification */
+			/* no standard messages expected: do nothing */
+		}
+		if (serial_info == 'R')
+			break;
+	}
 
 	while(game->state != GAME_OVER) {
 		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
@@ -532,39 +564,39 @@ int multi_game_handler(){
 	}
 
 	while( code != BREAKCODE) {
-				if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
-					printf("driver_receive failed with: %d", r);
-					continue;
-				}
-				if (is_ipc_notify(ipc_status)) { /* received notification */
-					switch (_ENDPOINT_P(msg.m_source)) {
-					case HARDWARE: /* hardware interrupt notification */
-						if (msg.NOTIFY_ARG & mouse_irq_set) {
-							mouse_packet_handler();
+		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+			printf("driver_receive failed with: %d", r);
+			continue;
+		}
+		if (is_ipc_notify(ipc_status)) { /* received notification */
+			switch (_ENDPOINT_P(msg.m_source)) {
+			case HARDWARE: /* hardware interrupt notification */
+				if (msg.NOTIFY_ARG & mouse_irq_set) {
+					mouse_packet_handler();
 
-						}
-						if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
-							kbd_int_handler();
-						}
-						if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
-							vg_rectangle(0,0,1024,768,BLACK);
-							if (game->state == GAME_OVER){
-								vg_string("YOU LOSE",300,200,2, WHITE);
-							} else {
-								vg_string("YOU WON",340,200,2, WHITE);
-							}
-							vg_string("Press ESC to go back",350,400,2, WHITE);
-							vg_buffer();
-						}
-						if (msg.NOTIFY_ARG & serial_irq_set) {
-						}
-					default:
-						break; /* no other notifications expected: do nothing */
-					}
-				} else { /* received a standard message, not a notification */
-					/* no standard messages expected: do nothing */
 				}
+				if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
+					kbd_int_handler();
+				}
+				if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
+					vg_rectangle(0,0,1024,768,BLACK);
+					if (game->state == GAME_OVER){
+						vg_string("YOU LOSE",300,200,2, WHITE);
+					} else {
+						vg_string("YOU WON",340,200,2, WHITE);
+					}
+					vg_string("Press ESC to go back",350,400,2, WHITE);
+					vg_buffer();
+				}
+				if (msg.NOTIFY_ARG & serial_irq_set) {
+				}
+			default:
+				break; /* no other notifications expected: do nothing */
 			}
+		} else { /* received a standard message, not a notification */
+			/* no standard messages expected: do nothing */
+		}
+	}
 
 	delete_game(game);
 
@@ -639,9 +671,9 @@ int battle_game_handler(){
 				}
 				if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
 					if (char_piece_collision(character,game->actual_piece) == 0){
-								character->state = GAMEOVER;
-								break;
-							}
+						character->state = GAMEOVER;
+						break;
+					}
 
 					counter++;
 					game->timer_event = timer_event_handler(counter, game->fall_delay);
@@ -669,39 +701,39 @@ int battle_game_handler(){
 	}
 
 	while( code != BREAKCODE) {
-			if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
-				printf("driver_receive failed with: %d", r);
-				continue;
-			}
-			if (is_ipc_notify(ipc_status)) { /* received notification */
-				switch (_ENDPOINT_P(msg.m_source)) {
-				case HARDWARE: /* hardware interrupt notification */
-					if (msg.NOTIFY_ARG & mouse_irq_set) {
-						mouse_packet_handler();
-
-					}
-					if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
-						kbd_int_handler();
-					}
-					if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
-						vg_rectangle(0,0,1024,768,BLACK);
-						if (game->state == GAME_OVER){
-							vg_string("CHARACTER WON",300,200,2, WHITE);
-						} else {
-							vg_string("PIECES WON",350,200,2, WHITE);
-						}
-						vg_string("Press ESC to go back",350,400,2, WHITE);
-						vg_buffer();
-					}
-					if (msg.NOTIFY_ARG & serial_irq_set) {
-					}
-				default:
-					break; /* no other notifications expected: do nothing */
-				}
-			} else { /* received a standard message, not a notification */
-				/* no standard messages expected: do nothing */
-			}
+		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+			printf("driver_receive failed with: %d", r);
+			continue;
 		}
+		if (is_ipc_notify(ipc_status)) { /* received notification */
+			switch (_ENDPOINT_P(msg.m_source)) {
+			case HARDWARE: /* hardware interrupt notification */
+				if (msg.NOTIFY_ARG & mouse_irq_set) {
+					mouse_packet_handler();
+
+				}
+				if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
+					kbd_int_handler();
+				}
+				if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
+					vg_rectangle(0,0,1024,768,BLACK);
+					if (game->state == GAME_OVER){
+						vg_string("CHARACTER WON",300,200,2, WHITE);
+					} else {
+						vg_string("PIECES WON",350,200,2, WHITE);
+					}
+					vg_string("Press ESC to go back",350,400,2, WHITE);
+					vg_buffer();
+				}
+				if (msg.NOTIFY_ARG & serial_irq_set) {
+				}
+			default:
+				break; /* no other notifications expected: do nothing */
+			}
+		} else { /* received a standard message, not a notification */
+			/* no standard messages expected: do nothing */
+		}
+	}
 
 	delete_game(game);
 	delete_character(character);
