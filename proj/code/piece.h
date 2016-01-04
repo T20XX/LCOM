@@ -2,7 +2,7 @@
  * This module contains all functions that handle the piece structure
  * Jorge Vale: 40%
  * Telmo Barros: 60%
- * Relative Weight:
+ * Relative Weight: 9%
  */
 
 #ifndef __PIECE_H

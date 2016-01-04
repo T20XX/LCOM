@@ -2,7 +2,7 @@
  * This module contains all functions to manage Real Time Clock(RTC)
  * Jorge Vale: 50%
  * Telmo Barros: 50%
- * Relative Weight:
+ * Relative Weight: 4%
  */
 #ifndef __RTC_H
 #define __RTC_H
@@ -31,6 +31,8 @@
 #define HIGH_REG_3			16
 
 #define RTC_IRQ				8
+
+#define HIGHSCORES_MULTIPLE 10
 
 /**
  * @brief Subscribes the rtc interrupts

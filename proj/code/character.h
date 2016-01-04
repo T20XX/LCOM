@@ -2,7 +2,7 @@
  * This module contains all functions that handle the character in battle mode
  * Jorge Vale: 10%
  * Telmo Barros: 90%
- * Relative Weight:
+ * Relative Weight: 9%
  */
 
 #ifndef __CHARACTER_H

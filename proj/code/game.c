@@ -199,8 +199,8 @@ void update_game(Game * game){
 		//reset of pieces already swapped flag to allow news swapping
 		game->pieces_already_swapped = 0;
 		//increment points
-		game->points += 50;
-		game->points += (lines_removed * 250);
+		game->points += 10;
+		game->points += (lines_removed * 50);
 		//update of lines completed
 		game->lines += lines_removed;
 		//update fall delay

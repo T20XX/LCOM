@@ -2,7 +2,7 @@
  * This module contains all functions that handle the logic of the game (collisions mostly)
  * Jorge Vale: 40%
  * Telmo Barros: 60%
- * Relative Weight:
+ * Relative Weight: 5%
  */
 
 #ifndef __LOGIC_H

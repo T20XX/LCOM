@@ -2,11 +2,9 @@
 #include <minix/syslib.h>
 #include <minix/drivers.h>
 #include <stdbool.h>
-#include "menu.h"
 #include "i8042.h"
 #include "i8254.h"
 #include "handler.h"
-#include "game.h"
 #include "timer.h"
 #include "kbd.h"
 #include "mouse.h"
@@ -17,7 +15,6 @@
 #include "vbe.h"
 #include "rtc.h"
 #include "serial.h"
-#include "character.h"
 
 
 Mouse_t mouse;
@@ -208,7 +205,7 @@ main_menu_event main_menu_event_handler(Menu* menu){
 	}
 }
 
-selecao_handler(Menu* menu){
+void selecao_handler(Menu* menu){
 	if (menu->state == SINGLEPLAYER)
 		selecao = 1;
 	if (menu->state == MULTIPLAYER)
@@ -233,6 +230,8 @@ int menu_handler(){
 	int r;
 	int counter = 0; //Inicialização do contador
 	unsigned long serial_info;
+
+	serial_int_handler(&serial_info);
 
 	while(selecao == 0) {
 		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
@@ -586,7 +585,7 @@ kbd_character_event kbd_char_event_handler(){
 	}
 }
 
-timer_character_event timer_char_event_handler(unsigned long * counter, Character * character){
+timer_character_event timer_char_event_handler(unsigned long * counter){
 	if ((*counter)%CHAR_MOVE_FRAME_DELAY == 0){
 		return MOVE_FRAME_TICK;
 	} else {
@@ -650,7 +649,7 @@ int battle_game_handler(){
 						update_gamestate(game,0);
 						update_game(game);
 					}
-					character->timer_event = timer_char_event_handler(&counter, character);
+					character->timer_event = timer_char_event_handler(&counter);
 					update_character_state(character);
 					update_character(character);
 
@@ -738,11 +737,11 @@ int highscores_handler(){
 					drawBitmap(highscores_background, 0, 0, ALIGN_LEFT);
 
 					sprintf(temp, "%d", highscores[0]);
-					vg_string(temp,450,248,2,BLACK);
+					vg_string(temp,450,240,2,BLACK);
 					sprintf(temp, "%d", highscores[1]);
-					vg_string(temp,450,368,2,BLACK);
+					vg_string(temp,450,360,2,BLACK);
 					sprintf(temp, "%d", highscores[2]);
-					vg_string(temp,450,492,2,BLACK);
+					vg_string(temp,450,484,2,BLACK);
 
 					rtc_draw_current_time(RTC_TIME_X,RTC_TIME_Y);
 

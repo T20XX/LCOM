@@ -2,7 +2,7 @@
  *  @author Joao Cardoso (jcard@fe.up.pt)
  *  Added by pfs@fe.up.pt
  *  Change by us to be able to accept 16 bit image using uint16_t pointer instead of char pointer
- *  Relative weight:
+ *  Relative weight: 5 %
  */
 
 #ifndef _SPRITE_H_
