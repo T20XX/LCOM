@@ -9,6 +9,11 @@
 
 #include <stdint.h>
 
+/** @defgroup Mouse Mouse
+ * @{
+ * Functions to manage mouse
+ */
+
 /** @name Mouse_t structure */
 /** @{
  *

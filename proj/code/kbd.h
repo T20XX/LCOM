@@ -7,6 +7,11 @@
 #ifndef __KBD_H
 #define __KBD_H
 
+/** @defgroup Keyboard Keyboard
+ * @{
+ * Functions to manage keyboard
+ */
+
 /**
  * @brief Subscribes the keyboard interrupts
  *
@@ -27,5 +32,7 @@ int kbd_unsubscribe_int();
  * @return Return data of buffer and -1 upon failure
  */
 int kbd_output();
+
+/**@}*/
 
 #endif

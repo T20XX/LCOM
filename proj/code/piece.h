@@ -10,6 +10,11 @@
 
 #include "sprite.h"
 
+/** @defgroup Piece Piece
+ * @{
+ * Functions for manipulating piece
+ */
+
 #define FACE_LENGTH 		30
 
 /** @name Piece structure */
@@ -45,5 +50,7 @@ void draw_piece(Piece * piece);
  * @param piece Piece to destroy
  */
 void delete_piece(Piece * piece);
+
+/**@}*/
 
 #endif /* __PIECE_H */

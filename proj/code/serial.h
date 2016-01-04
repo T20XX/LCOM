@@ -7,6 +7,11 @@
 #ifndef __SERIAL_H
 #define __SERIAL_H
 
+/** @defgroup Serial Serial
+ * @{
+ * Functions to manage UART
+ */
+
 #define COM1_ADDRESS				0x3F8
 #define COM1_IRQ						4
 
@@ -68,5 +73,7 @@ char serial_read_char();
  * @return Return 0 upon success
  */
 int serial_write_char(char temp);
+
+/**@}*/
 
 #endif /* __SERIAL_H */

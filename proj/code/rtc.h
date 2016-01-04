@@ -7,6 +7,11 @@
 #ifndef __RTC_H
 #define __RTC_H
 
+/** @defgroup RTC RTC
+ * @{
+ * Functions to manage Real Time Clock(RTC)
+ */
+
 #define RTC_ADDR_REG 		0x70
 #define RTC_DATA_REG 		0x71
 
@@ -80,5 +85,7 @@ void rtc_get_highscores(unsigned int highscores[3]);
  * @param highscores[3] Array of highscores value to change the value of registers
  */
 void rtc_set_highscores(unsigned int highscores[3]);
+
+/**@}*/
 
 #endif /* __RTC_H */

@@ -11,6 +11,11 @@
 #include "menu.h"
 #include "character.h"
 
+/** @defgroup Handler Handler
+ * @{
+ * Functions for handling all interrupt devices, drawing images, update states, throw events
+ */
+
 #define		RTC_TIME_X			7
 #define		RTC_TIME_Y			724
 
@@ -143,5 +148,7 @@ int highscores_handler();
  * @return 0 upon success
  */
 int instructions_handler();
+
+/**@}*/
 
 #endif /* __HANDLER_H */

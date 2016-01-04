@@ -12,6 +12,11 @@
 #include "piece.h"
 #include "game.h"
 
+/** @defgroup Logic Logic
+ * @{
+ * Functions to verify collisions
+ */
+
 /**
  * @brief Verifies if a piece is able to move left or right in the board
  *
