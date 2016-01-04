@@ -47,9 +47,63 @@ int mainhandler(){
 	serial_irq_set = serial_subscribe_int();
 	write_to_mouse();
 	enable_packets();
-
 	mouse.map=map_Bitmap("/home/lcom/proj/code/img/mouse.bmp", &mouse.width, &mouse.height);
 	rtc_get_highscores(highscores);
+
+
+	//display presentation image
+	Bitmap * loading1 = loadBitmap("/home/lcom/proj/code/img/loading1.bmp");
+	Bitmap * loading2 = loadBitmap("/home/lcom/proj/code/img/loading2.bmp");
+
+	int ipc_status;
+	message msg;
+	int r;
+	int counter = 0;
+	while( code != BREAKCODE && counter < 8*60) {
+		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+			printf("driver_receive failed with: %d", r);
+			continue;
+		}
+		if (is_ipc_notify(ipc_status)) { /* received notification */
+			switch (_ENDPOINT_P(msg.m_source)) {
+			case HARDWARE: /* hardware interrupt notification */
+				if (msg.NOTIFY_ARG & mouse_irq_set) {
+					mouse_packet_handler();
+
+				}
+				if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
+					kbd_int_handler();
+				}
+				if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
+					counter++;
+					if (counter < 1 * 60){
+						vg_fadein((uint16_t *)loading1->bitmapData);
+					}else if (counter < 3* 60){
+						drawBitmap(loading1, 0, 0, ALIGN_LEFT);
+					} else if (counter < 4* 60){
+						vg_darker();
+					}else if (counter < 5 * 60){
+						vg_fadein((uint16_t *)loading2->bitmapData);
+					}else if (counter < 7* 60){
+						drawBitmap(loading2, 0, 0, ALIGN_LEFT);
+					} else if (counter < 8* 60){
+						vg_darker();
+					}
+					vg_buffer();
+				}
+				if (msg.NOTIFY_ARG & serial_irq_set) {
+				}
+			default:
+				break; /* no other notifications expected: do nothing */
+			}
+		} else { /* received a standard message, not a notification */
+			/* no standard messages expected: do nothing */
+		}
+	}
+	deleteBitmap(loading1);
+	deleteBitmap(loading2);
+	code = 0;
+
 	while (selecao != 6){
 		menu_handler();
 

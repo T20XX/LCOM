@@ -146,6 +146,10 @@ int vg_counter(unsigned int x, unsigned int y, unsigned long counter);
  */
 void vg_buffer();
 
+int vg_darker();
+
+int vg_fadein(uint16_t * map);
+
 /** @} end of video_gr */
 
 #endif /* __VIDEO_GR_H */
