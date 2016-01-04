@@ -10,6 +10,11 @@
 
 #include <stdio.h>
 
+/** @defgroup Character Character
+ * @{
+ * Functions for manipulating character
+ */
+
 #define CHAR_INIT_X						500.0
 #define CHAR_INIT_Y						400.0
 
@@ -110,5 +115,7 @@ void draw_character(Character * character);
  * @param character Character to destroy
  */
 void delete_character(Character * character);
+
+/**@}*/
 
 #endif /* __GAME_H */
