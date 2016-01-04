@@ -1,0 +1,8 @@
+<map id="vg_rectangle" name="vg_rectangle">
+<area shape="rect" id="node2" href="$group___game.html#ga0e5a63798b2083168206005d4b9dcd83" title="Draws the board, actual and next piece, points and lines in the video buffer. " alt="" coords="148,56,236,83"/>
+<area shape="rect" id="node6" href="$group___handler.html#gab96de35aebb1b0a2a91c45fa4b0e9a64" title="Creates a game and updates its events, states, draws the game, counter and handle all devices interru..." alt="" coords="286,5,425,32"/>
+<area shape="rect" id="node7" href="$group___handler.html#ga4c7a623bbc471e99bc482cac7a1d20da" title="Creates a game and a character and updates their events, states, draws the game and the character..." alt="" coords="284,107,427,133"/>
+<area shape="rect" id="node3" href="$group___handler.html#gad53b662cab3d47a117f077e08c4ebfee" title="Creates a game and updates its events, states, draws the game, counter and handle all devices interru..." alt="" coords="304,56,407,83"/>
+<area shape="rect" id="node4" href="$group___handler.html#ga46e8fa25e80aad03b20f41ec93261788" title="Subscribe all interrupts and generate needed structure for all execution, calls all the functions..." alt="" coords="475,56,567,83"/>
+<area shape="rect" id="node5" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="615,56,665,83"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="vg_get_pixel" name="vg_get_pixel">
+<area shape="rect" id="node2" href="$group___logic.html#gae70e5b31db1591166eb7c5f46006e561" title="Verifies if the character is able to move left or right. " alt="" coords="147,5,273,32"/>
+<area shape="rect" id="node7" href="$group___logic.html#ga38fd4a8a33b912b5487924e3cb2dc0fe" title="Verifies if a character is able to fall (move down), if there is empty space under it..." alt="" coords="161,56,259,83"/>
+<area shape="rect" id="node8" href="$group___logic.html#ga005b2ea5366c98e80396e566c0b503ad" title="Verifies if a character is able to jump (move up), if there is empty space above it. " alt="" coords="155,107,265,133"/>
+<area shape="rect" id="node9" href="$group___logic.html#ga673168bc86623e7165f55ef79845c1cf" title="char_piece_collision" alt="" coords="321,132,460,159"/>
+<area shape="rect" id="node3" href="$group___character.html#ga1c2bb5f7b8faba5b5907e0beb432e978" title="Updates character position based on current state. " alt="" coords="329,69,452,96"/>
+<area shape="rect" id="node4" href="$group___handler.html#ga4c7a623bbc471e99bc482cac7a1d20da" title="Creates a game and a character and updates their events, states, draws the game and the character..." alt="" coords="508,101,651,128"/>
+<area shape="rect" id="node5" href="$group___handler.html#ga46e8fa25e80aad03b20f41ec93261788" title="Subscribe all interrupts and generate needed structure for all execution, calls all the functions..." alt="" coords="699,101,791,128"/>
+<area shape="rect" id="node6" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="839,101,889,128"/>
+</map>

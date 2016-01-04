@@ -1,0 +1,4 @@
+<map id="serial_int_handler" name="serial_int_handler">
+<area shape="rect" id="node2" href="$serial_8c.html#ae5a948f7f8c9cc6fa5ffe3159a2970b7" title="Identifies the origin of the interrupt. " alt="" coords="176,5,363,32"/>
+<area shape="rect" id="node3" href="$serial_8c.html#adf54472911b5fd73f4a3f33e2beeaee2" title="Reads the char from the serial port buffer. " alt="" coords="211,56,328,83"/>
+</map>

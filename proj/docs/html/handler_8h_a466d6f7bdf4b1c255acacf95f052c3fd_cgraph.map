@@ -1,0 +1,5 @@
+<map id="mouse_packet_handler" name="mouse_packet_handler">
+<area shape="rect" id="node2" href="$mouse_8c.html#aa0ef0f6c492deff495f989c92415a3f9" title="Reads from the output buffer of the mouse. " alt="" coords="209,5,313,32"/>
+<area shape="rect" id="node3" href="$video__gr_8c.html#af597a67a797839097222fa9b4ae20b3f" title="getH_res" alt="" coords="224,56,299,83"/>
+<area shape="rect" id="node4" href="$video__gr_8c.html#a36f1c43e43d903e085207548cf8d48a2" title="getV_res" alt="" coords="224,107,299,133"/>
+</map>

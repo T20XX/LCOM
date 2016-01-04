@@ -1,0 +1,18 @@
+<map id="handler.c" name="handler.c">
+<area shape="rect" id="node6" href="$i8042_8h.html" title="i8042.h" alt="" coords="1021,80,1085,107"/>
+<area shape="rect" id="node7" href="$i8254_8h.html" title="i8254.h" alt="" coords="1109,80,1173,107"/>
+<area shape="rect" id="node8" href="$handler_8h.html" title="handler.h" alt="" coords="172,80,246,107"/>
+<area shape="rect" id="node10" href="$piece_8h.html" title="piece.h" alt="" coords="321,229,385,256"/>
+<area shape="rect" id="node11" href="$sprite_8h.html" title="sprite.h" alt="" coords="376,304,442,331"/>
+<area shape="rect" id="node14" href="$bitmap_8h.html" title="bitmap.h" alt="" coords="225,229,297,256"/>
+<area shape="rect" id="node16" href="$timer_8h.html" title="timer.h" alt="" coords="1198,80,1260,107"/>
+<area shape="rect" id="node17" href="$kbd_8h.html" title="kbd.h" alt="" coords="1284,80,1339,107"/>
+<area shape="rect" id="node18" href="$mouse_8h.html" title="mouse.h" alt="" coords="517,304,589,331"/>
+<area shape="rect" id="node19" href="$video__gr_8h.html" title="video_gr.h" alt="" coords="460,229,540,256"/>
+<area shape="rect" id="node20" href="$vbe_8h.html" title="vbe.h" alt="" coords="614,304,666,331"/>
+<area shape="rect" id="node21" href="$rtc_8h.html" title="rtc.h" alt="" coords="1364,80,1412,107"/>
+<area shape="rect" id="node22" href="$serial_8h.html" title="serial.h" alt="" coords="1436,80,1500,107"/>
+<area shape="rect" id="node9" href="$game_8h.html" title="game.h" alt="" coords="134,155,199,181"/>
+<area shape="rect" id="node13" href="$menu_8h.html" title="menu.h" alt="" coords="223,155,288,181"/>
+<area shape="rect" id="node15" href="$character_8h.html" title="character.h" alt="" coords="23,155,110,181"/>
+</map>

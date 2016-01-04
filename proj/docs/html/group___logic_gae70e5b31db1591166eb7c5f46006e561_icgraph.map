@@ -1,0 +1,6 @@
+<map id="can_char_move_x" name="can_char_move_x">
+<area shape="rect" id="node2" href="$group___character.html#ga1c2bb5f7b8faba5b5907e0beb432e978" title="Updates character position based on current state. " alt="" coords="180,5,303,32"/>
+<area shape="rect" id="node3" href="$group___handler.html#ga4c7a623bbc471e99bc482cac7a1d20da" title="Creates a game and a character and updates their events, states, draws the game and the character..." alt="" coords="351,5,493,32"/>
+<area shape="rect" id="node4" href="$group___handler.html#ga46e8fa25e80aad03b20f41ec93261788" title="Subscribe all interrupts and generate needed structure for all execution, calls all the functions..." alt="" coords="541,5,633,32"/>
+<area shape="rect" id="node5" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="681,5,732,32"/>
+</map>

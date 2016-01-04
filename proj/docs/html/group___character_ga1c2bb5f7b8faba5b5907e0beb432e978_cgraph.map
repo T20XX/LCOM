@@ -1,0 +1,6 @@
+<map id="update_character" name="update_character">
+<area shape="rect" id="node2" href="$group___logic.html#gae70e5b31db1591166eb7c5f46006e561" title="Verifies if the character is able to move left or right. " alt="" coords="176,5,303,32"/>
+<area shape="rect" id="node4" href="$group___logic.html#ga38fd4a8a33b912b5487924e3cb2dc0fe" title="Verifies if a character is able to fall (move down), if there is empty space under it..." alt="" coords="190,56,289,83"/>
+<area shape="rect" id="node5" href="$group___logic.html#ga005b2ea5366c98e80396e566c0b503ad" title="Verifies if a character is able to jump (move up), if there is empty space above it. " alt="" coords="184,107,295,133"/>
+<area shape="rect" id="node3" href="$group__video__gr.html#ga6390939ae50486572170e9232ff57890" title="Gets color(value) of a pixel(video register) " alt="" coords="351,56,444,83"/>
+</map>

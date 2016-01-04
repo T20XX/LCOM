@@ -1,0 +1,4 @@
+<map id="draw_piece" name="draw_piece">
+<area shape="rect" id="node2" href="$group__video__gr.html#ga775f3b02fdd2b7f966fbc5d4cc4e1bab" title="Draws a sprite in the video buffer. " alt="" coords="140,5,213,32"/>
+<area shape="rect" id="node3" href="$group__video__gr.html#gadad3bad518f19e523f83b0886f9b2c08" title="Sets the color(value) of a pixel(video register) " alt="" coords="261,5,329,32"/>
+</map>

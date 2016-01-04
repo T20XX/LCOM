@@ -1,0 +1,9 @@
+<map id="rtc_draw_current_time" name="rtc_draw_current_time">
+<area shape="rect" id="node2" href="$group___r_t_c.html#ga5cb0a786a436a1aee07bc6cd5a4c7e07" title="Gets the current time from RTC registers. " alt="" coords="204,5,320,32"/>
+<area shape="rect" id="node4" href="$group__video__gr.html#ga52a76f0cebcdf1a496574bcebf50d6ab" title="Draws a string in the video buffer using the font Impact Condensed. " alt="" coords="225,56,299,83"/>
+<area shape="rect" id="node3" href="$rtc_8c.html#af563c2c3403b6195e7f9f0ac92f3f325" title="bcd_convert" alt="" coords="370,5,461,32"/>
+<area shape="rect" id="node5" href="$group___bitmap.html#ga671202736eb11045ea12c5fe7d94b85a" title="Draws an unscaled, unrotated bitmap at the given position. " alt="" coords="368,56,463,83"/>
+<area shape="rect" id="node8" href="$group__video__gr.html#gadad3bad518f19e523f83b0886f9b2c08" title="Sets the color(value) of a pixel(video register) " alt="" coords="381,107,449,133"/>
+<area shape="rect" id="node6" href="$group___bitmap.html#ga3506880ffd407c36eb8aaddd2c1606d2" title="Loads a bmp image. " alt="" coords="517,31,603,57"/>
+<area shape="rect" id="node7" href="$group___bitmap.html#ga08c1d4f4fff81df260d979ea8fc1aa61" title="Destroys the given bitmap, freeing all resources used by it. " alt="" coords="511,81,609,108"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="bitmap.h" name="bitmap.h">
+<area shape="rect" id="node2" href="$bitmap_8c.html" title="bitmap.c" alt="" coords="5,80,77,107"/>
+<area shape="rect" id="node3" href="$character_8c.html" title="character.c" alt="" coords="102,80,189,107"/>
+<area shape="rect" id="node4" href="$game_8c.html" title="game.c" alt="" coords="213,80,278,107"/>
+<area shape="rect" id="node5" href="$menu_8h.html" title="menu.h" alt="" coords="302,80,367,107"/>
+<area shape="rect" id="node7" href="$handler_8c.html" title="handler.c" alt="" coords="329,229,404,256"/>
+<area shape="rect" id="node6" href="$handler_8h.html" title="handler.h" alt="" coords="203,155,277,181"/>
+<area shape="rect" id="node9" href="$menu_8c.html" title="menu.c" alt="" coords="302,155,367,181"/>
+<area shape="rect" id="node8" href="$proj_8c.html" title="proj.c" alt="" coords="213,229,267,256"/>
+</map>

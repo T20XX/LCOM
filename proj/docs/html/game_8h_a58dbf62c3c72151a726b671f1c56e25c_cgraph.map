@@ -1,0 +1,4 @@
+<map id="update_gamestate" name="update_gamestate">
+<area shape="rect" id="node2" href="$logic_8c.html#a7c25a99c3e9b3c0eda1e3316a4bb0f54" title="Verifies if a piece is able to move left or right in the board. " alt="" coords="183,5,315,32"/>
+<area shape="rect" id="node3" href="$logic_8c.html#a60d348c875093b98b3c1d5a322fe77d2" title="Verifies if a piece is able to fall in a board (move down) " alt="" coords="197,56,301,83"/>
+</map>

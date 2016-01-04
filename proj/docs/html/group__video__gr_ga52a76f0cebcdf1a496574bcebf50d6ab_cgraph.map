@@ -1,0 +1,6 @@
+<map id="vg_string" name="vg_string">
+<area shape="rect" id="node2" href="$group___bitmap.html#ga671202736eb11045ea12c5fe7d94b85a" title="Draws an unscaled, unrotated bitmap at the given position. " alt="" coords="127,31,221,57"/>
+<area shape="rect" id="node5" href="$group__video__gr.html#gadad3bad518f19e523f83b0886f9b2c08" title="Sets the color(value) of a pixel(video register) " alt="" coords="140,81,208,108"/>
+<area shape="rect" id="node3" href="$group___bitmap.html#ga3506880ffd407c36eb8aaddd2c1606d2" title="Loads a bmp image. " alt="" coords="275,5,362,32"/>
+<area shape="rect" id="node4" href="$group___bitmap.html#ga08c1d4f4fff81df260d979ea8fc1aa61" title="Destroys the given bitmap, freeing all resources used by it. " alt="" coords="269,56,368,83"/>
+</map>

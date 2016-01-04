@@ -1,0 +1,4 @@
+<map id="draw_character" name="draw_character">
+<area shape="rect" id="node2" href="$group__video__gr.html#gafaf0e2c487980500082651639cc9950e" title="Draws an image with transparent color in the video buffer. " alt="" coords="164,5,303,32"/>
+<area shape="rect" id="node3" href="$group__video__gr.html#gadad3bad518f19e523f83b0886f9b2c08" title="Sets the color(value) of a pixel(video register) " alt="" coords="351,5,419,32"/>
+</map>

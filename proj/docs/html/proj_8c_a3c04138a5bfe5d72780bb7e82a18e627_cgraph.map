@@ -1,0 +1,51 @@
+<map id="main" name="main">
+<area shape="rect" id="node2" href="$group___handler.html#ga46e8fa25e80aad03b20f41ec93261788" title="Subscribe all interrupts and generate needed structure for all execution, calls all the functions..." alt="" coords="104,841,196,868"/>
+<area shape="rect" id="node3" href="$group__video__gr.html#gacef21667c79365d57a084bed994c2189" title="Initializes the video module in graphics mode. " alt="" coords="294,107,353,133"/>
+<area shape="rect" id="node9" href="$group___timer.html#ga4c5d9f47323eda494cfd826f6d62eec9" title="Subscribes the timer interrupts. " alt="" coords="256,157,391,184"/>
+<area shape="rect" id="node10" href="$group___keyboard.html#ga77e2ed8f53e0fae3f4005fa26c6d2692" title="Subscribes the keyboard interrupts. " alt="" coords="260,208,387,235"/>
+<area shape="rect" id="node11" href="$group___mouse.html#ga99506573209b197b84ee22a228b89fbd" title="Subscribes the mouse interrupts. " alt="" coords="251,259,396,285"/>
+<area shape="rect" id="node12" href="$group___r_t_c.html#gabd8de825e876e8ef94c64ac616f68a11" title="Subscribes the rtc interrupts. " alt="" coords="263,309,384,336"/>
+<area shape="rect" id="node13" href="$group___serial.html#ga885eeff39cd8705f012c4ddea86c5497" title="Subscribes the serial port interrupts. " alt="" coords="255,360,392,387"/>
+<area shape="rect" id="node14" href="$mouse_8c.html#a3bcd1e4c3db4e76132286f37b9dd4348" title="write_to_mouse" alt="" coords="267,411,380,437"/>
+<area shape="rect" id="node15" href="$mouse_8c.html#a1d37ae4606198e376004cf3614dcf8c5" title="enable_packets" alt="" coords="267,461,380,488"/>
+<area shape="rect" id="node16" href="$group___bitmap.html#ga671202736eb11045ea12c5fe7d94b85a" title="Draws an unscaled, unrotated bitmap at the given position. " alt="" coords="678,613,773,640"/>
+<area shape="rect" id="node17" href="$group___bitmap.html#ga3506880ffd407c36eb8aaddd2c1606d2" title="Loads a bmp image. " alt="" coords="831,613,918,640"/>
+<area shape="rect" id="node18" href="$group___bitmap.html#ga08c1d4f4fff81df260d979ea8fc1aa61" title="Destroys the given bitmap, freeing all resources used by it. " alt="" coords="825,1221,924,1248"/>
+<area shape="rect" id="node19" href="$group___r_t_c.html#gaa5d3dde39ba3be43be89ba8ba9794745" title="Gets the current values of highscores from the first three registers that we are able to use..." alt="" coords="257,1171,389,1197"/>
+<area shape="rect" id="node20" href="$group___handler.html#ga466d6f7bdf4b1c255acacf95f052c3fd" title="Handle the mouse interrupts, updating mouse position, delta and buttons flags. " alt="" coords="460,765,616,792"/>
+<area shape="rect" id="node24" href="$group___handler.html#ga76c3491bce9f85cce38e6af329b94d15" title="Handle the keyboard interrupts, updating actual code (key code) " alt="" coords="481,816,595,843"/>
+<area shape="rect" id="node26" href="$group__video__gr.html#ga2e64697846e43b4bbb7ac8395e40ec7c" title="vg_fadein" alt="" coords="286,1221,361,1248"/>
+<area shape="rect" id="node27" href="$group___bitmap.html#ga18d05a1c671f4638bc63d37874efb9d4" title="Draws an unscaled, unrotated bitmap at the given position. " alt="" coords="680,1171,771,1197"/>
+<area shape="rect" id="node29" href="$group__video__gr.html#ga1e7ed67f632d76c73f04ad99989f33f2" title="vg_darker" alt="" coords="285,1272,362,1299"/>
+<area shape="rect" id="node30" href="$group__video__gr.html#gae7d5ced5ab6cbe11dff332e07f658d18" title="Copy buffer frame to graphics device. " alt="" coords="502,867,574,893"/>
+<area shape="rect" id="node31" href="$group___handler.html#ga142dfbc03bde02303526b7541d57508f" title="Creates a menu and updates its events, states, draws the menu and the mouse, handle all devices inter..." alt="" coords="272,613,375,640"/>
+<area shape="rect" id="node40" href="$group___handler.html#gad53b662cab3d47a117f077e08c4ebfee" title="Creates a game and updates its events, states, draws the game, counter and handle all devices interru..." alt="" coords="272,867,375,893"/>
+<area shape="rect" id="node41" href="$group___handler.html#gab96de35aebb1b0a2a91c45fa4b0e9a64" title="Creates a game and updates its events, states, draws the game, counter and handle all devices interru..." alt="" coords="254,715,393,741"/>
+<area shape="rect" id="node42" href="$group___handler.html#ga4c7a623bbc471e99bc482cac7a1d20da" title="Creates a game and a character and updates their events, states, draws the game and the character..." alt="" coords="252,765,395,792"/>
+<area shape="rect" id="node43" href="$group___handler.html#ga1f1f7a266e5c3977bcb74efb151f21fd" title="Shows highscores by getting an updated highscores array. " alt="" coords="256,968,391,995"/>
+<area shape="rect" id="node44" href="$group___handler.html#ga5480154cf350566e2449c5b2d35998e6" title="Draws the four images of instructions and handle keyboard in order to change image showed..." alt="" coords="254,1019,393,1045"/>
+<area shape="rect" id="node45" href="$group__video__gr.html#ga42f593e6656f1a978315aff02b1bcebf" title="Returns to default Minix 3 text mode (0x03: 25 x 80, 16 colors) " alt="" coords="292,1323,355,1349"/>
+<area shape="rect" id="node46" href="$group___timer.html#gab9eea51549744bca5c5c923b388bb4ee" title="Unsubscribes the timer interrupts. " alt="" coords="249,1373,398,1400"/>
+<area shape="rect" id="node47" href="$group___keyboard.html#ga5bdf6cfb570c375192b0d87913b65c57" title="Unsubscribes the keyboard interrupts. " alt="" coords="253,1424,394,1451"/>
+<area shape="rect" id="node48" href="$group___mouse.html#ga685ad2706aca36d9869a30a19b9f446a" title="Unsubscribes the mouse interrupts. " alt="" coords="244,1475,403,1501"/>
+<area shape="rect" id="node49" href="$group___r_t_c.html#gab8f17bf5280c908c8b199a90fefcc758" title="Unsubscribes the rtc interrupts. " alt="" coords="256,1525,391,1552"/>
+<area shape="rect" id="node50" href="$group___serial.html#gae7f39492f4273a8a529a80a7eceae62d" title="Unsubscribes the serial port interrupts. " alt="" coords="248,1576,399,1603"/>
+<area shape="rect" id="node4" href="$group__lmlib.html#ga00a9c17c01e794a6bfc80fc5c6ab1ed1" title="Initializes the low memory area, the region up to the 1 MByte physical address, by mapping it on the ..." alt="" coords="508,107,568,133"/>
+<area shape="rect" id="node5" href="$group__lmlib.html#gae45d971ce2ffcf4dc2677eba033a92cd" title="Allocates a memory block in low memory area with the specified size. " alt="" coords="503,157,573,184"/>
+<area shape="rect" id="node6" href="$group__vbe.html#ga4ef3234e41f2050bc094a22049b69e45" title="Returns information on the input VBE mode, including screen dimensions, color depth and VRAM physical..." alt="" coords="472,208,604,235"/>
+<area shape="rect" id="node7" href="$video__gr_8c.html#aa7728b06defb629a330e348f1fcfe2c1" title="change_variables" alt="" coords="477,5,599,32"/>
+<area shape="rect" id="node8" href="$group__lmlib.html#ga73e89d9c297b7390021fb545513579c6" title="Frees a memory block in the low memory area, previously allocated using lm_alloc() ..." alt="" coords="506,56,570,83"/>
+<area shape="rect" id="node21" href="$group___mouse.html#gaa0ef0f6c492deff495f989c92415a3f9" title="Reads from the output buffer of the mouse. " alt="" coords="673,765,777,792"/>
+<area shape="rect" id="node22" href="$video__gr_8c.html#af597a67a797839097222fa9b4ae20b3f" title="getH_res" alt="" coords="837,715,912,741"/>
+<area shape="rect" id="node23" href="$video__gr_8c.html#a36f1c43e43d903e085207548cf8d48a2" title="getV_res" alt="" coords="837,968,912,995"/>
+<area shape="rect" id="node25" href="$group___keyboard.html#gadb06a78c5980300f3f1185da1c3cdaf2" title="Reads from the output buffer of the keyboard. " alt="" coords="682,867,769,893"/>
+<area shape="rect" id="node28" href="$video__gr_8c.html#a648a2a002a473848f7ac0c9bbc41f268" title="getBuffer" alt="" coords="838,1171,911,1197"/>
+<area shape="rect" id="node32" href="$group___menu.html#ga15fa15a1e163f97a4e9ca0cecadf00ca" title="Menu(main menu) constructor. " alt="" coords="479,512,597,539"/>
+<area shape="rect" id="node33" href="$group___handler.html#ga8e94876807c51dc902d1e4106082ae7c" title="Handle the serial interrupts, checking its origin and reading the value in correspondent register..." alt="" coords="477,715,599,741"/>
+<area shape="rect" id="node34" href="$group___handler.html#ga8ed7fbccd3dd0d77874321c04b8ceb72" title="Handle the events based on the mouse position and left button click. " alt="" coords="451,360,625,387"/>
+<area shape="rect" id="node35" href="$group___menu.html#ga86f1d9a95e504b95c0b27144235000a7" title="Updates menu state given the current events. " alt="" coords="453,411,623,437"/>
+<area shape="rect" id="node36" href="$group___menu.html#gabd61e7e5ea7da45f1e8b40046c9a13a5" title="Updates menu buttons look based on current state. " alt="" coords="471,461,605,488"/>
+<area shape="rect" id="node37" href="$group___menu.html#ga800f1f0cfced53ef8d6f5739100ba971" title="Draws backgorund image and all the buttons in the video buffer. " alt="" coords="477,664,599,691"/>
+<area shape="rect" id="node38" href="$group___r_t_c.html#gaa028912a4ea766de812ad1365cb8436f" title="Draws the current time in the video buffer, in hh:mm:ss model. " alt="" coords="463,917,613,944"/>
+<area shape="rect" id="node39" href="$group__video__gr.html#gafaf0e2c487980500082651639cc9950e" title="Draws an image with transparent color in the video buffer. " alt="" coords="469,613,607,640"/>
+</map>

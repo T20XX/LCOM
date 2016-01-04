@@ -1,0 +1,6 @@
+<map id="new_main_menu" name="new_main_menu">
+<area shape="rect" id="node2" href="$group___bitmap.html#ga3506880ffd407c36eb8aaddd2c1606d2" title="Loads a bmp image. " alt="" coords="321,5,407,32"/>
+<area shape="rect" id="node3" href="$group___bitmap.html#ga671202736eb11045ea12c5fe7d94b85a" title="Draws an unscaled, unrotated bitmap at the given position. " alt="" coords="172,56,267,83"/>
+<area shape="rect" id="node5" href="$video__gr_8c.html#af597a67a797839097222fa9b4ae20b3f" title="getH_res" alt="" coords="182,107,257,133"/>
+<area shape="rect" id="node4" href="$group___bitmap.html#ga08c1d4f4fff81df260d979ea8fc1aa61" title="Destroys the given bitmap, freeing all resources used by it. " alt="" coords="315,56,413,83"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="draw_game" name="draw_game">
+<area shape="rect" id="node2" href="$group__video__gr.html#ga799dc90db3c68db1dd633413451ced8c" title="Draws a filled rectangle in the video buffer. " alt="" coords="141,5,236,32"/>
+<area shape="rect" id="node3" href="$group__video__gr.html#ga6c62bf5bccf531f880d6e284c4abcac9" title="Draws an image in the video buffer. " alt="" coords="155,56,222,83"/>
+<area shape="rect" id="node4" href="$group__video__gr.html#ga775f3b02fdd2b7f966fbc5d4cc4e1bab" title="Draws a sprite in the video buffer. " alt="" coords="152,107,225,133"/>
+<area shape="rect" id="node6" href="$group__video__gr.html#ga52a76f0cebcdf1a496574bcebf50d6ab" title="Draws a string in the video buffer using the font Impact Condensed. " alt="" coords="152,157,225,184"/>
+<area shape="rect" id="node5" href="$group__video__gr.html#gadad3bad518f19e523f83b0886f9b2c08" title="Sets the color(value) of a pixel(video register) " alt="" coords="297,107,365,133"/>
+<area shape="rect" id="node7" href="$group___bitmap.html#ga671202736eb11045ea12c5fe7d94b85a" title="Draws an unscaled, unrotated bitmap at the given position. " alt="" coords="284,157,379,184"/>
+<area shape="rect" id="node8" href="$group___bitmap.html#ga3506880ffd407c36eb8aaddd2c1606d2" title="Loads a bmp image. " alt="" coords="433,132,519,159"/>
+<area shape="rect" id="node9" href="$group___bitmap.html#ga08c1d4f4fff81df260d979ea8fc1aa61" title="Destroys the given bitmap, freeing all resources used by it. " alt="" coords="427,183,525,209"/>
+</map>

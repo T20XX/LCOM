@@ -1,0 +1,9 @@
+<map id="serial_write_char" name="serial_write_char">
+<area shape="rect" id="node2" href="$game_8h.html#a4c75e4af7c4aa48650c4758fc0fd1444" title="Updates game(actual_piece position) based on current game state. " alt="" coords="173,69,273,96"/>
+<area shape="rect" id="node8" href="$handler_8h.html#a142dfbc03bde02303526b7541d57508f" title="Creates a menu and updates its events, states, draws the menu and the mouse, handle all devices inter..." alt="" coords="172,132,275,159"/>
+<area shape="rect" id="node3" href="$handler_8h.html#ad53b662cab3d47a117f077e08c4ebfee" title="Creates a game and updates its events, states, draws the game, counter and handle all devices interru..." alt="" coords="343,5,445,32"/>
+<area shape="rect" id="node6" href="$handler_8h.html#ab96de35aebb1b0a2a91c45fa4b0e9a64" title="Creates a game and updates its events, states, draws the game, counter and handle all devices interru..." alt="" coords="325,56,463,83"/>
+<area shape="rect" id="node7" href="$handler_8h.html#a4c7a623bbc471e99bc482cac7a1d20da" title="Creates a game and a character and updates their events, states, draws the game and the character..." alt="" coords="323,107,465,133"/>
+<area shape="rect" id="node4" href="$handler_8h.html#a46e8fa25e80aad03b20f41ec93261788" title="Subscribe all interrupts and generate needed structure for all execution, calls all the functions..." alt="" coords="513,81,605,108"/>
+<area shape="rect" id="node5" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="653,81,704,108"/>
+</map>

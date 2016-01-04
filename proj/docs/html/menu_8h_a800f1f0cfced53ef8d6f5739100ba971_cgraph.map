@@ -1,0 +1,7 @@
+<map id="draw_main_menu" name="draw_main_menu">
+<area shape="rect" id="node2" href="$group___bitmap.html#ga18d05a1c671f4638bc63d37874efb9d4" title="Draws an unscaled, unrotated bitmap at the given position. " alt="" coords="176,56,267,83"/>
+<area shape="rect" id="node6" href="$group__video__gr.html#ga6c62bf5bccf531f880d6e284c4abcac9" title="Draws an image in the video buffer. " alt="" coords="188,107,255,133"/>
+<area shape="rect" id="node3" href="$video__gr_8c.html#af597a67a797839097222fa9b4ae20b3f" title="getH_res" alt="" coords="315,5,389,32"/>
+<area shape="rect" id="node4" href="$video__gr_8c.html#a36f1c43e43d903e085207548cf8d48a2" title="getV_res" alt="" coords="315,56,389,83"/>
+<area shape="rect" id="node5" href="$video__gr_8c.html#a648a2a002a473848f7ac0c9bbc41f268" title="getBuffer" alt="" coords="315,107,389,133"/>
+</map>

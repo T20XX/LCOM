@@ -1,0 +1,19 @@
+<map id="instructions_handler" name="instructions_handler">
+<area shape="rect" id="node2" href="$group___bitmap.html#ga3506880ffd407c36eb8aaddd2c1606d2" title="Loads a bmp image. " alt="" coords="709,113,795,140"/>
+<area shape="rect" id="node3" href="$group___handler.html#ga466d6f7bdf4b1c255acacf95f052c3fd" title="Handle the mouse interrupts, updating mouse position, delta and buttons flags. " alt="" coords="192,265,348,292"/>
+<area shape="rect" id="node7" href="$group___handler.html#ga76c3491bce9f85cce38e6af329b94d15" title="Handle the keyboard interrupts, updating actual code (key code) " alt="" coords="213,367,327,393"/>
+<area shape="rect" id="node9" href="$group___bitmap.html#ga18d05a1c671f4638bc63d37874efb9d4" title="Draws an unscaled, unrotated bitmap at the given position. " alt="" coords="225,316,315,343"/>
+<area shape="rect" id="node11" href="$group___r_t_c.html#gaa028912a4ea766de812ad1365cb8436f" title="Draws the current time in the video buffer, in hh:mm:ss model. " alt="" coords="195,127,345,153"/>
+<area shape="rect" id="node16" href="$group___bitmap.html#ga08c1d4f4fff81df260d979ea8fc1aa61" title="Destroys the given bitmap, freeing all resources used by it. " alt="" coords="703,164,801,191"/>
+<area shape="rect" id="node18" href="$group__video__gr.html#gae7d5ced5ab6cbe11dff332e07f658d18" title="Copy buffer frame to graphics device. " alt="" coords="234,417,306,444"/>
+<area shape="rect" id="node4" href="$group___mouse.html#gaa0ef0f6c492deff495f989c92415a3f9" title="Reads from the output buffer of the mouse. " alt="" coords="402,240,506,267"/>
+<area shape="rect" id="node5" href="$video__gr_8c.html#af597a67a797839097222fa9b4ae20b3f" title="getH_res" alt="" coords="417,341,491,368"/>
+<area shape="rect" id="node6" href="$video__gr_8c.html#a36f1c43e43d903e085207548cf8d48a2" title="getV_res" alt="" coords="417,291,491,317"/>
+<area shape="rect" id="node8" href="$group___keyboard.html#gadb06a78c5980300f3f1185da1c3cdaf2" title="Reads from the output buffer of the keyboard. " alt="" coords="411,443,497,469"/>
+<area shape="rect" id="node10" href="$video__gr_8c.html#a648a2a002a473848f7ac0c9bbc41f268" title="getBuffer" alt="" coords="417,392,491,419"/>
+<area shape="rect" id="node12" href="$group___r_t_c.html#ga5cb0a786a436a1aee07bc6cd5a4c7e07" title="Gets the current time from RTC registers. " alt="" coords="396,63,512,89"/>
+<area shape="rect" id="node14" href="$group__video__gr.html#ga52a76f0cebcdf1a496574bcebf50d6ab" title="Draws a string in the video buffer using the font Impact Condensed. " alt="" coords="417,127,491,153"/>
+<area shape="rect" id="node13" href="$rtc_8c.html#af563c2c3403b6195e7f9f0ac92f3f325" title="bcd_convert" alt="" coords="562,37,653,64"/>
+<area shape="rect" id="node15" href="$group___bitmap.html#ga671202736eb11045ea12c5fe7d94b85a" title="Draws an unscaled, unrotated bitmap at the given position. " alt="" coords="560,139,655,165"/>
+<area shape="rect" id="node17" href="$group__video__gr.html#gadad3bad518f19e523f83b0886f9b2c08" title="Sets the color(value) of a pixel(video register) " alt="" coords="573,88,641,115"/>
+</map>
