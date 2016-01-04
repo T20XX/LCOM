@@ -2,7 +2,7 @@
  * This module contains all functions to manage keyboard
  * Jorge Vale: 50%
  * Telmo Barros: 50%
- * Relative Weight:
+ * Relative Weight:  4%
  */
 #ifndef __KBD_H
 #define __KBD_H

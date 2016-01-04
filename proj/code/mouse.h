@@ -2,7 +2,7 @@
  * This module contains all functions to manage mouse
  * Jorge Vale: 50%
  * Telmo Barros: 50%
- * Relative Weight:
+ * Relative Weight: 4%
  */
 #ifndef __MOUSE_H
 #define __MOUSE_H

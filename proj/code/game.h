@@ -2,7 +2,7 @@
  * This module contains all functions that handle the pieces and is movement in the board in the three modes
  * Jorge Vale: 10%
  * Telmo Barros: 90%
- * Relative Weight:
+ * Relative Weight: 12%
  */
 
 #ifndef __GAME_H

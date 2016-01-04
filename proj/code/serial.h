@@ -2,7 +2,7 @@
  * This module contains all functions to manage serial port
  * Jorge Vale: 50%
  * Telmo Barros: 50%
- * Relative Weight:
+ * Relative Weight: 4%
  */
 #ifndef __SERIAL_H
 #define __SERIAL_H

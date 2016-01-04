@@ -2,7 +2,7 @@
  * This module contains all functions that handle the menu and his buttons
  * Jorge Vale: 90%
  * Telmo Barros: 10%
- * Relative Weight:
+ * Relative Weight: 7%
  */
 #ifndef __MENU_H
 #define __MENU_H

@@ -129,21 +129,21 @@ void rtc_get_highscores(unsigned int highscores[3]){
 
 	sys_outb(RTC_ADDR_REG, HIGH_REG_1);
 	sys_inb(RTC_DATA_REG, &temp);
-	highscores[0]= (unsigned int)temp * 50;
+	highscores[0]= (unsigned int)temp *  HIGHSCORES_MULTIPLE;
 
 	sys_outb(RTC_ADDR_REG, HIGH_REG_2);
 	sys_inb(RTC_DATA_REG, &temp);
-	highscores[1]= (unsigned int)temp * 50;
+	highscores[1]= (unsigned int)temp *  HIGHSCORES_MULTIPLE;
 
 	sys_outb(RTC_ADDR_REG, HIGH_REG_3);
 	sys_inb(RTC_DATA_REG, &temp);
-	highscores[2]= (unsigned int)temp * 50;
+	highscores[2]= (unsigned int)temp *  HIGHSCORES_MULTIPLE;
 }
 
 void rtc_set_highscores(unsigned int highscores[3]){
 	unsigned long temp;
 
-	temp = highscores[0]/50;
+	temp = highscores[0]/ HIGHSCORES_MULTIPLE;
 	sys_outb(RTC_ADDR_REG, HIGH_REG_1);
 	sys_outb(RTC_DATA_REG, temp);
 

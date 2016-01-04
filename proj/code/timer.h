@@ -2,7 +2,7 @@
  * This module contains all functions to manage timer
  * Jorge Vale: 50%
  * Telmo Barros: 50%
- * Relative Weight:
+ * Relative Weight: 4%
  */
 #ifndef __TIMER_H
 #define __TIMER_H
