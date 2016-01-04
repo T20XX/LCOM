@@ -7,6 +7,11 @@
 #ifndef __TIMER_H
 #define __TIMER_H
 
+/** @defgroup Timer Timer
+ * @{
+ * Functions to manage timer
+ */
+
 /**
  * @brief Subscribes the timer interrupts
  *
@@ -40,6 +45,8 @@ int timer_set_square(unsigned long timer, unsigned long freq);
  * @return Return 0 upon success and 1 upon failure
  */
 int timer_get_conf(unsigned long timer, unsigned char *st);
+
+/**@}*/
 
 
 #endif /* __TIMER_H */

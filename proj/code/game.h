@@ -11,6 +11,11 @@
 #include "piece.h"
 #include <stdio.h>
 
+/** @defgroup Game Game
+ * @{
+ * Functions for manipulating game
+ */
+
 //Game constants
 #define ONE_PLAYER_BOARD_X					332
 #define ONE_PLAYER_BOARD_Y					70
@@ -190,5 +195,7 @@ void swap_pieces(Piece * actual, Piece * next, Board * board);
  * @param lines Number of lines to add
  */
 int add_lines_received(Board * board, unsigned int lines);
+
+/**@}*/
 
 #endif /* __GAME_H */

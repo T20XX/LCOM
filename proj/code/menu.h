@@ -9,6 +9,11 @@
 #include "bitmap.h"
 #include <stdint.h>
 
+/** @defgroup Menu Menu
+ * @{
+ * Functions for manipulating menu
+ */
+
 /** @name Main menu states*/
 /** @{ */
 typedef enum {
@@ -105,6 +110,8 @@ void draw_main_menu(Menu * menu);
  */
 
 void delete_main_menu(Menu * menu);
+
+/**@}*/
 
 #endif /* __MENU_H */
 
