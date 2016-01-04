@@ -1,0 +1,20 @@
+<map id="loadBitmap" name="loadBitmap">
+<area shape="rect" id="node2" href="$group___bitmap.html#ga671202736eb11045ea12c5fe7d94b85a" title="Draws an unscaled, unrotated bitmap at the given position. " alt="" coords="140,181,235,207"/>
+<area shape="rect" id="node5" href="$group___handler.html#ga46e8fa25e80aad03b20f41ec93261788" title="Subscribe all interrupts and generate needed structure for all execution, calls all the functions..." alt="" coords="839,341,931,367"/>
+<area shape="rect" id="node10" href="$group___menu.html#ga15fa15a1e163f97a4e9ca0cecadf00ca" title="Menu(main menu) constructor. " alt="" coords="283,517,401,543"/>
+<area shape="rect" id="node16" href="$group___handler.html#ga1f1f7a266e5c3977bcb74efb151f21fd" title="Shows highscores by getting an updated highscores array. " alt="" coords="652,403,787,430"/>
+<area shape="rect" id="node18" href="$group___handler.html#ga5480154cf350566e2449c5b2d35998e6" title="Draws the four images of instructions and handle keyboard in order to change image showed..." alt="" coords="650,530,789,557"/>
+<area shape="rect" id="node3" href="$group___character.html#ga2bcb3c7a3a0cc62b89375cd8b03a05ca" title="Character constructor. " alt="" coords="289,61,395,87"/>
+<area shape="rect" id="node7" href="$group___game.html#ga27460f1c59dbc8a4cc54adacf1f80136" title="Game constructor. " alt="" coords="483,86,567,113"/>
+<area shape="rect" id="node12" href="$group___piece.html#ga6fec84037c94f8c4d7039050e12f3f97" title="Piece constructor. " alt="" coords="301,181,383,207"/>
+<area shape="rect" id="node14" href="$group__video__gr.html#ga52a76f0cebcdf1a496574bcebf50d6ab" title="Draws a string in the video buffer using the font Impact Condensed. " alt="" coords="305,289,379,315"/>
+<area shape="rect" id="node4" href="$group___handler.html#ga4c7a623bbc471e99bc482cac7a1d20da" title="Creates a game and a character and updates their events, states, draws the game and the character..." alt="" coords="648,187,791,214"/>
+<area shape="rect" id="node6" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="979,341,1029,367"/>
+<area shape="rect" id="node8" href="$group___handler.html#gad53b662cab3d47a117f077e08c4ebfee" title="Creates a game and updates its events, states, draws the game, counter and handle all devices interru..." alt="" coords="668,238,771,265"/>
+<area shape="rect" id="node9" href="$group___handler.html#gab96de35aebb1b0a2a91c45fa4b0e9a64" title="Creates a game and updates its events, states, draws the game, counter and handle all devices interru..." alt="" coords="650,289,789,315"/>
+<area shape="rect" id="node11" href="$group___handler.html#ga142dfbc03bde02303526b7541d57508f" title="Creates a menu and updates its events, states, draws the menu and the mouse, handle all devices inter..." alt="" coords="668,479,771,506"/>
+<area shape="rect" id="node13" href="$group___game.html#ga4c75e4af7c4aa48650c4758fc0fd1444" title="Updates game(actual_piece position) based on current game state. " alt="" coords="475,187,575,214"/>
+<area shape="rect" id="node15" href="$group___game.html#ga0e5a63798b2083168206005d4b9dcd83" title="Draws the board, actual and next piece, points and lines in the video buffer. " alt="" coords="481,238,569,265"/>
+<area shape="rect" id="node17" href="$group___r_t_c.html#gaa028912a4ea766de812ad1365cb8436f" title="Draws the current time in the video buffer, in hh:mm:ss model. " alt="" coords="449,491,600,518"/>
+<area shape="rect" id="node19" href="$group__video__gr.html#gaa1bd9bb0d814c8f7aaa27c97123e2e88" title="Draws in the video buffer the counter in mm:ss model. " alt="" coords="483,289,567,315"/>
+</map>

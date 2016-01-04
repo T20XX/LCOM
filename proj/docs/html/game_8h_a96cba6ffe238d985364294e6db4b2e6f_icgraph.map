@@ -1,0 +1,8 @@
+<map id="remove_finished_lines" name="remove_finished_lines">
+<area shape="rect" id="node2" href="$game_8h.html#a4c75e4af7c4aa48650c4758fc0fd1444" title="Updates game(actual_piece position) based on current game state. " alt="" coords="201,56,301,83"/>
+<area shape="rect" id="node3" href="$handler_8h.html#ad53b662cab3d47a117f077e08c4ebfee" title="Creates a game and updates its events, states, draws the game, counter and handle all devices interru..." alt="" coords="369,5,472,32"/>
+<area shape="rect" id="node6" href="$handler_8h.html#ab96de35aebb1b0a2a91c45fa4b0e9a64" title="Creates a game and updates its events, states, draws the game, counter and handle all devices interru..." alt="" coords="351,56,490,83"/>
+<area shape="rect" id="node7" href="$handler_8h.html#a4c7a623bbc471e99bc482cac7a1d20da" title="Creates a game and a character and updates their events, states, draws the game and the character..." alt="" coords="349,107,492,133"/>
+<area shape="rect" id="node4" href="$handler_8h.html#a46e8fa25e80aad03b20f41ec93261788" title="Subscribe all interrupts and generate needed structure for all execution, calls all the functions..." alt="" coords="540,56,632,83"/>
+<area shape="rect" id="node5" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="680,56,731,83"/>
+</map>

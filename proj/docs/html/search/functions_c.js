@@ -1,0 +1,11 @@
+var searchData=
+[
+  ['remove_5ffinished_5flines',['remove_finished_lines',['../group___game.html#ga96cba6ffe238d985364294e6db4b2e6f',1,'remove_finished_lines(Board *board):&#160;game.c'],['../group___game.html#ga96cba6ffe238d985364294e6db4b2e6f',1,'remove_finished_lines(Board *board):&#160;game.c']]],
+  ['rotate_5fpiece',['rotate_piece',['../group___game.html#gafe8389cc479812a8f6cf8159f03f47de',1,'rotate_piece(Piece *piece, Board *board):&#160;game.c'],['../group___game.html#gafe8389cc479812a8f6cf8159f03f47de',1,'rotate_piece(Piece *piece, Board *board):&#160;game.c']]],
+  ['rtc_5fcurrent_5ftime',['rtc_current_time',['../group___r_t_c.html#ga5cb0a786a436a1aee07bc6cd5a4c7e07',1,'rtc_current_time(unsigned long *hour, unsigned long *min, unsigned long *sec):&#160;rtc.c'],['../group___r_t_c.html#ga5cb0a786a436a1aee07bc6cd5a4c7e07',1,'rtc_current_time(unsigned long *hour, unsigned long *min, unsigned long *sec):&#160;rtc.c']]],
+  ['rtc_5fdraw_5fcurrent_5ftime',['rtc_draw_current_time',['../group___r_t_c.html#gaa028912a4ea766de812ad1365cb8436f',1,'rtc_draw_current_time(unsigned int x, unsigned int y):&#160;rtc.c'],['../group___r_t_c.html#gaa028912a4ea766de812ad1365cb8436f',1,'rtc_draw_current_time(unsigned int x, unsigned int y):&#160;rtc.c']]],
+  ['rtc_5fget_5fhighscores',['rtc_get_highscores',['../group___r_t_c.html#gaa5d3dde39ba3be43be89ba8ba9794745',1,'rtc_get_highscores(unsigned int highscores[3]):&#160;rtc.c'],['../group___r_t_c.html#gaa5d3dde39ba3be43be89ba8ba9794745',1,'rtc_get_highscores(unsigned int highscores[3]):&#160;rtc.c']]],
+  ['rtc_5fset_5fhighscores',['rtc_set_highscores',['../group___r_t_c.html#gaf3431e6bd0426783446a499d9e45c193',1,'rtc_set_highscores(unsigned int highscores[3]):&#160;rtc.c'],['../group___r_t_c.html#gaf3431e6bd0426783446a499d9e45c193',1,'rtc_set_highscores(unsigned int highscores[3]):&#160;rtc.c']]],
+  ['rtc_5fsubscribe_5fint',['rtc_subscribe_int',['../group___r_t_c.html#gabd8de825e876e8ef94c64ac616f68a11',1,'rtc_subscribe_int():&#160;rtc.c'],['../group___r_t_c.html#gabd8de825e876e8ef94c64ac616f68a11',1,'rtc_subscribe_int():&#160;rtc.c']]],
+  ['rtc_5funsubscribe_5fint',['rtc_unsubscribe_int',['../group___r_t_c.html#gab8f17bf5280c908c8b199a90fefcc758',1,'rtc_unsubscribe_int():&#160;rtc.c'],['../group___r_t_c.html#gab8f17bf5280c908c8b199a90fefcc758',1,'rtc_unsubscribe_int():&#160;rtc.c']]]
+];

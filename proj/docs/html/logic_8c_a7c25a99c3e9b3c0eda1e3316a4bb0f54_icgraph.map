@@ -1,0 +1,8 @@
+<map id="can_piece_move_x" name="can_piece_move_x">
+<area shape="rect" id="node2" href="$game_8h.html#a58dbf62c3c72151a726b671f1c56e25c" title="Updates game state given the current events. " alt="" coords="185,56,315,83"/>
+<area shape="rect" id="node3" href="$handler_8h.html#ad53b662cab3d47a117f077e08c4ebfee" title="Creates a game and updates its events, states, draws the game, counter and handle all devices interru..." alt="" coords="383,5,485,32"/>
+<area shape="rect" id="node6" href="$handler_8h.html#ab96de35aebb1b0a2a91c45fa4b0e9a64" title="Creates a game and updates its events, states, draws the game, counter and handle all devices interru..." alt="" coords="365,56,503,83"/>
+<area shape="rect" id="node7" href="$handler_8h.html#a4c7a623bbc471e99bc482cac7a1d20da" title="Creates a game and a character and updates their events, states, draws the game and the character..." alt="" coords="363,107,505,133"/>
+<area shape="rect" id="node4" href="$handler_8h.html#a46e8fa25e80aad03b20f41ec93261788" title="Subscribe all interrupts and generate needed structure for all execution, calls all the functions..." alt="" coords="553,56,645,83"/>
+<area shape="rect" id="node5" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="693,56,744,83"/>
+</map>

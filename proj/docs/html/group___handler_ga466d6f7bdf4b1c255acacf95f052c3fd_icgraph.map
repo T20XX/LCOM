@@ -1,0 +1,10 @@
+<map id="mouse_packet_handler" name="mouse_packet_handler">
+<area shape="rect" id="node2" href="$group___handler.html#ga46e8fa25e80aad03b20f41ec93261788" title="Subscribe all interrupts and generate needed structure for all execution, calls all the functions..." alt="" coords="400,139,492,166"/>
+<area shape="rect" id="node4" href="$group___handler.html#ga142dfbc03bde02303526b7541d57508f" title="Creates a menu and updates its events, states, draws the menu and the mouse, handle all devices inter..." alt="" coords="229,38,332,64"/>
+<area shape="rect" id="node5" href="$group___handler.html#gad53b662cab3d47a117f077e08c4ebfee" title="Creates a game and updates its events, states, draws the game, counter and handle all devices interru..." alt="" coords="229,88,332,115"/>
+<area shape="rect" id="node6" href="$group___handler.html#gab96de35aebb1b0a2a91c45fa4b0e9a64" title="Creates a game and updates its events, states, draws the game, counter and handle all devices interru..." alt="" coords="211,139,350,166"/>
+<area shape="rect" id="node7" href="$group___handler.html#ga4c7a623bbc471e99bc482cac7a1d20da" title="Creates a game and a character and updates their events, states, draws the game and the character..." alt="" coords="209,190,352,216"/>
+<area shape="rect" id="node8" href="$group___handler.html#ga1f1f7a266e5c3977bcb74efb151f21fd" title="Shows highscores by getting an updated highscores array. " alt="" coords="213,240,348,267"/>
+<area shape="rect" id="node9" href="$group___handler.html#ga5480154cf350566e2449c5b2d35998e6" title="Draws the four images of instructions and handle keyboard in order to change image showed..." alt="" coords="211,291,350,318"/>
+<area shape="rect" id="node3" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="540,139,591,166"/>
+</map>

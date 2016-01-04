@@ -1,0 +1,5 @@
+<map id="new_main_menu" name="new_main_menu">
+<area shape="rect" id="node2" href="$handler_8h.html#a142dfbc03bde02303526b7541d57508f" title="Creates a menu and updates its events, states, draws the menu and the mouse, handle all devices inter..." alt="" coords="172,5,275,32"/>
+<area shape="rect" id="node3" href="$handler_8h.html#a46e8fa25e80aad03b20f41ec93261788" title="Subscribe all interrupts and generate needed structure for all execution, calls all the functions..." alt="" coords="323,5,415,32"/>
+<area shape="rect" id="node4" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="463,5,513,32"/>
+</map>

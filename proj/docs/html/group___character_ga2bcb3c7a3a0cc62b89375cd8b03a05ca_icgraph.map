@@ -1,0 +1,5 @@
+<map id="new_character" name="new_character">
+<area shape="rect" id="node2" href="$group___handler.html#ga4c7a623bbc471e99bc482cac7a1d20da" title="Creates a game and a character and updates their events, states, draws the game and the character..." alt="" coords="160,5,303,32"/>
+<area shape="rect" id="node3" href="$group___handler.html#ga46e8fa25e80aad03b20f41ec93261788" title="Subscribe all interrupts and generate needed structure for all execution, calls all the functions..." alt="" coords="351,5,443,32"/>
+<area shape="rect" id="node4" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="491,5,541,32"/>
+</map>

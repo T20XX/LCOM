@@ -1,0 +1,7 @@
+<map id="serial_read_char" name="serial_read_char">
+<area shape="rect" id="node2" href="$group___handler.html#ga8e94876807c51dc902d1e4106082ae7c" title="Handle the serial interrupts, checking its origin and reading the value in correspondent register..." alt="" coords="171,5,293,32"/>
+<area shape="rect" id="node6" href="$group___handler.html#gab96de35aebb1b0a2a91c45fa4b0e9a64" title="Creates a game and updates its events, states, draws the game, counter and handle all devices interru..." alt="" coords="341,56,480,83"/>
+<area shape="rect" id="node3" href="$group___handler.html#ga142dfbc03bde02303526b7541d57508f" title="Creates a menu and updates its events, states, draws the menu and the mouse, handle all devices inter..." alt="" coords="359,5,462,32"/>
+<area shape="rect" id="node4" href="$group___handler.html#ga46e8fa25e80aad03b20f41ec93261788" title="Subscribe all interrupts and generate needed structure for all execution, calls all the functions..." alt="" coords="528,31,620,57"/>
+<area shape="rect" id="node5" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="668,31,719,57"/>
+</map>

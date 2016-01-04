@@ -1,0 +1,10 @@
+<map id="vg_map" name="vg_map">
+<area shape="rect" id="node2" href="$group___game.html#ga0e5a63798b2083168206005d4b9dcd83" title="Draws the board, actual and next piece, points and lines in the video buffer. " alt="" coords="137,69,225,96"/>
+<area shape="rect" id="node8" href="$group___menu.html#ga800f1f0cfced53ef8d6f5739100ba971" title="Draws backgorund image and all the buttons in the video buffer. " alt="" coords="120,132,243,159"/>
+<area shape="rect" id="node3" href="$group___handler.html#gad53b662cab3d47a117f077e08c4ebfee" title="Creates a game and updates its events, states, draws the game, counter and handle all devices interru..." alt="" coords="311,5,413,32"/>
+<area shape="rect" id="node6" href="$group___handler.html#gab96de35aebb1b0a2a91c45fa4b0e9a64" title="Creates a game and updates its events, states, draws the game, counter and handle all devices interru..." alt="" coords="293,56,431,83"/>
+<area shape="rect" id="node7" href="$group___handler.html#ga4c7a623bbc471e99bc482cac7a1d20da" title="Creates a game and a character and updates their events, states, draws the game and the character..." alt="" coords="291,107,433,133"/>
+<area shape="rect" id="node4" href="$group___handler.html#ga46e8fa25e80aad03b20f41ec93261788" title="Subscribe all interrupts and generate needed structure for all execution, calls all the functions..." alt="" coords="481,81,573,108"/>
+<area shape="rect" id="node5" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="621,81,672,108"/>
+<area shape="rect" id="node9" href="$group___handler.html#ga142dfbc03bde02303526b7541d57508f" title="Creates a menu and updates its events, states, draws the menu and the mouse, handle all devices inter..." alt="" coords="311,157,413,184"/>
+</map>

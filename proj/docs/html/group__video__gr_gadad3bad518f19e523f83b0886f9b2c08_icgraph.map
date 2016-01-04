@@ -1,0 +1,18 @@
+<map id="vg_pixel" name="vg_pixel">
+<area shape="rect" id="node2" href="$group__video__gr.html#ga775f3b02fdd2b7f966fbc5d4cc4e1bab" title="Draws a sprite in the video buffer. " alt="" coords="154,107,227,133"/>
+<area shape="rect" id="node10" href="$group__video__gr.html#gafaf0e2c487980500082651639cc9950e" title="Draws an image with transparent color in the video buffer. " alt="" coords="121,309,260,336"/>
+<area shape="rect" id="node13" href="$group__video__gr.html#ga52a76f0cebcdf1a496574bcebf50d6ab" title="Draws a string in the video buffer using the font Impact Condensed. " alt="" coords="154,183,227,209"/>
+<area shape="rect" id="node3" href="$group___game.html#ga0e5a63798b2083168206005d4b9dcd83" title="Draws the board, actual and next piece, points and lines in the video buffer. " alt="" coords="339,107,427,133"/>
+<area shape="rect" id="node9" href="$group___piece.html#gadc9667690853d4efb3e36c8f4a5c41ac" title="Draws the piece in the video buffer. " alt="" coords="340,5,427,32"/>
+<area shape="rect" id="node4" href="$group___handler.html#gad53b662cab3d47a117f077e08c4ebfee" title="Creates a game and updates its events, states, draws the game, counter and handle all devices interru..." alt="" coords="527,157,629,184"/>
+<area shape="rect" id="node7" href="$group___handler.html#gab96de35aebb1b0a2a91c45fa4b0e9a64" title="Creates a game and updates its events, states, draws the game, counter and handle all devices interru..." alt="" coords="509,107,647,133"/>
+<area shape="rect" id="node8" href="$group___handler.html#ga4c7a623bbc471e99bc482cac7a1d20da" title="Creates a game and a character and updates their events, states, draws the game and the character..." alt="" coords="507,208,649,235"/>
+<area shape="rect" id="node5" href="$group___handler.html#ga46e8fa25e80aad03b20f41ec93261788" title="Subscribe all interrupts and generate needed structure for all execution, calls all the functions..." alt="" coords="697,233,789,260"/>
+<area shape="rect" id="node6" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="837,233,888,260"/>
+<area shape="rect" id="node11" href="$group___character.html#ga136da2652f270d2b6c24e64d7e8c8e19" title="Draws the character in the video buffer. " alt="" coords="328,309,439,336"/>
+<area shape="rect" id="node12" href="$group___handler.html#ga142dfbc03bde02303526b7541d57508f" title="Creates a menu and updates its events, states, draws the menu and the mouse, handle all devices inter..." alt="" coords="527,360,629,387"/>
+<area shape="rect" id="node14" href="$group___handler.html#ga1f1f7a266e5c3977bcb74efb151f21fd" title="Shows highscores by getting an updated highscores array. " alt="" coords="511,259,645,285"/>
+<area shape="rect" id="node15" href="$group___r_t_c.html#gaa028912a4ea766de812ad1365cb8436f" title="Draws the current time in the video buffer, in hh:mm:ss model. " alt="" coords="308,360,459,387"/>
+<area shape="rect" id="node17" href="$group__video__gr.html#gaa1bd9bb0d814c8f7aaa27c97123e2e88" title="Draws in the video buffer the counter in mm:ss model. " alt="" coords="341,157,425,184"/>
+<area shape="rect" id="node16" href="$group___handler.html#ga5480154cf350566e2449c5b2d35998e6" title="Draws the four images of instructions and handle keyboard in order to change image showed..." alt="" coords="509,309,647,336"/>
+</map>

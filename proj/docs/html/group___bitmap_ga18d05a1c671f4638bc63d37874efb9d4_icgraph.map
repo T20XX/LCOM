@@ -1,0 +1,8 @@
+<map id="drawBitmap" name="drawBitmap">
+<area shape="rect" id="node2" href="$group___handler.html#ga46e8fa25e80aad03b20f41ec93261788" title="Subscribe all interrupts and generate needed structure for all execution, calls all the functions..." alt="" coords="513,55,605,82"/>
+<area shape="rect" id="node4" href="$group___handler.html#ga1f1f7a266e5c3977bcb74efb151f21fd" title="Shows highscores by getting an updated highscores array. " alt="" coords="331,30,465,57"/>
+<area shape="rect" id="node5" href="$group___handler.html#ga5480154cf350566e2449c5b2d35998e6" title="Draws the four images of instructions and handle keyboard in order to change image showed..." alt="" coords="144,81,283,107"/>
+<area shape="rect" id="node6" href="$group___menu.html#ga800f1f0cfced53ef8d6f5739100ba971" title="Draws backgorund image and all the buttons in the video buffer. " alt="" coords="152,131,275,158"/>
+<area shape="rect" id="node3" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="653,55,704,82"/>
+<area shape="rect" id="node7" href="$group___handler.html#ga142dfbc03bde02303526b7541d57508f" title="Creates a menu and updates its events, states, draws the menu and the mouse, handle all devices inter..." alt="" coords="347,131,449,158"/>
+</map>

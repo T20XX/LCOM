@@ -1,0 +1,8 @@
+<map id="rtc_current_time" name="rtc_current_time">
+<area shape="rect" id="node2" href="$group___r_t_c.html#gaa028912a4ea766de812ad1365cb8436f" title="Draws the current time in the video buffer, in hh:mm:ss model. " alt="" coords="169,56,320,83"/>
+<area shape="rect" id="node3" href="$group___handler.html#ga142dfbc03bde02303526b7541d57508f" title="Creates a menu and updates its events, states, draws the menu and the mouse, handle all devices inter..." alt="" coords="386,5,489,32"/>
+<area shape="rect" id="node6" href="$group___handler.html#ga1f1f7a266e5c3977bcb74efb151f21fd" title="Shows highscores by getting an updated highscores array. " alt="" coords="370,56,505,83"/>
+<area shape="rect" id="node7" href="$group___handler.html#ga5480154cf350566e2449c5b2d35998e6" title="Draws the four images of instructions and handle keyboard in order to change image showed..." alt="" coords="368,107,507,133"/>
+<area shape="rect" id="node4" href="$group___handler.html#ga46e8fa25e80aad03b20f41ec93261788" title="Subscribe all interrupts and generate needed structure for all execution, calls all the functions..." alt="" coords="555,56,647,83"/>
+<area shape="rect" id="node5" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="695,56,745,83"/>
+</map>

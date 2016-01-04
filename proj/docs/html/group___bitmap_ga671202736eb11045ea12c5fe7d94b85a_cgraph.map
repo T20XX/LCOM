@@ -1,0 +1,4 @@
+<map id="map_Bitmap" name="map_Bitmap">
+<area shape="rect" id="node2" href="$group___bitmap.html#ga3506880ffd407c36eb8aaddd2c1606d2" title="Loads a bmp image. " alt="" coords="154,5,241,32"/>
+<area shape="rect" id="node3" href="$group___bitmap.html#ga08c1d4f4fff81df260d979ea8fc1aa61" title="Destroys the given bitmap, freeing all resources used by it. " alt="" coords="148,56,247,83"/>
+</map>

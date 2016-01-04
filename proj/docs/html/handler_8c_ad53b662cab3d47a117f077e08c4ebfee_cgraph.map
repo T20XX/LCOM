@@ -1,0 +1,37 @@
+<map id="game_handler" name="game_handler">
+<area shape="rect" id="node2" href="$game_8c.html#a27460f1c59dbc8a4cc54adacf1f80136" title="Game constructor. " alt="" coords="192,31,276,57"/>
+<area shape="rect" id="node7" href="$handler_8c.html#a466d6f7bdf4b1c255acacf95f052c3fd" title="Handle the mouse interrupts, updating mouse position, delta and buttons flags. " alt="" coords="156,613,312,640"/>
+<area shape="rect" id="node11" href="$handler_8c.html#ac47049d3ad5320a59703920a5b62a59f" title="Handle the mouse game events based on the delta x and buttons flags. " alt="" coords="161,664,307,691"/>
+<area shape="rect" id="node12" href="$game_8c.html#a58dbf62c3c72151a726b671f1c56e25c" title="Updates game state given the current events. " alt="" coords="169,715,299,741"/>
+<area shape="rect" id="node15" href="$game_8c.html#a4c75e4af7c4aa48650c4758fc0fd1444" title="Updates game(actual_piece position) based on current game state. " alt="" coords="184,208,284,235"/>
+<area shape="rect" id="node23" href="$handler_8c.html#a76c3491bce9f85cce38e6af329b94d15" title="Handle the keyboard interrupts, updating actual code (key code) " alt="" coords="177,765,291,792"/>
+<area shape="rect" id="node25" href="$handler_8c.html#aa49f9c488a81d8f13cb203fd073db36d" title="Handle the keyboard game events based on the actual key code. " alt="" coords="169,816,299,843"/>
+<area shape="rect" id="node26" href="$handler_8c.html#aaa010d7e379280ec5b3552349ebf814e" title="Handle the timer game events based on periodic interrupts to make piece fall. " alt="" coords="165,867,303,893"/>
+<area shape="rect" id="node27" href="$game_8c.html#a0e5a63798b2083168206005d4b9dcd83" title="Draws the board, actual and next piece, points and lines in the video buffer. " alt="" coords="190,487,278,513"/>
+<area shape="rect" id="node33" href="$group__video__gr.html#gaa1bd9bb0d814c8f7aaa27c97123e2e88" title="Draws in the video buffer the counter in mm:ss model. " alt="" coords="192,411,276,437"/>
+<area shape="rect" id="node34" href="$group__video__gr.html#gae7d5ced5ab6cbe11dff332e07f658d18" title="Copy buffer frame to graphics device. " alt="" coords="198,917,270,944"/>
+<area shape="rect" id="node35" href="$rtc_8c.html#af3431e6bd0426783446a499d9e45c193" title="Sets the first three registers that we are able to use TO the current values of highscores (update hi..." alt="" coords="168,968,300,995"/>
+<area shape="rect" id="node36" href="$game_8c.html#a11217e4d270598c9ab99d632d090b942" title="Deletes the game by releasing the allocated memory. " alt="" coords="186,1019,282,1045"/>
+<area shape="rect" id="node3" href="$group___bitmap.html#ga671202736eb11045ea12c5fe7d94b85a" title="Draws an unscaled, unrotated bitmap at the given position. " alt="" coords="582,31,677,57"/>
+<area shape="rect" id="node6" href="$piece_8c.html#a6fec84037c94f8c4d7039050e12f3f97" title="Piece constructor. " alt="" coords="393,31,475,57"/>
+<area shape="rect" id="node4" href="$group___bitmap.html#ga3506880ffd407c36eb8aaddd2c1606d2" title="Loads a bmp image. " alt="" coords="757,5,843,32"/>
+<area shape="rect" id="node5" href="$group___bitmap.html#ga08c1d4f4fff81df260d979ea8fc1aa61" title="Destroys the given bitmap, freeing all resources used by it. " alt="" coords="751,56,849,83"/>
+<area shape="rect" id="node8" href="$mouse_8c.html#aa0ef0f6c492deff495f989c92415a3f9" title="Reads from the output buffer of the mouse. " alt="" coords="382,588,486,615"/>
+<area shape="rect" id="node9" href="$video__gr_8c.html#af597a67a797839097222fa9b4ae20b3f" title="getH_res" alt="" coords="397,639,471,665"/>
+<area shape="rect" id="node10" href="$video__gr_8c.html#a36f1c43e43d903e085207548cf8d48a2" title="getV_res" alt="" coords="397,689,471,716"/>
+<area shape="rect" id="node13" href="$logic_8c.html#a7c25a99c3e9b3c0eda1e3316a4bb0f54" title="Verifies if a piece is able to move left or right in the board. " alt="" coords="368,740,500,767"/>
+<area shape="rect" id="node14" href="$logic_8c.html#a60d348c875093b98b3c1d5a322fe77d2" title="Verifies if a piece is able to fall in a board (move down) " alt="" coords="382,791,486,817"/>
+<area shape="rect" id="node16" href="$game_8c.html#afe8389cc479812a8f6cf8159f03f47de" title="Rotate piece clockwise. " alt="" coords="387,284,481,311"/>
+<area shape="rect" id="node18" href="$game_8c.html#aaf262e1d6d9b30788333d3f93e501c3d" title="Swap pieces map and dimensions, used to change actual and next piece. " alt="" coords="385,335,483,361"/>
+<area shape="rect" id="node19" href="$game_8c.html#a7596606dc17f08b32cb95ac9a1d63730" title="Add a piece to board. " alt="" coords="393,81,475,108"/>
+<area shape="rect" id="node20" href="$game_8c.html#a96cba6ffe238d985364294e6db4b2e6f" title="Remove finished lines. " alt="" coords="360,132,508,159"/>
+<area shape="rect" id="node21" href="$game_8c.html#aa1702e173f9157c59f499567cc78fa60" title="Used in multiplayer mode to add received lines in the bottom of the board. " alt="" coords="369,183,499,209"/>
+<area shape="rect" id="node22" href="$serial_8c.html#a32608e2056739bd29e7c962ee2908d9f" title="Writes a char in the serial port buffer. " alt="" coords="375,233,493,260"/>
+<area shape="rect" id="node17" href="$logic_8c.html#a4b125bd4211dc2b88699f97582173892" title="Verifies if a piece is able to be placed in the board. " alt="" coords="556,284,703,311"/>
+<area shape="rect" id="node24" href="$kbd_8c.html#adb06a78c5980300f3f1185da1c3cdaf2" title="Reads from the output buffer of the keyboard. " alt="" coords="391,841,477,868"/>
+<area shape="rect" id="node28" href="$group__video__gr.html#ga799dc90db3c68db1dd633413451ced8c" title="Draws a filled rectangle in the video buffer. " alt="" coords="387,487,481,513"/>
+<area shape="rect" id="node29" href="$group__video__gr.html#ga6c62bf5bccf531f880d6e284c4abcac9" title="Draws an image in the video buffer. " alt="" coords="401,537,467,564"/>
+<area shape="rect" id="node30" href="$group__video__gr.html#ga775f3b02fdd2b7f966fbc5d4cc4e1bab" title="Draws a sprite in the video buffer. " alt="" coords="397,436,471,463"/>
+<area shape="rect" id="node32" href="$group__video__gr.html#ga52a76f0cebcdf1a496574bcebf50d6ab" title="Draws a string in the video buffer using the font Impact Condensed. " alt="" coords="397,385,471,412"/>
+<area shape="rect" id="node31" href="$group__video__gr.html#gadad3bad518f19e523f83b0886f9b2c08" title="Sets the color(value) of a pixel(video register) " alt="" coords="595,411,663,437"/>
+</map>

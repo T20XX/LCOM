@@ -1,0 +1,7 @@
+<map id="vg_map_transparent" name="vg_map_transparent">
+<area shape="rect" id="node2" href="$group___character.html#ga136da2652f270d2b6c24e64d7e8c8e19" title="Draws the character in the video buffer. " alt="" coords="192,5,303,32"/>
+<area shape="rect" id="node6" href="$group___handler.html#ga142dfbc03bde02303526b7541d57508f" title="Creates a menu and updates its events, states, draws the menu and the mouse, handle all devices inter..." alt="" coords="371,56,473,83"/>
+<area shape="rect" id="node3" href="$group___handler.html#ga4c7a623bbc471e99bc482cac7a1d20da" title="Creates a game and a character and updates their events, states, draws the game and the character..." alt="" coords="351,5,493,32"/>
+<area shape="rect" id="node4" href="$group___handler.html#ga46e8fa25e80aad03b20f41ec93261788" title="Subscribe all interrupts and generate needed structure for all execution, calls all the functions..." alt="" coords="541,31,633,57"/>
+<area shape="rect" id="node5" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="681,31,732,57"/>
+</map>

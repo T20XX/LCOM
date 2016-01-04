@@ -1,0 +1,7 @@
+<map id="update_game" name="update_game">
+<area shape="rect" id="node2" href="$group___handler.html#gad53b662cab3d47a117f077e08c4ebfee" title="Creates a game and updates its events, states, draws the game, counter and handle all devices interru..." alt="" coords="173,5,276,32"/>
+<area shape="rect" id="node5" href="$group___handler.html#gab96de35aebb1b0a2a91c45fa4b0e9a64" title="Creates a game and updates its events, states, draws the game, counter and handle all devices interru..." alt="" coords="155,56,294,83"/>
+<area shape="rect" id="node6" href="$group___handler.html#ga4c7a623bbc471e99bc482cac7a1d20da" title="Creates a game and a character and updates their events, states, draws the game and the character..." alt="" coords="153,107,296,133"/>
+<area shape="rect" id="node3" href="$group___handler.html#ga46e8fa25e80aad03b20f41ec93261788" title="Subscribe all interrupts and generate needed structure for all execution, calls all the functions..." alt="" coords="344,56,436,83"/>
+<area shape="rect" id="node4" href="$proj_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="484,56,535,83"/>
+</map>

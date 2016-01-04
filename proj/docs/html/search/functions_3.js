@@ -1,0 +1,13 @@
+var searchData=
+[
+  ['delete_5fcharacter',['delete_character',['../group___character.html#ga8d2fd66e27f8c92c89e25d81458f70ec',1,'delete_character(Character *character):&#160;character.c'],['../group___character.html#ga8d2fd66e27f8c92c89e25d81458f70ec',1,'delete_character(Character *character):&#160;character.c']]],
+  ['delete_5fgame',['delete_game',['../group___game.html#ga11217e4d270598c9ab99d632d090b942',1,'delete_game(Game *game):&#160;game.c'],['../group___game.html#ga11217e4d270598c9ab99d632d090b942',1,'delete_game(Game *game):&#160;game.c']]],
+  ['delete_5fmain_5fmenu',['delete_main_menu',['../group___menu.html#ga05d64f92469bfd6d9ec0db8c48eb545a',1,'delete_main_menu(Menu *menu):&#160;menu.c'],['../group___menu.html#ga05d64f92469bfd6d9ec0db8c48eb545a',1,'delete_main_menu(Menu *menu):&#160;menu.c']]],
+  ['delete_5fpiece',['delete_piece',['../group___piece.html#gadaa0b31ef3c2e39f979db5f7feb9bd4f',1,'delete_piece(Piece *piece):&#160;piece.c'],['../group___piece.html#gadaa0b31ef3c2e39f979db5f7feb9bd4f',1,'delete_piece(Piece *piece):&#160;piece.c']]],
+  ['deletebitmap',['deleteBitmap',['../group___bitmap.html#ga08c1d4f4fff81df260d979ea8fc1aa61',1,'deleteBitmap(Bitmap *bmp):&#160;bitmap.c'],['../group___bitmap.html#ga08c1d4f4fff81df260d979ea8fc1aa61',1,'deleteBitmap(Bitmap *bmp):&#160;bitmap.c']]],
+  ['draw_5fcharacter',['draw_character',['../group___character.html#ga136da2652f270d2b6c24e64d7e8c8e19',1,'draw_character(Character *character):&#160;character.c'],['../group___character.html#ga136da2652f270d2b6c24e64d7e8c8e19',1,'draw_character(Character *character):&#160;character.c']]],
+  ['draw_5fgame',['draw_game',['../group___game.html#ga0e5a63798b2083168206005d4b9dcd83',1,'draw_game(Game *game):&#160;game.c'],['../group___game.html#ga0e5a63798b2083168206005d4b9dcd83',1,'draw_game(Game *game):&#160;game.c']]],
+  ['draw_5fmain_5fmenu',['draw_main_menu',['../group___menu.html#ga800f1f0cfced53ef8d6f5739100ba971',1,'draw_main_menu(Menu *menu):&#160;menu.c'],['../group___menu.html#ga800f1f0cfced53ef8d6f5739100ba971',1,'draw_main_menu(Menu *menu):&#160;menu.c']]],
+  ['draw_5fpiece',['draw_piece',['../group___piece.html#gadc9667690853d4efb3e36c8f4a5c41ac',1,'draw_piece(Piece *piece):&#160;piece.c'],['../group___piece.html#gadc9667690853d4efb3e36c8f4a5c41ac',1,'draw_piece(Piece *piece):&#160;piece.c']]],
+  ['drawbitmap',['drawBitmap',['../group___bitmap.html#ga18d05a1c671f4638bc63d37874efb9d4',1,'drawBitmap(Bitmap *bmp, int x, int y, Alignment alignment):&#160;bitmap.c'],['../group___bitmap.html#ga18d05a1c671f4638bc63d37874efb9d4',1,'drawBitmap(Bitmap *bitmap, int x, int y, Alignment alignment):&#160;bitmap.c']]]
+];
