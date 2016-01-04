@@ -404,6 +404,9 @@ int game_handler(){
 			/* no standard messages expected: do nothing */
 		}
 	}
+	if (game->points >= 2560){
+		game->points = 2560;
+	}
 	if (game->points >= highscores[0]){
 		highscores[2]=highscores[1];
 		highscores[1]=highscores[0];
