@@ -126,3 +126,16 @@ int can_char_jump(Character * character){
 	else
 		return 1;
 }
+
+int char_piece_collision(Character * character,Piece * piece){
+	if ((character->x + character->width) > piece->sprite.x && character->x < (piece->sprite.x + piece->sprite.width))
+		if (character->y > piece->sprite.y && (character->y + character->yspeed) < (piece->sprite.y + piece->sprite.height))
+			if (vg_get_pixel((unsigned int)(character->x), (unsigned int)(character->y + character->yspeed)) != BLACK || vg_get_pixel((unsigned int)(character->x + character->width - 1), (unsigned int)(character->y + character->yspeed)) != BLACK)
+				return 0;
+			else
+				return 1;
+		else
+			return 1;
+	else
+		return 1;
+}

@@ -11,7 +11,7 @@
 #include <stdio.h>
 
 #define CHAR_INIT_X						500.0
-#define CHAR_INIT_Y						100.0
+#define CHAR_INIT_Y						400.0
 
 #define CHARACTER_LENGTH				30
 
@@ -29,7 +29,8 @@ typedef enum {
 	CHAR_FALL,
 	CHAR_MOVE_RIGHT,
 	CHAR_MOVE_LEFT,
-	STOPPED
+	STOPPED,
+	GAMEOVER
 } character_state;
 /** @} end of States of the character */
 
