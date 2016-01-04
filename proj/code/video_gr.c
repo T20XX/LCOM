@@ -266,3 +266,83 @@ void vg_buffer()
 {
 	memcpy(video_mem, buffer, h_res * v_res * bits_per_pixel/ 8);
 }
+
+int vg_darker(){
+	int black_pixels;
+	uint16_t * ptr = buffer;
+	uint16_t r , g , b;
+	unsigned int i;
+	for(i = 0; i < h_res* v_res;i++){
+
+		//B
+		b = (*ptr & 0x001F);
+		if (b != 0)
+			b -= 1;
+
+		//G
+		g = ((*ptr >> 5) & 0x003F);
+		if (g != 0){
+			g /= 2;
+			g -= 1;
+			g*=2;
+		}
+
+		//R
+		r = ((*ptr >> 11) & 0x001F);
+		if (r != 0)
+			r -= 1;
+
+		*ptr = ((r << 11)| (g << 5)| b);
+		/*if (*ptr != BLACK){
+		 *ptr -= 0;
+		} else {
+			black_pixels++;
+		}*/
+		ptr++;
+	}
+	return black_pixels;
+}
+
+int vg_fadein(uint16_t * map){
+	int black_pixels;
+		uint16_t * ptr = buffer;
+		uint16_t * mapp;
+		uint16_t r1 , g1 , b1 , r2, g2, b2;
+		unsigned int i,j;
+		for(i = 0; i < v_res;i++){
+			mapp = map + h_res * (v_res - (i+1)); //bitmap correction
+			for(j=0; j < h_res; j++){
+
+			//B
+			b1 = (*ptr & 0x001F);
+			b2 = (*mapp & 0x001F);
+			if (b1 != b2)
+				b1 += 1;
+
+			//G
+			g1 = ((*ptr >> 5) & 0x003F);
+			g2 = ((*mapp >> 5) & 0x003F);
+			if (g1/2 != g2/2){
+				g1 /= 2;
+				g1 += 1;
+				g1 *=2;
+			}
+
+			//R
+			r1 = ((*ptr >> 11) & 0x001F);
+			r2 = ((*mapp >> 11) & 0x001F);
+			if (r1 != r2)
+				r1 += 1;
+
+			*ptr = ((r1 << 11)| (g1 << 5)| b1);
+			/*if (*ptr != BLACK){
+			 *ptr -= 0;
+			} else {
+				black_pixels++;
+			}*/
+			ptr++;
+			mapp++;
+			}
+		}
+		return black_pixels;
+}
