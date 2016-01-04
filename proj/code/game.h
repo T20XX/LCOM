@@ -25,7 +25,7 @@
 #define RELATIVE_WAITING_LINES_STRING_Y		500
 #define RELATIVE_WAITING_LINES_Y			540
 
-#define TWO_PLAYER_BOARD_X					150
+#define TWO_PLAYER_BOARD_X					332
 #define TWO_PLAYER_BOARD_Y					70
 #define TWO_PLAYER_RELATIVE_NEXT_PIECE_X	420
 #define TWO_PLAYER_RELATIVE_NEXT_PIECE_Y	90
@@ -70,8 +70,12 @@ typedef enum timer_game_event {
 
 /** @name Events of mouse related to piece movement, rotation and swap */
 /** @{ */
-typedef enum mouse_game_event {MOUSE_RIGHT,
+typedef enum mouse_game_event {
+	MOUSE_RIGHT,
 	MOUSE_LEFT,
+	MOUSE_LEFT_BTN,
+	MOUSE_MIDDLE_BTN,
+	MOUSE_RIGHT_BTN,
 	MOUSE_STOPPED
 } mouse_game_event;
 /** @} end of Events of mouse related to piece movement, rotation and swap */
@@ -123,8 +127,9 @@ Game * new_game(unsigned int mode);
  * @brief Updates game state given the current events
  *
  * @param game Game to change
+ * @param event_type Device that changed event (0 kbd, 1 mouse, 2 timer)
  */
-void update_gamestate(Game * game);
+void update_gamestate(Game * game, unsigned int event_type);
 
 /**
  * @brief Updates game(actual_piece position) based on current game state

@@ -71,4 +71,6 @@ int can_char_fall(Character * character);
  */
 int can_char_jump(Character * character);
 
+int char_piece_collision(Character * character,Piece * piece);
+
 #endif /* __LOGIC_H */

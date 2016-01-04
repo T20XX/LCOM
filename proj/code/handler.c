@@ -169,8 +169,8 @@ int mouse_packet_handler(){
 			mouse.y -= mouse.deltay;
 		}
 		mouse.left_btn = packet[0] & LB;
-		mouse.middle_btn = packet[0] & MB;
-		mouse.right_btn = packet[0] & RB;
+		mouse.middle_btn = (packet[0] & MB) >> 2;
+		mouse.right_btn = (packet[0] & RB) >> 1;
 
 
 	}
@@ -322,15 +322,20 @@ kbd_game_event kbd_event_handler(){
 }
 
 mouse_game_event mouse_event_handler(){
-	//	if(mouse.deltax > 10)
-	//	{
-	//		return MOUSE_LEFT;
-	//	}
-	//	else if(mouse.deltax < 10)
-	//	{
-	//		return MOUSE_RIGHT;
-	//	}
-	//	else
+	if (mouse.left_btn == 1)
+		return MOUSE_LEFT_BTN;
+	if (mouse.right_btn == 1)
+		return MOUSE_RIGHT_BTN;
+	if(mouse.deltax > 50)
+	{
+		return MOUSE_RIGHT;
+	}
+	if(mouse.deltax < -50)
+	{
+		return MOUSE_LEFT;
+	}
+	if (mouse.middle_btn == 1)
+		return MOUSE_MIDDLE_BTN;
 	return MOUSE_STOPPED;
 }
 
@@ -363,18 +368,18 @@ int game_handler(){
 			case HARDWARE: /* hardware interrupt notification */
 				if (msg.NOTIFY_ARG & mouse_irq_set) {
 					mouse_packet_handler();
-					/*if (packet_counter == 0){
+					if (packet_counter == 0){
 						game->mouse_event = mouse_event_handler();
-						update_gamestate(game);
+						update_gamestate(game,1);
 						update_game(game);
-					}*/
+					}
 				}
 				if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
 					kbd_int_handler();
 					game->last_kbd_event = game->kbd_event;
 					game->kbd_event = kbd_event_handler();
 					if (game->kbd_event != NOKEY){
-						update_gamestate(game);
+						update_gamestate(game,0);
 						update_game(game);
 					}
 				}
@@ -382,7 +387,7 @@ int game_handler(){
 					counter++;
 					game->timer_event = timer_event_handler(counter, game->fall_delay);
 					if(game->timer_event != NO_TICK){
-						update_gamestate(game);
+						update_gamestate(game,0);
 						update_game(game);
 					}
 					draw_game(game);
@@ -468,8 +473,9 @@ int multi_game_handler(){
 
 	char buffer[10];
 	unsigned long serial_info;
+	//while
 
-	while(code != BREAKCODE && game->state != GAME_OVER) {
+	while(game->state != GAME_OVER) {
 		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
 			printf("driver_receive failed with: %d", r);
 			continue;
@@ -479,6 +485,11 @@ int multi_game_handler(){
 			case HARDWARE: /* hardware interrupt notification */
 				if (msg.NOTIFY_ARG & mouse_irq_set) {
 					mouse_packet_handler();
+					if (packet_counter == 0){
+						game->mouse_event = mouse_event_handler();
+						update_gamestate(game,1);
+						update_game(game);
+					}
 				}
 				if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
 					kbd_int_handler();
@@ -489,7 +500,7 @@ int multi_game_handler(){
 					game->last_kbd_event = game->kbd_event;
 					game->kbd_event = kbd_event_handler();
 					if (game->kbd_event != NOKEY){
-						update_gamestate(game);
+						update_gamestate(game,0);
 						update_game(game);
 					}
 				}
@@ -497,7 +508,7 @@ int multi_game_handler(){
 					counter++;
 					game->timer_event = timer_event_handler(counter, game->fall_delay);
 					if(game->timer_event != NO_TICK){
-						update_gamestate(game);
+						update_gamestate(game,0);
 						update_game(game);
 					}
 					draw_game(game);
@@ -520,6 +531,41 @@ int multi_game_handler(){
 		if (serial_info == 'G')
 			break;
 	}
+
+	while( code != BREAKCODE) {
+				if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+					printf("driver_receive failed with: %d", r);
+					continue;
+				}
+				if (is_ipc_notify(ipc_status)) { /* received notification */
+					switch (_ENDPOINT_P(msg.m_source)) {
+					case HARDWARE: /* hardware interrupt notification */
+						if (msg.NOTIFY_ARG & mouse_irq_set) {
+							mouse_packet_handler();
+
+						}
+						if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
+							kbd_int_handler();
+						}
+						if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
+							vg_rectangle(0,0,1024,768,BLACK);
+							if (game->state == GAME_OVER){
+								vg_string("YOU LOSE",300,200,2, WHITE);
+							} else {
+								vg_string("YOU WON",340,200,2, WHITE);
+							}
+							vg_string("Press ESC to go back",350,400,2, WHITE);
+							vg_buffer();
+						}
+						if (msg.NOTIFY_ARG & serial_irq_set) {
+						}
+					default:
+						break; /* no other notifications expected: do nothing */
+					}
+				} else { /* received a standard message, not a notification */
+					/* no standard messages expected: do nothing */
+				}
+			}
 
 	delete_game(game);
 
@@ -562,7 +608,7 @@ int battle_game_handler(){
 
 	char buffer[10];
 
-	while( code != BREAKCODE && game->state != GAME_OVER) {
+	while( code != BREAKCODE && game->state != GAME_OVER && character->state != GAMEOVER) {
 		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
 			printf("driver_receive failed with: %d", r);
 			continue;
@@ -572,18 +618,18 @@ int battle_game_handler(){
 			case HARDWARE: /* hardware interrupt notification */
 				if (msg.NOTIFY_ARG & mouse_irq_set) {
 					mouse_packet_handler();
-					/*if (packet_counter == 0){
+					if (packet_counter == 0){
 						game->mouse_event = mouse_event_handler();
-						update_gamestate(game);
+						update_gamestate(game,1);
 						update_game(game);
-					}*/
+					}
 				}
 				if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
 					kbd_int_handler();
 					game->last_kbd_event = game->kbd_event;
 					game->kbd_event = kbd_event_handler();
 					if (game->kbd_event != NOKEY){
-						update_gamestate(game);
+						update_gamestate(game,0);
 						update_game(game);
 					}
 
@@ -593,10 +639,15 @@ int battle_game_handler(){
 
 				}
 				if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
+					if (char_piece_collision(character,game->actual_piece) == 0){
+								character->state = GAMEOVER;
+								break;
+							}
+
 					counter++;
 					game->timer_event = timer_event_handler(counter, game->fall_delay);
 					if(game->timer_event != NO_TICK){
-						update_gamestate(game);
+						update_gamestate(game,0);
 						update_game(game);
 					}
 					character->timer_event = timer_char_event_handler(&counter, character);
@@ -618,9 +669,43 @@ int battle_game_handler(){
 		}
 	}
 
+	while( code != BREAKCODE) {
+			if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+				printf("driver_receive failed with: %d", r);
+				continue;
+			}
+			if (is_ipc_notify(ipc_status)) { /* received notification */
+				switch (_ENDPOINT_P(msg.m_source)) {
+				case HARDWARE: /* hardware interrupt notification */
+					if (msg.NOTIFY_ARG & mouse_irq_set) {
+						mouse_packet_handler();
+
+					}
+					if (msg.NOTIFY_ARG & kbd_irq_set) { /* subscribed interrupt */
+						kbd_int_handler();
+					}
+					if (msg.NOTIFY_ARG & timer_irq_set) { /* subscribed interrupt */
+						vg_rectangle(0,0,1024,768,BLACK);
+						if (game->state == GAME_OVER){
+							vg_string("CHARACTER WON",300,200,2, WHITE);
+						} else {
+							vg_string("PIECES WON",350,200,2, WHITE);
+						}
+						vg_string("Press ESC to go back",350,400,2, WHITE);
+						vg_buffer();
+					}
+					if (msg.NOTIFY_ARG & serial_irq_set) {
+					}
+				default:
+					break; /* no other notifications expected: do nothing */
+				}
+			} else { /* received a standard message, not a notification */
+				/* no standard messages expected: do nothing */
+			}
+		}
+
 	delete_game(game);
 	delete_character(character);
-
 	return 0;
 }
 

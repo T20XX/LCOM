@@ -55,64 +55,111 @@ Game * new_game(unsigned int mode){
 	return game;
 }
 
-void update_gamestate(Game * game){
-	//handle keyboard events
-	switch (game->kbd_event){
+void update_gamestate(Game * game, unsigned int event_type){
+	if(event_type == 0 ){
+		//handle keyboard events
+		switch (game->kbd_event){
 
-	case NOKEY:
-		game->state = DO_NOTHING;
-		break;
-
-	case LEFTKEY_DOWN:
-		if (can_piece_move_x(game->actual_piece,&game->board,0)== 0)
-			game->state = MOVE_LEFT;
-		else
+		case NOKEY:
 			game->state = DO_NOTHING;
-		break;
+			break;
 
-	case RIGHTKEY_DOWN:
-		if (can_piece_move_x(game->actual_piece,&game->board,1)== 0)
-			game->state = MOVE_RIGHT;
-		else
-			game->state = DO_NOTHING;
-		break;
+		case LEFTKEY_DOWN:
+			if (can_piece_move_x(game->actual_piece,&game->board,0)== 0)
+				game->state = MOVE_LEFT;
+			else
+				game->state = DO_NOTHING;
+			break;
 
-	case DOWNKEY_DOWN:
-		if (can_piece_fall(game->actual_piece,&game->board)== 0)
-			game->state = FALL;
-		else if (game->actual_piece->sprite.y >= game->board.y + 2* 30)		//??
-			game->state = REACH_END;
-		else
-			game->state = GAME_OVER;
-		break;
+		case RIGHTKEY_DOWN:
+			if (can_piece_move_x(game->actual_piece,&game->board,1)== 0)
+				game->state = MOVE_RIGHT;
+			else
+				game->state = DO_NOTHING;
+			break;
 
-	case UPKEY_DOWN:
-		game->state = ROTATE;
-		break;
-
-	case SPACEBAR_DOWN:
-		if (game->pieces_already_swapped == 0){
-			game->state = SWAP_PIECES;
-			game->pieces_already_swapped = 1;
-		}
-		break;
-
-	default:
-		break;
-	}
-
-	//handle timer events to make actual piece fall
-	if (game->timer_event == FALL_TICK){
-		if(game->state != FALL){
+		case DOWNKEY_DOWN:
 			if (can_piece_fall(game->actual_piece,&game->board)== 0)
 				game->state = FALL;
 			else if (game->actual_piece->sprite.y >= game->board.y + 2* 30)		//??
 				game->state = REACH_END;
 			else
 				game->state = GAME_OVER;
+			break;
+
+		case UPKEY_DOWN:
+			game->state = ROTATE;
+			break;
+
+		case SPACEBAR_DOWN:
+			if (game->pieces_already_swapped == 0){
+				game->state = SWAP_PIECES;
+				game->pieces_already_swapped = 1;
+			}
+			break;
+
+		default:
+			break;
 		}
-		game->timer_event = NO_TICK;
 	}
+	else if(event_type == 1){
+		//handle mouse events
+		switch (game->mouse_event){
+		case MOUSE_STOPPED:
+			game->state = DO_NOTHING;
+			break;
+		case MOUSE_LEFT:
+				if (can_piece_move_x(game->actual_piece,&game->board,0)== 0)
+					game->state = MOVE_LEFT;
+				else
+					game->state = DO_NOTHING;
+			break;
+
+		case MOUSE_RIGHT:
+				if (can_piece_move_x(game->actual_piece,&game->board,1)== 0)
+					game->state = MOVE_RIGHT;
+				else
+					game->state = DO_NOTHING;
+			break;
+
+		case MOUSE_RIGHT_BTN:
+			if (can_piece_fall(game->actual_piece,&game->board)== 0)
+				game->state = FALL;
+			else if (game->actual_piece->sprite.y >= game->board.y + 2* 30)		//??
+				game->state = REACH_END;
+			else
+				game->state = GAME_OVER;
+			break;
+
+		case MOUSE_LEFT_BTN:
+			game->state = ROTATE;
+			break;
+
+		case MOUSE_MIDDLE_BTN:
+			if (game->pieces_already_swapped == 0){
+				game->state = SWAP_PIECES;
+				game->pieces_already_swapped = 1;
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
+	//else if(event_type == 2){
+		//handle timer events to make actual piece fall
+		if (game->timer_event == FALL_TICK){
+			if(game->state != FALL){
+				if (can_piece_fall(game->actual_piece,&game->board)== 0)
+					game->state = FALL;
+				else if (game->actual_piece->sprite.y >= game->board.y + 2* 30)		//??
+					game->state = REACH_END;
+				else
+					game->state = GAME_OVER;
+			}
+			game->timer_event = NO_TICK;
+		}
+	//}
 }
 
 void update_game(Game * game){
